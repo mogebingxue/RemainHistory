@@ -1,0 +1,17 @@
+﻿<Properties StartupItem="Game\Game.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Game\script\db\DbManager.cs">
+    <Files>
+      <File FileName="Game\script\net\NetManager.cs" Line="1" Column="1" />
+      <File FileName="Game\script\net\ByteArray.cs" Line="1" Column="1" />
+      <File FileName="Game\script\logic\EventHandler.cs" Line="1" Column="1" />
+      <File FileName="Game\script\net\MsgBase.cs" Line="1" Column="1" />
+      <File FileName="Game\script\db\DbManager.cs" Line="35" Column="1" />
+      <File FileName="Game\Program.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -1,0 +1,13 @@
+﻿<Properties StartupItem="Game.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="script\logic\LoginMsgHandle.cs">
+    <Files>
+      <File FileName="script\logic\LoginMsgHandle.cs" Line="44" Column="10" />
+      <File FileName="script\net\NetManager.cs" Line="81" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
