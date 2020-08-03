@@ -71,6 +71,7 @@
     <Compile Include="Assets\Script\Framework\PanelManager.cs" />
     <Compile Include="Assets\Script\Framework\ResManager.cs" />
     <Compile Include="Assets\Script\GameMain.cs" />
+    <Compile Include="Assets\Script\Proto\FriendMsg.cs" />
     <Compile Include="Assets\Script\Proto\LoginMsg.cs" />
     <Compile Include="Assets\Script\Proto\MainMsg.cs" />
     <Compile Include="Assets\Script\Proto\SysMsg.cs" />

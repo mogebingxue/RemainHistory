@@ -10,7 +10,7 @@ public class MsgBase{
 
 	//编码
 	public static byte[] Encode(MsgBase msgBase){
-		string s = Js.Serialize(msgBase); 
+		string s = Js.Serialize(msgBase);
 		return System.Text.Encoding.UTF8.GetBytes(s);
 	}
 

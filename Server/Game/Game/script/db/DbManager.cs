@@ -3,6 +3,7 @@ using System;
 using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
+using System.Collections.Generic;
 
 public class DbManager {
 	public static MySqlConnection mysql;
@@ -233,6 +234,40 @@ public class DbManager {
 			return false;
 		}
 	}
+
+    //获取好友列表
+    public static List<string> GetFriendList(string id) {
+        CheckAndReconnect();
+        //防sql注入
+        if (!DbManager.IsSafeString(id)) {
+            Console.WriteLine("[数据库] GetPlayerData fail, id not safe");
+            return null;
+        }
+        //sql
+        string sql = string.Format("select * from friend where id ='{0}';", id);
+        try {
+            //查询
+            MySqlCommand cmd = new MySqlCommand(sql, mysql);
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+            if (!dataReader.HasRows) {
+                dataReader.Close();
+                return null;
+            }
+            //读取
+            
+			List<string> friendList = new List<string>();
+            while (dataReader.Read()) {
+				friendList.Add(dataReader.GetString("friendId"));
+				
+			}
+            dataReader.Close();
+			return friendList;
+        }
+        catch (Exception e) {
+            Console.WriteLine("[数据库] GetData fail, " + e.Message);
+            return null;
+        }
+    }
 }
 
 

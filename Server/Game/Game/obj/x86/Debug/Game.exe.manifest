@@ -3,7 +3,7 @@
   <asmv1:assemblyIdentity name="Game.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Game" version="1.0.7519.28744" language="neutral" processorArchitecture="x86" />
+    <assemblyIdentity name="Game" version="1.0.7520.27860" language="neutral" processorArchitecture="x86" />
     <commandLine file="Game.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -66,14 +66,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Game.exe" size="19472">
-      <assemblyIdentity name="Game" version="1.0.7519.28744" language="neutral" processorArchitecture="x86" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Game.exe" size="19984">
+      <assemblyIdentity name="Game" version="1.0.7520.27860" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>f2uOIyIIipquZUrSfjHo13QHnggV34hjXq4rYay3rnY=</dsig:DigestValue>
+        <dsig:DigestValue>3cHy4mo6/IjYOkO7PBy0KIUVDrMp0HDSO/f1tpl0YrM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

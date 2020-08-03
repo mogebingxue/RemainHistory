@@ -219,6 +219,9 @@ public class MainPanel : BasePanel
 
     //关闭
     public override void OnClose() {
-
+        NetManager.RemoveMsgListener("MsgGetPlayerIntroduction", OnMsgGetPlayerIntroduction);
+        NetManager.RemoveMsgListener("MsgSavePlayerIntroduction", OnMsgSavePlayerIntroduction);
+        NetManager.RemoveMsgListener("MsgSendMessageToWord", OnMsgSendMessageToWord);
+        NetManager.RemoveMsgListener("MsgSendMessageToFriend", OnMsgSendMessageToFriend);
     }
 }
