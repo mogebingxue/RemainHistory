@@ -71,7 +71,6 @@
     <Compile Include="Assets\Script\Framework\PanelManager.cs" />
     <Compile Include="Assets\Script\Framework\ResManager.cs" />
     <Compile Include="Assets\Script\GameMain.cs" />
-    <Compile Include="Assets\Script\Proto\FriendMsg.cs" />
     <Compile Include="Assets\Script\Proto\LoginMsg.cs" />
     <Compile Include="Assets\Script\Proto\MainMsg.cs" />
     <Compile Include="Assets\Script\Proto\SysMsg.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="Assets\Script\UIController\MainMenu\FriendApplyPanel.cs" />
     <Compile Include="Assets\Script\UIController\MainMenu\FriendPanel.cs" />
     <Compile Include="Assets\Script\UIController\MainMenu\HandbookPanel.cs" />
+    <Compile Include="Assets\Script\UIController\MainMenu\HeadPhotoPanel.cs" />
     <Compile Include="Assets\Script\UIController\MainMenu\MainPanel.cs" />
     <Compile Include="Assets\Script\UIController\MainMenu\SetPanel.cs" />
     <Reference Include="UnityEngine">

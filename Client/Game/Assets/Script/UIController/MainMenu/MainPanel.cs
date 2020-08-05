@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainPanel : BasePanel
 {
     //玩家头像
-    private Image _playerImage;
+    private Image _headPhoto;
     //玩家名字
     private Text _playerName;
     //玩家简介
@@ -45,14 +47,22 @@ public class MainPanel : BasePanel
     }
 
     //显示
-    public override void OnShow(params object[] para) {
-        
+    public override void OnShow(params object[] para) {        
         //设置声音
-        PlayerPrefs.SetFloat(Const.Volume, 0.5f);
-        AudioListener.volume = PlayerPrefs.GetFloat(Const.Volume);
+        if (PlayerPrefs.GetString(Const.IsOnVolume) == "") {
+            PlayerPrefs.SetString(Const.IsOnVolume, "true");
+            PlayerPrefs.Save();
+        }
+        if (PlayerPrefs.GetString(Const.IsOnVolume) == "true") {
+            AudioListener.volume = PlayerPrefs.GetFloat(Const.Volume);
+        }
+        if (PlayerPrefs.GetString(Const.IsOnVolume) == "false") {
+            AudioListener.volume = 0f;
+        }
+
         //寻找组件
         _setBtn = skin.transform.Find("SetBtn").GetComponent<Button>();
-        _playerImage = skin.transform.Find("PlayerInfo").Find("PlayerImage").GetComponent<Image>();
+        _headPhoto = skin.transform.Find("PlayerInfo").Find("HeadPhoto").GetComponent<Image>();
         _playerName = skin.transform.Find("PlayerInfo").Find("PlayerName").GetComponent<Text>();
         _playerIntroduction = skin.transform.Find("PlayerInfo").Find("PlayerIntroduction").GetComponent<Text>();
         _enterGameBtn = skin.transform.Find("EnterGameBtn").GetComponent<Button>();
@@ -76,7 +86,7 @@ public class MainPanel : BasePanel
         _switchBtn.onClick.AddListener(OnSwitchClick);
         _modifyBtn.onClick.AddListener(OnModifyClick);
         _setBtn.onClick.AddListener(OnSetClick);
-
+        skin.transform.Find("PlayerInfo").Find("HeadPhoto").GetComponent<Button>().onClick.AddListener(OnHeadPhotoClick);
         //设置用户名
         _playerName.text = GameMain.id;
         //设置频道
@@ -87,25 +97,45 @@ public class MainPanel : BasePanel
         NetManager.AddMsgListener("MsgSavePlayerIntroduction", OnMsgSavePlayerIntroduction);
         NetManager.AddMsgListener("MsgSendMessageToWord", OnMsgSendMessageToWord);
         NetManager.AddMsgListener("MsgSendMessageToFriend", OnMsgSendMessageToFriend);
-
-        //获取个人数据库中简介信息
+        NetManager.AddMsgListener("MsgGetHeadPhoto", OnMsgGetHeadPhoto);
+        NetManager.AddMsgListener("MsgSaveHeadPhoto", OnMsgSaveHeadPhoto);
+        //获取个人数据库中玩家信息
         MsgGetPlayerIntroduction msgGetPlayerIntroduction = new MsgGetPlayerIntroduction();
         NetManager.Send(msgGetPlayerIntroduction);
+        MsgGetHeadPhoto msgGetHeadPhoto = new MsgGetHeadPhoto();
+        NetManager.Send(msgGetHeadPhoto);
 
     }
 
     
 
 
+
+
     //保存简介回调
     private void OnMsgSavePlayerIntroduction(MsgBase msg) {
         Debug.Log("保存个人简介成功");
     }
+
     //获得简介回调
     private void OnMsgGetPlayerIntroduction(MsgBase msg) {
         MsgGetPlayerIntroduction msgGetPlayerIntroduction = (MsgGetPlayerIntroduction)msg;
         _playerIntroduction.text = msgGetPlayerIntroduction.palyerIntroduction;
     }
+
+    //获取头像回调
+    private void OnMsgGetHeadPhoto(MsgBase msg) {
+        MsgGetHeadPhoto msgGetHeadPhoto = (MsgGetHeadPhoto)msg;
+        _headPhoto.sprite = ResManager.LoadTexture("Texture/HeadPhoto" + msgGetHeadPhoto.headPhoto);
+
+    }
+
+    //保存头像回调
+    private void OnMsgSaveHeadPhoto(MsgBase msg) {
+        MsgSaveHeadPhoto msgSaveHeadPhoto = (MsgSaveHeadPhoto)msg;
+        _headPhoto.sprite = ResManager.LoadTexture("Texture/HeadPhoto" + msgSaveHeadPhoto.headPhoto);
+    }
+
     //发送世界消息回调
     private void OnMsgSendMessageToWord(MsgBase msg) {
         MsgSendMessageToWord msgSendMessageToWord = (MsgSendMessageToWord)msg;
@@ -128,7 +158,14 @@ public class MainPanel : BasePanel
         throw new NotImplementedException();
     }
 
-
+    //点击头像事件
+    private void OnHeadPhotoClick() {
+        PanelManager.Open<HeadPhotoPanel>();
+        MsgSaveHeadPhoto msgSaveHeadPhoto = new MsgSaveHeadPhoto();
+        string[] headPhoto = _headPhoto.sprite.name.Split('o');
+        msgSaveHeadPhoto.headPhoto = int.Parse(headPhoto[2]);
+        NetManager.Send(msgSaveHeadPhoto);
+    }
 
 
     //编辑简介按钮按下

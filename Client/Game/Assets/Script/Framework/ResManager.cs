@@ -6,4 +6,8 @@ public class ResManager : MonoBehaviour {
 	public static GameObject LoadPrefab(string path){
 		return Resources.Load<GameObject>(path);
 	}
+    //加载图片
+    public static Sprite LoadTexture(string path) {
+        return Resources.Load<Sprite>(path);
+    }
 }

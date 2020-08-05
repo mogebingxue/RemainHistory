@@ -14,6 +14,23 @@ public class MsgSavePlayerIntroduction : MsgBase {
 	public int result = 0;
 }
 
+//获取头像
+public class MsgGetHeadPhoto : MsgBase
+{
+    public MsgGetHeadPhoto() { protoName = "MsgGetHeadPhoto"; }
+    //服务端回
+    public int headPhoto = 0;
+}
+
+//保存头像
+public class MsgSaveHeadPhoto : MsgBase
+{
+    public MsgSaveHeadPhoto() { protoName = "MsgSaveHeadPhoto"; }
+    //客户端发
+    public int headPhoto = 0;
+    //服务端回
+    public int result = 0;
+}
 //发送消息到世界
 public class MsgSendMessageToWord : MsgBase
 {

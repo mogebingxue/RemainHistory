@@ -118,13 +118,13 @@ public class FriendPanel : BasePanel
         foreach (string friendId in _friendList) {
             int index = j;
             GameObject friensEnum = (GameObject)Instantiate(friensEnumPrefab);
-            Debug.Log(friensEnum.GetInstanceID());
             friensEnum.transform.SetParent(_friendListPanel.transform, false);
             friensEnum.transform.Find("ID").GetComponent<Text>().text = friendId;
             Button deleteFriendBtn = friensEnum.transform.Find("Button").GetComponent<Button>();
             deleteFriendBtn.onClick.AddListener(() => { OnDeleteFriendClick(index); });
             j++;
         }
+        
     }
 
     //删除好友按钮事件
