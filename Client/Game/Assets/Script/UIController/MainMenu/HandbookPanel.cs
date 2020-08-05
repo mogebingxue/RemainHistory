@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class HandbookPanel : BasePanel
 {
     //关闭按钮
-    private Button closeBtn;
+    private Button _closeBtn;
     //左移
-    private Button leftBtn;
+    private Button _leftBtn;
     //右移
-    private Button rightBtn;
+    private Button _rightBtn;
 
 
     //初始化
@@ -23,13 +23,13 @@ public class HandbookPanel : BasePanel
     //显示
     public override void OnShow(params object[] args) {
         //寻找组件
-        closeBtn = skin.transform.Find("CloseBtn").GetComponent<Button>();
-        leftBtn = skin.transform.Find("LeftBtn").GetComponent<Button>();
-        rightBtn = skin.transform.Find("RightBtn").GetComponent<Button>();
+        _closeBtn = skin.transform.Find("CloseBtn").GetComponent<Button>();
+        _leftBtn = skin.transform.Find("LeftBtn").GetComponent<Button>();
+        _rightBtn = skin.transform.Find("RightBtn").GetComponent<Button>();
         //监听
-        closeBtn.onClick.AddListener(OnCloseClick);
-        leftBtn.onClick.AddListener(OnLeftClick);
-        rightBtn.onClick.AddListener(OnRightClick);
+        _closeBtn.onClick.AddListener(OnCloseClick);
+        _leftBtn.onClick.AddListener(OnLeftClick);
+        _rightBtn.onClick.AddListener(OnRightClick);
 
     }
 

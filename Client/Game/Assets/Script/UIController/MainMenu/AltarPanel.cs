@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class AltarPanel : BasePanel
 {
     //关闭按钮
-    private Button closeBtn;
+    private Button _closeBtn;
  
 
 
@@ -19,9 +19,9 @@ public class AltarPanel : BasePanel
     //显示
     public override void OnShow(params object[] args) {
         //寻找组件
-        closeBtn = skin.transform.Find("CloseBtn").GetComponent<Button>();
+        _closeBtn = skin.transform.Find("CloseBtn").GetComponent<Button>();
         //监听
-        closeBtn.onClick.AddListener(OnCloseClick);
+        _closeBtn.onClick.AddListener(OnCloseClick);
 
     }
 

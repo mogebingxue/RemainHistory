@@ -11,7 +11,7 @@ public class BasePanel : MonoBehaviour {
 	//初始化
 	public void Init(){
 		//皮肤
-		GameObject skinPrefab = ResManager.LoadPrefab(skinPath);
+		GameObject skinPrefab = ResManager.LoadPrefab("Prefab/UI/"+skinPath);
 		skin = (GameObject)Instantiate(skinPrefab);
 	}
 	//关闭

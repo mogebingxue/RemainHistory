@@ -6,24 +6,24 @@ using UnityEngine.UI;
 
 public class LoginPanel : BasePanel {
 	//账号输入框
-	private InputField idInput;
+	private InputField _idInput;
 	//密码输入框
-	private InputField pwInput;
+	private InputField _pwInput;
 	//登陆按钮
-	private Button loginBtn;
+	private Button _loginBtn;
 	//注册按钮
-	private Button regBtn;
+	private Button _regBtn;
 	//背景图
-	private Image bgImage;
+	private Image _bgImage;
 	//开始显示的时间
-	private float startTime = float.MaxValue;
+	private float _startTime = float.MaxValue;
 	//显示连接失败
-	private bool showConnFail = false;
+	private bool _showConnFail = false;
     //ip 和地址
     //private string ip = "103.46.128.43";
     //private int port = 23858;
-    private string ip = "192.168.0.101";
-    private int port = 8888;
+    private string _ip = "192.168.0.101";
+    private int _port = 8888;
     //初始化
     public override void OnInit() {
 		skinPath = "LoginPanel";
@@ -33,23 +33,23 @@ public class LoginPanel : BasePanel {
 	//显示
 	public override void OnShow(params object[] args) {
 		//寻找组件
-		idInput = skin.transform.Find("IdInput").GetComponent<InputField>();
-		pwInput = skin.transform.Find("PwInput").GetComponent<InputField>();
-		loginBtn = skin.transform.Find("LoginBtn").GetComponent<Button>();
-		regBtn = skin.transform.Find("RegisterBtn").GetComponent<Button>();
-		bgImage = skin.transform.Find("BgImage").GetComponent<Image>();
+		_idInput = skin.transform.Find("IdInput").GetComponent<InputField>();
+		_pwInput = skin.transform.Find("PwInput").GetComponent<InputField>();
+		_loginBtn = skin.transform.Find("LoginBtn").GetComponent<Button>();
+		_regBtn = skin.transform.Find("RegisterBtn").GetComponent<Button>();
+		_bgImage = skin.transform.Find("BgImage").GetComponent<Image>();
 		//监听
-		loginBtn.onClick.AddListener(OnLoginClick);
-		regBtn.onClick.AddListener(OnRegClick);
+		_loginBtn.onClick.AddListener(OnLoginClick);
+		_regBtn.onClick.AddListener(OnRegClick);
 		//网络协议监听
 		NetManager.AddMsgListener("MsgLogin", OnMsgLogin);
 		//网络事件监听
 		NetManager.AddEventListener(NetManager.NetEvent.ConnectSucc, OnConnectSucc);
 		NetManager.AddEventListener(NetManager.NetEvent.ConnectFail, OnConnectFail);
 		//连接服务器
-		NetManager.Connect(ip, port);
+		NetManager.Connect(_ip, _port);
 		//记录时间
-		startTime = Time.time;
+		_startTime = Time.time;
 	}
 
 	//关闭
@@ -69,7 +69,7 @@ public class LoginPanel : BasePanel {
 
 	//连接失败回调
 	void OnConnectFail(string err){
-		showConnFail = true;
+		_showConnFail = true;
 		//PanelManager.Open<TipPanel>(err);
 	}
 
@@ -85,14 +85,14 @@ public class LoginPanel : BasePanel {
 	//当按下登陆按钮
 	public void OnLoginClick() {
 		//用户名密码为空
-		if (idInput.text == "" || pwInput.text == "") {
+		if (_idInput.text == "" || _pwInput.text == "") {
 			PanelManager.Open<TipPanel>("用户名和密码不能为空");
 			return;
 		}
 		//发送
 		MsgLogin msgLogin = new MsgLogin();
-		msgLogin.id = idInput.text;
-		msgLogin.pw = pwInput.text;
+		msgLogin.id = _idInput.text;
+		msgLogin.pw = _pwInput.text;
 		NetManager.Send(msgLogin);
 	}
 
@@ -117,8 +117,8 @@ public class LoginPanel : BasePanel {
 	//update
 	public void Update(){
 		//连接失败
-		if(showConnFail){
-			showConnFail = false;
+		if(_showConnFail){
+			_showConnFail = false;
 			PanelManager.Open<TipPanel>("网络连接失败，请重新打开游戏");
 		}
 	}

@@ -79,6 +79,7 @@
     <Compile Include="Assets\Script\UIController\Login\LoginPanel.cs" />
     <Compile Include="Assets\Script\UIController\Login\RegisterPanel.cs" />
     <Compile Include="Assets\Script\UIController\MainMenu\AltarPanel.cs" />
+    <Compile Include="Assets\Script\UIController\MainMenu\FriendApplyPanel.cs" />
     <Compile Include="Assets\Script\UIController\MainMenu\FriendPanel.cs" />
     <Compile Include="Assets\Script\UIController\MainMenu\HandbookPanel.cs" />
     <Compile Include="Assets\Script\UIController\MainMenu\MainPanel.cs" />

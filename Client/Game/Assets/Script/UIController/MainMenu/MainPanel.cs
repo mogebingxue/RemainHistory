@@ -8,35 +8,35 @@ using UnityEngine.UI;
 public class MainPanel : BasePanel
 {
     //玩家头像
-    private Image playerImage;
+    private Image _playerImage;
     //玩家名字
-    private Text playerName;
+    private Text _playerName;
     //玩家简介
-    private Text playerIntroduction;
+    private Text _playerIntroduction;
     //发送消息输入框
-    private InputField input;
+    private InputField _input;
     //进入游戏按钮
-    private Button enterGameBtn;
+    private Button _enterGameBtn;
     //图鉴按钮
-    private Button handbookBtn;
+    private Button _handbookBtn;
     //祖庙按钮
-    private Button altarBtn;
+    private Button _altarBtn;
     //好友按钮
-    private Button friendBtn;
+    private Button _friendBtn;
     //切换聊天模式按钮
-    private Button switchBtn;
+    private Button _switchBtn;
     //发送聊天消息按钮
-    private Button sendBtn;
+    private Button _sendBtn;
     //设置按钮
-    private Button setBtn;
+    private Button _setBtn;
     //修改简介的按钮
-    private Button modifyBtn;
+    private Button _modifyBtn;
     //修改简介的输入框
-    private InputField modifyInput;
+    private InputField _modifyInput;
     //0 世界 1 好友
-    private int sendStatus;
-
-    private GameObject worldContent;
+    private int _sendStatus;
+    //世界聊天框
+    private GameObject _worldContent;
 
     //初始化
     public override void OnInit() {
@@ -47,39 +47,40 @@ public class MainPanel : BasePanel
     //显示
     public override void OnShow(params object[] para) {
         
+        //设置声音
         PlayerPrefs.SetFloat(Const.Volume, 0.5f);
         AudioListener.volume = PlayerPrefs.GetFloat(Const.Volume);
         //寻找组件
-        setBtn = skin.transform.Find("SetBtn").GetComponent<Button>();
-        playerImage = skin.transform.Find("PlayerInfo").Find("PlayerImage").GetComponent<Image>();
-        playerName = skin.transform.Find("PlayerInfo").Find("PlayerName").GetComponent<Text>();
-        playerIntroduction = skin.transform.Find("PlayerInfo").Find("PlayerIntroduction").GetComponent<Text>();
-        enterGameBtn = skin.transform.Find("EnterGameBtn").GetComponent<Button>();
-        handbookBtn = skin.transform.Find("HandbookBtn").GetComponent<Button>();
-        altarBtn = skin.transform.Find("AltarBtn").GetComponent<Button>();
-        friendBtn = skin.transform.Find("FriendBtn").GetComponent<Button>();
-        sendBtn = skin.transform.Find("ChatWindow").Find("SendBtn").GetComponent<Button>();
-        switchBtn = skin.transform.Find("ChatWindow").Find("SwitchBtn").GetComponent<Button>();
-        input = skin.transform.Find("ChatWindow").Find("InputField").GetComponent<InputField>();
-        modifyBtn = skin.transform.Find("PlayerInfo").Find("ModifyBtn").GetComponent<Button>();
-        modifyInput = playerIntroduction.transform.Find("InputField").GetComponent<InputField>();
-        worldContent = skin.transform.Find("ChatWindow").Find("WorldChat").Find("Scroll View").Find("Viewport").Find("Content").gameObject;
+        _setBtn = skin.transform.Find("SetBtn").GetComponent<Button>();
+        _playerImage = skin.transform.Find("PlayerInfo").Find("PlayerImage").GetComponent<Image>();
+        _playerName = skin.transform.Find("PlayerInfo").Find("PlayerName").GetComponent<Text>();
+        _playerIntroduction = skin.transform.Find("PlayerInfo").Find("PlayerIntroduction").GetComponent<Text>();
+        _enterGameBtn = skin.transform.Find("EnterGameBtn").GetComponent<Button>();
+        _handbookBtn = skin.transform.Find("HandbookBtn").GetComponent<Button>();
+        _altarBtn = skin.transform.Find("AltarBtn").GetComponent<Button>();
+        _friendBtn = skin.transform.Find("FriendBtn").GetComponent<Button>();
+        _sendBtn = skin.transform.Find("ChatWindow").Find("SendBtn").GetComponent<Button>();
+        _switchBtn = skin.transform.Find("ChatWindow").Find("SwitchBtn").GetComponent<Button>();
+        _input = skin.transform.Find("ChatWindow").Find("InputField").GetComponent<InputField>();
+        _modifyBtn = skin.transform.Find("PlayerInfo").Find("ModifyBtn").GetComponent<Button>();
+        _modifyInput = _playerIntroduction.transform.Find("InputField").GetComponent<InputField>();
+        _worldContent = skin.transform.Find("ChatWindow").Find("WorldChat").Find("Scroll View").Find("Viewport").Find("Content").gameObject;
 
 
         //监听
-        enterGameBtn.onClick.AddListener(OnEnterGameClick);
-        handbookBtn.onClick.AddListener(OnHandbookClick);
-        altarBtn.onClick.AddListener(OnAltarClick);
-        friendBtn.onClick.AddListener(OnFriendClick);
-        sendBtn.onClick.AddListener(OnSendClick);
-        switchBtn.onClick.AddListener(OnSwitchClick);
-        modifyBtn.onClick.AddListener(OnModifyClick);
-        setBtn.onClick.AddListener(OnSetClick);
+        _enterGameBtn.onClick.AddListener(OnEnterGameClick);
+        _handbookBtn.onClick.AddListener(OnHandbookClick);
+        _altarBtn.onClick.AddListener(OnAltarClick);
+        _friendBtn.onClick.AddListener(OnFriendClick);
+        _sendBtn.onClick.AddListener(OnSendClick);
+        _switchBtn.onClick.AddListener(OnSwitchClick);
+        _modifyBtn.onClick.AddListener(OnModifyClick);
+        _setBtn.onClick.AddListener(OnSetClick);
 
         //设置用户名
-        playerName.text = GameMain.id;
+        _playerName.text = GameMain.id;
         //设置频道
-        sendStatus = 0;
+        _sendStatus = 0;
 
         //网络协议监听
         NetManager.AddMsgListener("MsgGetPlayerIntroduction", OnMsgGetPlayerIntroduction);
@@ -103,20 +104,20 @@ public class MainPanel : BasePanel
     //获得简介回调
     private void OnMsgGetPlayerIntroduction(MsgBase msg) {
         MsgGetPlayerIntroduction msgGetPlayerIntroduction = (MsgGetPlayerIntroduction)msg;
-        playerIntroduction.text = msgGetPlayerIntroduction.palyerIntroduction;
+        _playerIntroduction.text = msgGetPlayerIntroduction.palyerIntroduction;
     }
     //发送世界消息回调
     private void OnMsgSendMessageToWord(MsgBase msg) {
         MsgSendMessageToWord msgSendMessageToWord = (MsgSendMessageToWord)msg;
         GameObject messagePrefab;
         if (msgSendMessageToWord.id != GameMain.id) {
-            messagePrefab = ResManager.LoadPrefab("OtherMessagePanel");
+            messagePrefab = ResManager.LoadPrefab("Prefab/UI/OtherMessagePanel");
         }
         else {
-            messagePrefab = ResManager.LoadPrefab("MyMessagePanel");
+            messagePrefab = ResManager.LoadPrefab("Prefab/UI/MyMessagePanel");
         }
         GameObject message = (GameObject)Instantiate(messagePrefab);
-        message.transform.SetParent(worldContent.transform, false);
+        message.transform.SetParent(_worldContent.transform, false);
         message.transform.Find("Text").GetComponent<Text>().text = msgSendMessageToWord.message;
         
         Debug.Log(msgSendMessageToWord.id + msgSendMessageToWord.message);
@@ -134,36 +135,36 @@ public class MainPanel : BasePanel
     private void OnModifyClick() {
 
         //编辑的时候
-        if (modifyBtn.transform.Find("Text").GetComponent<Text>().text == "编辑") {
+        if (_modifyBtn.transform.Find("Text").GetComponent<Text>().text == "编辑") {
 
-            modifyInput.gameObject.SetActive(true);
-            modifyBtn.transform.Find("Text").GetComponent<Text>().text = "确认";
-            modifyInput.transform.Find("Text").GetComponent<Text>().text = playerIntroduction.text;
+            _modifyInput.gameObject.SetActive(true);
+            _modifyBtn.transform.Find("Text").GetComponent<Text>().text = "确认";
+            _modifyInput.transform.Find("Text").GetComponent<Text>().text = _playerIntroduction.text;
             return;
         }
         //确认的时候
-        if (modifyBtn.transform.Find("Text").GetComponent<Text>().text == "确认") {
+        if (_modifyBtn.transform.Find("Text").GetComponent<Text>().text == "确认") {
 
-            modifyBtn.transform.Find("Text").GetComponent<Text>().text = "编辑";
-            playerIntroduction.text = modifyInput.transform.Find("Text").GetComponent<Text>().text;
+            _modifyBtn.transform.Find("Text").GetComponent<Text>().text = "编辑";
+            _playerIntroduction.text = _modifyInput.transform.Find("Text").GetComponent<Text>().text;
             MsgSavePlayerIntroduction msgSavePlayerIntroduction = new MsgSavePlayerIntroduction();
-            msgSavePlayerIntroduction.palyerIntroduction = playerIntroduction.text;
+            msgSavePlayerIntroduction.palyerIntroduction = _playerIntroduction.text;
             NetManager.Send(msgSavePlayerIntroduction);
-            modifyInput.gameObject.SetActive(false);
+            _modifyInput.gameObject.SetActive(false);
             return;
         }
 
     }
     //切换频道按钮按下
     private void OnSwitchClick() {
-        if (sendStatus == 0) {
-            sendStatus = 1;
-            switchBtn.transform.Find("Text").GetComponent<Text>().text = "好友";
+        if (_sendStatus == 0) {
+            _sendStatus = 1;
+            _switchBtn.transform.Find("Text").GetComponent<Text>().text = "好友";
             return;
         }
-        if (sendStatus == 1) {
-            sendStatus = 0;
-            switchBtn.transform.Find("Text").GetComponent<Text>().text = "世界";
+        if (_sendStatus == 1) {
+            _sendStatus = 0;
+            _switchBtn.transform.Find("Text").GetComponent<Text>().text = "世界";
             return;
         }
     }
@@ -172,18 +173,18 @@ public class MainPanel : BasePanel
 
     //发送消息按钮按下
     private void OnSendClick() {
-        if (sendStatus == 0) {
+        if (_sendStatus == 0) {
             //世界频道
             MsgSendMessageToWord msgSendMessageToWord = new MsgSendMessageToWord();
-            msgSendMessageToWord.message = input.transform.Find("Text").GetComponent<Text>().text;
-            input.transform.Find("Text").GetComponent<Text>().text = "";
-            input.GetComponent<InputField>().text = "";
+            msgSendMessageToWord.message = _input.transform.Find("Text").GetComponent<Text>().text;
+            _input.transform.Find("Text").GetComponent<Text>().text = "";
+            _input.GetComponent<InputField>().text = "";
             msgSendMessageToWord.id = GameMain.id;
             NetManager.Send(msgSendMessageToWord);
 
             return;
         }
-        if (sendStatus == 1) {
+        if (_sendStatus == 1) {
             //好友频道
         }
 

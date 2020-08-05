@@ -54,7 +54,7 @@ public class DbManager {
 	}
 
 
-	//是否存在该用户
+	//是否存在该用户 若为真，不存在该账户
 	public static bool IsAccountExist(string id)
 	{
 		CheckAndReconnect();
@@ -94,7 +94,7 @@ public class DbManager {
 			return false;
 		}
 		//能否注册
-		if (!IsAccountExist(id)) 
+		if (!IsAccountExist(id))
 		{
 			Console.WriteLine("[数据库] Register fail, id exist");
 			return false;
@@ -266,6 +266,88 @@ public class DbManager {
         catch (Exception e) {
             Console.WriteLine("[数据库] GetData fail, " + e.Message);
             return null;
+        }
+    }
+
+    //删除好友
+    public static bool DeleteFriend(string id, string friendId) {
+        CheckAndReconnect();
+        //防sql注入
+        if (!DbManager.IsSafeString(id)) {
+            Console.WriteLine("[数据库] DeleteFriend fail, id not safe");
+            return false;
+        }
+        if (!DbManager.IsSafeString(friendId)) {
+            Console.WriteLine("[数据库] DeleteFriend fail, friendId not safe");
+            return false;
+        }
+       //sql
+        string sqlOne = string.Format("delete from friend where id ='{0}' and friendId ='{1}';", id, friendId);
+		string sqlTwo = string.Format("delete from friend where id ='{0}' and friendId ='{1}';", friendId, id);
+		try {
+            MySqlCommand cmdOne = new MySqlCommand(sqlOne, mysql);
+			MySqlCommand cmdTwo = new MySqlCommand(sqlTwo, mysql);
+			cmdOne.ExecuteNonQuery();
+			cmdTwo.ExecuteNonQuery();
+			return true;
+        }
+        catch (Exception e) {
+            Console.WriteLine("[数据库] DeleteFriend err, " + e.Message);
+            return false;
+        }
+    }
+
+    //是否是好友
+    public static bool IsFriendExist(string id , string friendId) {
+        CheckAndReconnect();
+        //防sql注入
+        if (!DbManager.IsSafeString(id)) {
+            return false;
+        }
+        if (!DbManager.IsSafeString(friendId)) {
+            return false;
+        }
+        //sql 语句
+        string s = string.Format("select * from friend where id='{0}' and friendId='{1}';", id, friendId);
+        //查询
+        try {
+            MySqlCommand cmd = new MySqlCommand(s, mysql);
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+            bool hasRows = dataReader.HasRows;
+            dataReader.Close();
+            return !hasRows;
+        }
+        catch (Exception e) {
+            Console.WriteLine("[数据库] IsSafeString err, " + e.Message);
+            return false;
+        }
+    }
+
+    //添加好友
+    public static bool AddFriend(string id, string friendId) {
+        CheckAndReconnect();
+        //防sql注入
+        if (!DbManager.IsSafeString(id)) {
+            Console.WriteLine("[数据库] AddFriend fail, id not safe");
+            return false;
+        }
+        if (!DbManager.IsSafeString(friendId)) {
+            Console.WriteLine("[数据库] AddFriend fail, friendId not safe");
+            return false;
+        }
+        //sql
+        string sqlOne = string.Format("insert into friend (id,friendId) values ('{0}','{1}');", id, friendId);
+        string sqlTwo = string.Format("insert into friend (id,friendId) values ('{0}','{1}');", friendId, id);
+        try {
+            MySqlCommand cmdOne = new MySqlCommand(sqlOne, mysql);
+            MySqlCommand cmdTwo = new MySqlCommand(sqlTwo, mysql);
+            cmdOne.ExecuteNonQuery();
+            cmdTwo.ExecuteNonQuery();
+            return true;
+        }
+        catch (Exception e) {
+            Console.WriteLine("[数据库] AddFriend err, " + e.Message);
+            return false;
         }
     }
 }

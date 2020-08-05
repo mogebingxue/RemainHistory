@@ -33,7 +33,10 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Mask
     - UnityEngine.UI.ScrollRect
     - UnityEngine.UI.Scrollbar
+    - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
+    com.unity.multiplayer-hlapi.Runtime.dll:
+    - UnityEngine.Networking.NetworkCallbacks
   sceneClasses:
     Assets/Scenes/Game.unity:
     - Class: 1
@@ -111,6 +114,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
@@ -120,27 +127,29 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11246}
     - Class: 114
-      Script: {instanceID: 11266}
+      Script: {instanceID: 11248}
     - Class: 114
-      Script: {instanceID: 11500}
+      Script: {instanceID: 11278}
     - Class: 114
-      Script: {instanceID: 11548}
+      Script: {instanceID: 11514}
     - Class: 114
-      Script: {instanceID: 11958}
+      Script: {instanceID: 11562}
     - Class: 114
-      Script: {instanceID: 12092}
+      Script: {instanceID: 11974}
     - Class: 114
-      Script: {instanceID: 12388}
+      Script: {instanceID: 12110}
     - Class: 114
-      Script: {instanceID: 12920}
+      Script: {instanceID: 12408}
     - Class: 114
-      Script: {instanceID: 13314}
+      Script: {instanceID: 12940}
     - Class: 114
-      Script: {instanceID: 13764}
+      Script: {instanceID: 13338}
     - Class: 114
-      Script: {instanceID: 13822}
+      Script: {instanceID: 13788}
     - Class: 114
-      Script: {instanceID: 13826}
+      Script: {instanceID: 13846}
+    - Class: 114
+      Script: {instanceID: 13850}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -166,16 +175,22 @@ ScriptsOnlyBuild:
     className: Text
   - hash:
       serializedVersion: 2
+      Hash: 7ab0e790220bdca831fdd886b339039d
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: GridLayoutGroup
+  - hash:
+      serializedVersion: 2
       Hash: 5f1752ed2092162f016c19510c28a8b9
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: 7ab0e790220bdca831fdd886b339039d
+      Hash: 7072231382eb3c4871b3dd75ad0227e1
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
-    className: GridLayoutGroup
+    className: Slider
   - hash:
       serializedVersion: 2
       Hash: 4bc4346a71a8df53a6b106f68ef3a190
@@ -370,6 +385,12 @@ ScriptsOnlyBuild:
     className: AnimationPlayableAsset
   - hash:
       serializedVersion: 2
+      Hash: 9c30aaf5b2417dc83fdaec91dfa97dbb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: HandbookPanel
+  - hash:
+      serializedVersion: 2
       Hash: aba7b2852ef61d175dd9602e7723d5e5
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -410,6 +431,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ControlPlayableAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 9c30aaf5b2417dc83fdaec91dfa97dbb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SetPanel
   - hash:
       serializedVersion: 2
       Hash: b8a5e8091ab0b8861d2add371082c5e0
@@ -598,6 +625,18 @@ ScriptsOnlyBuild:
     className: TimelineAsset
   - hash:
       serializedVersion: 2
+      Hash: 9c30aaf5b2417dc83fdaec91dfa97dbb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FriendPanel
+  - hash:
+      serializedVersion: 2
+      Hash: 9c30aaf5b2417dc83fdaec91dfa97dbb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AltarPanel
+  - hash:
+      serializedVersion: 2
       Hash: 24c74cc0d527a06113f2b967042769f0
     assemblyName: UnityEngine.XR.LegacyInputHelpers.dll
     namespaceName: UnityEditor.XR.LegacyInputHelpers
@@ -778,12 +817,6 @@ ScriptsOnlyBuild:
     className: SignalEmitter
   - hash:
       serializedVersion: 2
-      Hash: 7072231382eb3c4871b3dd75ad0227e1
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Slider
-  - hash:
-      serializedVersion: 2
       Hash: a325152ad9563ed900af221c132fea36
     assemblyName: UnityEngine.Advertisements.dll
     namespaceName: UnityEngine.Advertisements.Utilities
@@ -800,6 +833,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: e33683a80635291ae9939d89b65c2c3f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FriendApplyPanel
   platform: 5
   scenePathNames:
   - Assets/Scenes/SplashScreen.unity
