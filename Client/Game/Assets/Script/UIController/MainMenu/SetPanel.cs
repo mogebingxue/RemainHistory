@@ -32,6 +32,7 @@ public class SetPanel : BasePanel
         _volumeSlider.onValueChanged.AddListener(OnVolumeValueChanged);
         _closeBtn.onClick.AddListener(OnCloseClick);
         _quitBtn.onClick.AddListener(OnQiutClick);
+        //初始化音量控制条及小喇叭颜色
         string isOnVolume = PlayerPrefs.GetString(Const.IsOnVolume);
         _volumeSlider.value = PlayerPrefs.GetFloat(Const.Volume);
         PlayerPrefs.SetString(Const.IsOnVolume, isOnVolume);

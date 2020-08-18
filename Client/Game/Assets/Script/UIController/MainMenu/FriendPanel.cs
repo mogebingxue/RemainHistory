@@ -29,7 +29,7 @@ public class FriendPanel : BasePanel
     public override void OnShow(params object[] args) {
         //寻找组件
         _closeBtn = skin.transform.Find("CloseBtn").GetComponent<Button>();
-        _friendListPanel = skin.transform.Find("FriendListPanel").gameObject;
+        _friendListPanel = skin.transform.Find("FriendListPanel").Find("Scroll View").Find("Viewport").Find("Content").gameObject;
         _searchPanel = skin.transform.Find("SearchPanel").gameObject;
         _idInput = _searchPanel.transform.Find("IdInput").GetComponent<InputField>();
         _addFriendBtn = _searchPanel.transform.Find("AddFriendBtn").GetComponent<Button>();
