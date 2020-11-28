@@ -1,26 +1,78 @@
-﻿
-using Newtonsoft.Json;
+﻿using ProtoBuf;
+using Server.script.net;
 using System;
+using System.IO;
 using System.Linq;
-public class MsgBase{
+public class MsgBase
+{
 	public string protoName = "null";
 
 
-	//编码
-	public static byte[] Encode(MsgBase msgBase){
-		string s = JsonConvert.SerializeObject(msgBase);
-		return System.Text.Encoding.UTF8.GetBytes(s);
+    //将protobuf对象序列化位byte数组
+    public static byte[] Encode(MsgBase msgBase) {
+		return ProtoHelper.Serialize(msgBase);
 	}
-
-	//解码
-	public static MsgBase Decode(string protoName, byte[] bytes, int offset, int count){
-		string s = System.Text.Encoding.UTF8.GetString(bytes, offset, count);
-		MsgBase msgBase = (MsgBase)JsonConvert.DeserializeObject(s, Type.GetType(protoName));
-		return msgBase;
-	}
-
-	//编码协议名（2字节长度+字符串）
-	public static byte[] EncodeName(MsgBase msgBase){
+    //解码
+    public static MsgBase Decode(string protoName, byte[] bytes, int offset, int count) {
+		byte[] bodyBytes = new byte[count];
+		Array.Copy(bytes, offset, bodyBytes, 0, count);
+        if (protoName == "MsgLogin") {
+            return ProtoHelper.Deserialize<MsgLogin>(bodyBytes);
+        }
+        if (protoName == "MsgRegister") {
+            return ProtoHelper.Deserialize<MsgRegister>(bodyBytes);
+        }
+        if (protoName == "MsgKick") {
+            return ProtoHelper.Deserialize<MsgKick>(bodyBytes);
+        }
+        if (protoName == "MsgGetPlayerIntroduction") {
+            return ProtoHelper.Deserialize<MsgGetPlayerIntroduction>(bodyBytes);
+        }
+        if (protoName == "MsgSavePlayerIntroduction") {
+            return ProtoHelper.Deserialize<MsgSavePlayerIntroduction>(bodyBytes);
+        }
+        if (protoName == "MsgGetHeadPhoto") {
+            return ProtoHelper.Deserialize<MsgGetHeadPhoto>(bodyBytes);
+        }
+        if (protoName == "MsgSaveHeadPhoto") {
+            return ProtoHelper.Deserialize<MsgSaveHeadPhoto>(bodyBytes);
+        }
+        if (protoName == "MsgSendMessageToWord") {
+            return ProtoHelper.Deserialize<MsgSendMessageToWord>(bodyBytes);
+        }
+        if (protoName == "MsgSendMessageToFriend") {
+            return ProtoHelper.Deserialize<MsgSendMessageToFriend>(bodyBytes);
+        }
+        if (protoName == "MsgGetFriendList") {
+            return ProtoHelper.Deserialize<MsgGetFriendList>(bodyBytes);
+        }
+        if (protoName == "MsgGetFriendList") {
+            return ProtoHelper.Deserialize<MsgGetFriendList>(bodyBytes);
+        }
+        if (protoName == "MsgDeleteFriend") {
+            return ProtoHelper.Deserialize<MsgDeleteFriend>(bodyBytes);
+        }
+        if (protoName == "MsgAddFriend") {
+            return ProtoHelper.Deserialize<MsgAddFriend>(bodyBytes);
+        }
+        if (protoName == "MsgAcceptAddFriend") {
+            return ProtoHelper.Deserialize<MsgAcceptAddFriend>(bodyBytes);
+        }
+        if (protoName == "MsgAcceptAddFriend") {
+            return ProtoHelper.Deserialize<MsgAcceptAddFriend>(bodyBytes);
+        }
+        if (protoName == "MsgPing") {
+            return ProtoHelper.Deserialize<MsgPing>(bodyBytes);
+        }
+        if (protoName == "MsgPong") {
+            return ProtoHelper.Deserialize<MsgPong>(bodyBytes);
+        }
+        else {
+            return null;
+        }
+    }
+    //编码协议名（2字节长度+字符串）
+    public static byte[] EncodeName(MsgBase msgBase){
 		//名字bytes和长度
 		byte[] nameBytes = System.Text.Encoding.UTF8.GetBytes(msgBase.protoName);
 		Int16 len = (Int16)nameBytes.Length;

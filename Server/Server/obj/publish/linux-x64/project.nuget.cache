@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sp1v5d7qaTaG9zEuenHhuwDr7AB3YoDq+O4fx7jkoGwSF4lr5zp53Mp/9gvoXbsGjLtk6xdIYS9KiBbNZ9SSDA==",
+  "dgSpecHash": "XXdsO4EpjbTNyz+XeLYxkqOidS9xfa4giGYPydxBSPMcAXheS1m03gjdHQFcnTHCbnU08NPPBY+xTV8UVcoQVA==",
   "success": true,
   "projectFilePath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\Server\\Server.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,8 @@
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\mysql.data\\8.0.12\\mysql.data.8.0.12.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\protobuf-net\\3.0.62\\protobuf-net.3.0.62.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\protobuf-net.core\\3.0.62\\protobuf-net.core.3.0.62.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\runtime.any.system.collections\\4.3.0\\runtime.any.system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\runtime.any.system.diagnostics.tools\\4.3.0\\runtime.any.system.diagnostics.tools.4.3.0.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\runtime.any.system.diagnostics.tracing\\4.3.0\\runtime.any.system.diagnostics.tracing.4.3.0.nupkg.sha512",

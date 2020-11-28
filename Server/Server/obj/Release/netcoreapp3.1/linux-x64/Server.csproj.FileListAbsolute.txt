@@ -6,7 +6,6 @@ C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\li
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\Server.pdb
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\Google.Protobuf.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\MySql.Data.dll
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\Newtonsoft.Json.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\System.Configuration.ConfigurationManager.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\System.Security.Cryptography.ProtectedData.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\System.Security.Permissions.dll
@@ -18,3 +17,6 @@ C:\Project\UnityProject\RemainHistory\Server\Server\obj\Release\netcoreapp3.1\li
 C:\Project\UnityProject\RemainHistory\Server\Server\obj\Release\netcoreapp3.1\linux-x64\Server.pdb
 C:\Project\UnityProject\RemainHistory\Server\Server\obj\Release\netcoreapp3.1\linux-x64\Server.genruntimeconfig.cache
 C:\Project\UnityProject\RemainHistory\Server\Server\obj\Release\netcoreapp3.1\linux-x64\Server.csprojAssemblyReference.cache
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\protobuf-net.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\protobuf-net.Core.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\linux-x64\Newtonsoft.Json.dll

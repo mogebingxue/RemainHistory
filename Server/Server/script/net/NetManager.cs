@@ -22,7 +22,6 @@ class NetManager
 		listenfd = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 		//Bind
 		IPAddress ipAdr = IPAddress.Parse("172.16.1.11");
-		//IPAddress ipAdr = IPAddress.Parse("172.16.1.11");
 		IPEndPoint ipEp = new IPEndPoint(ipAdr, listenPort);
 		listenfd.Bind(ipEp);
 		//Listen
@@ -149,8 +148,8 @@ class NetManager
 		readBuff.readIdx += nameCount;
 		//解析协议体
 		int bodyCount = bodyLength - nameCount;
-		if(bodyCount <= 0){
-			Console.WriteLine("OnReceiveData fail, bodyCount <=0 ");
+		if(bodyCount < 0){
+			Console.WriteLine("OnReceiveData fail, bodyCount <0 ");
 			Close(state);
 			return;
 		}

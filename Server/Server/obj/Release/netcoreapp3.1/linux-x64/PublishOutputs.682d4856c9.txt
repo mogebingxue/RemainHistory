@@ -6,6 +6,8 @@ C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\pu
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\publish\Google.Protobuf.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\publish\MySql.Data.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\publish\Newtonsoft.Json.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\publish\protobuf-net.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\publish\protobuf-net.Core.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\publish\System.Configuration.ConfigurationManager.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\publish\System.Security.Cryptography.ProtectedData.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Release\netcoreapp3.1\publish\System.Security.Permissions.dll
