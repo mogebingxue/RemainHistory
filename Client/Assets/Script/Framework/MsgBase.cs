@@ -14,60 +14,7 @@ public class MsgBase {
     public static MsgBase Decode(string protoName, byte[] bytes, int offset, int count) {
         byte[] bodyBytes = new byte[count];
         Array.Copy(bytes, offset, bodyBytes, 0, count);
-        if (protoName == "MsgLogin") {
-            return ProtoHelper.Deserialize<MsgLogin>(bodyBytes);
-        }
-        if (protoName == "MsgRegister") {
-            return ProtoHelper.Deserialize<MsgRegister>(bodyBytes);
-        }
-        if (protoName == "MsgKick") {
-            return ProtoHelper.Deserialize<MsgKick>(bodyBytes);
-        }
-        if (protoName == "MsgGetPlayerIntroduction") {
-            return ProtoHelper.Deserialize<MsgGetPlayerIntroduction>(bodyBytes);
-        }
-        if (protoName == "MsgSavePlayerIntroduction") {
-            return ProtoHelper.Deserialize<MsgSavePlayerIntroduction>(bodyBytes);
-        }
-        if (protoName == "MsgGetHeadPhoto") {
-            return ProtoHelper.Deserialize<MsgGetHeadPhoto>(bodyBytes);
-        }
-        if (protoName == "MsgSaveHeadPhoto") {
-            return ProtoHelper.Deserialize<MsgSaveHeadPhoto>(bodyBytes);
-        }
-        if (protoName == "MsgSendMessageToWord") {
-            return ProtoHelper.Deserialize<MsgSendMessageToWord>(bodyBytes);
-        }
-        if (protoName == "MsgSendMessageToFriend") {
-            return ProtoHelper.Deserialize<MsgSendMessageToFriend>(bodyBytes);
-        }
-        if (protoName == "MsgGetFriendList") {
-            return ProtoHelper.Deserialize<MsgGetFriendList>(bodyBytes);
-        }
-        if (protoName == "MsgGetFriendList") {
-            return ProtoHelper.Deserialize<MsgGetFriendList>(bodyBytes);
-        }
-        if (protoName == "MsgDeleteFriend") {
-            return ProtoHelper.Deserialize<MsgDeleteFriend>(bodyBytes);
-        }
-        if (protoName == "MsgAddFriend") {
-            return ProtoHelper.Deserialize<MsgAddFriend>(bodyBytes);
-        }
-        if (protoName == "MsgAcceptAddFriend") {
-            return ProtoHelper.Deserialize<MsgAcceptAddFriend>(bodyBytes);
-        }
-        if (protoName == "MsgAcceptAddFriend") {
-            return ProtoHelper.Deserialize<MsgAcceptAddFriend>(bodyBytes);
-        }
-        if (protoName == "MsgPing") {
-            return ProtoHelper.Deserialize<MsgPing>(bodyBytes);
-        }
-        if (protoName == "MsgPong") {
-            return ProtoHelper.Deserialize<MsgPong>(bodyBytes);
-        }
-        else {
-            return null;
-        }
+        return (MsgBase)ProtoHelper.Deserialize(bodyBytes, Type.GetType(protoName));
     }
 
     //编码协议名（2字节长度+字符串）

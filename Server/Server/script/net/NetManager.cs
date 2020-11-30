@@ -21,7 +21,8 @@ class NetManager
 		//Socket
 		listenfd = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 		//Bind
-		IPAddress ipAdr = IPAddress.Parse("172.16.1.11");
+		//IPAddress ipAdr = IPAddress.Parse("172.16.1.11");
+		IPAddress ipAdr = IPAddress.Parse("127.0.0.1");
 		IPEndPoint ipEp = new IPEndPoint(ipAdr, listenPort);
 		listenfd.Bind(ipEp);
 		//Listen

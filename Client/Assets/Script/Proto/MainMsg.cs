@@ -1,8 +1,6 @@
 ﻿
 using ProtoBuf;
 using System.Collections.Generic;
-
-using ProtoBuf;
 //获取个人简介内容
 [ProtoContract]
 public class MsgGetPlayerIntroduction : MsgBase

@@ -57,3 +57,4 @@ C:\Project\UnityProject\RemainHistory\Server\Server\obj\Debug\netcoreapp3.1\Serv
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\protobuf-net.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\protobuf-net.Core.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\obj\Debug\netcoreapp3.1\Server.csprojAssemblyReference.cache
