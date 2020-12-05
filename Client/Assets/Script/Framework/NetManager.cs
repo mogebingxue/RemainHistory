@@ -92,6 +92,7 @@ public static class NetManager
     private static void FireMsg(string msgName, MsgBase msgBase) {
         if (msgListeners.ContainsKey(msgName)) {
             msgListeners[msgName](msgBase);
+            
         }
     }
 

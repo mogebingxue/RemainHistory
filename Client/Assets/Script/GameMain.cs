@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UIFramework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,30 +10,18 @@ public class GameMain : MonoBehaviour
 
 
     //加载场景时不销毁的物体
-    public GameObject[] DontDestroyObjects;
-
-    //是否已经存在DontDestroy的物体
-    private static bool isExist;
+    public static List<GameObject> DontDestroyObjects;
 
     void Awake() {
-        if (!isExist) {
-            for (int i = 0; i < DontDestroyObjects.Length; i++) {
-                //如果第一次加载，将这些物体设为DontDestroy
-                DontDestroyOnLoad(DontDestroyObjects[i]);
-            }
-
-            isExist = true;
-        }
-        else {
-            for (int i = 0; i < DontDestroyObjects.Length; i++) {
-                //如果已经存在，则删除重复的物体
-                Destroy(DontDestroyObjects[i]);
-            }
-        }
-
+        //初始化
+        PanelManager.Init();
+        //DontDestroyObjects.Add(gameObject);
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(GameObject.Find("UIRoot"));
     }
     // Use this for initialization
     void Start() {
+        
         //网络监听
         NetManager.AddEventListener(NetManager.NetEvent.Close, OnConnectClose);
         NetManager.AddMsgListener("MsgKick", OnMsgKick);
@@ -41,8 +30,7 @@ public class GameMain : MonoBehaviour
         NetManager.AddMsgListener("MsgDeleteFriend", OnMsgDeleteFriend);
         //打开登陆面板
         SceneManager.LoadSceneAsync("LoginMenu");
-        //初始化
-        PanelManager.Init();
+        
         //打开登陆面板
         PanelManager.Open<LoginPanel>();
     }

@@ -64,32 +64,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Font\Character\Scripts\CtrlHuman.cs" />
-    <Compile Include="Assets\Font\Character\Scripts\PawnBase.cs" />
+    <Compile Include="Assets\Character\Scripts\CtrlHuman.cs" />
+    <Compile Include="Assets\Character\Scripts\PawnBase.cs" />
     <Compile Include="Assets\Script\Const.cs" />
-    <Compile Include="Assets\Script\Framework\BasePanel.cs" />
+    <Compile Include="Assets\Script\Framework\ABManager.cs" />
     <Compile Include="Assets\Script\Framework\ByteArray.cs" />
     <Compile Include="Assets\Script\Framework\MsgBase.cs" />
     <Compile Include="Assets\Script\Framework\NetManager.cs" />
-    <Compile Include="Assets\Script\Framework\PanelManager.cs" />
     <Compile Include="Assets\Script\Framework\ProtoHelper.cs" />
-    <Compile Include="Assets\Script\Framework\ResManager.cs" />
+    <Compile Include="Assets\Script\Framework\Singleton\MonoSingleton.cs" />
+    <Compile Include="Assets\Script\Framework\Singleton\Singleton.cs" />
     <Compile Include="Assets\Script\Game\CameraController.cs" />
     <Compile Include="Assets\Script\Game\PlayerController.cs" />
     <Compile Include="Assets\Script\GameMain.cs" />
     <Compile Include="Assets\Script\Proto\LoginMsg.cs" />
     <Compile Include="Assets\Script\Proto\MainMsg.cs" />
     <Compile Include="Assets\Script\Proto\SysMsg.cs" />
-    <Compile Include="Assets\Script\UIController\Common\TipPanel.cs" />
-    <Compile Include="Assets\Script\UIController\Login\LoginPanel.cs" />
-    <Compile Include="Assets\Script\UIController\Login\RegisterPanel.cs" />
-    <Compile Include="Assets\Script\UIController\MainMenu\AltarPanel.cs" />
-    <Compile Include="Assets\Script\UIController\MainMenu\FriendApplyPanel.cs" />
-    <Compile Include="Assets\Script\UIController\MainMenu\FriendPanel.cs" />
-    <Compile Include="Assets\Script\UIController\MainMenu\HandbookPanel.cs" />
-    <Compile Include="Assets\Script\UIController\MainMenu\HeadPhotoPanel.cs" />
-    <Compile Include="Assets\Script\UIController\MainMenu\MainPanel.cs" />
-    <Compile Include="Assets\Script\UIController\MainMenu\SetPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\Common\TipPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\Login\LoginPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\Login\RegisterPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\MainMenu\AltarPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\MainMenu\FriendApplyPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\MainMenu\FriendPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\MainMenu\HandbookPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\MainMenu\HeadPhotoPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\MainMenu\MainPanel.cs" />
+    <Compile Include="Assets\Script\UI\Controller\MainMenu\SetPanel.cs" />
+    <Compile Include="Assets\Script\UI\Framework\BasePanel.cs" />
+    <Compile Include="Assets\Script\UI\Framework\PanelManager.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Tool/2019.4.14f1c1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -668,6 +670,9 @@
     </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.AssetBundleBrowser.Editor">
+      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.AssetBundleBrowser.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
