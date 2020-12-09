@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UIFramework;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class GameMain : MonoBehaviour
@@ -19,9 +21,9 @@ public class GameMain : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(GameObject.Find("UIRoot"));
     }
+    
     // Use this for initialization
     void Start() {
-        
         //网络监听
         NetManager.AddEventListener(NetManager.NetEvent.Close, OnConnectClose);
         NetManager.AddMsgListener("MsgKick", OnMsgKick);

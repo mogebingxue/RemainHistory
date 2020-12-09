@@ -72,6 +72,9 @@
     <Compile Include="Assets\Script\Framework\Net\NetManager.cs" />
     <Compile Include="Assets\Script\Framework\Net\ProtoHelper.cs" />
     <Compile Include="Assets\Script\Framework\Res\ABManager.cs" />
+    <Compile Include="Assets\Script\Framework\Res\Get.cs" />
+    <Compile Include="Assets\Script\Framework\Res\MD5.cs" />
+    <Compile Include="Assets\Script\Framework\Res\MD5ACharm.cs" />
     <Compile Include="Assets\Script\Framework\Singleton\BasePanel.cs" />
     <Compile Include="Assets\Script\Framework\Singleton\MonoSingleton.cs" />
     <Compile Include="Assets\Script\Framework\Singleton\PanelManager.cs" />
@@ -92,6 +95,7 @@
     <Compile Include="Assets\Script\UI\Controller\MainMenu\HeadPhotoPanel.cs" />
     <Compile Include="Assets\Script\UI\Controller\MainMenu\MainPanel.cs" />
     <Compile Include="Assets\Script\UI\Controller\MainMenu\SetPanel.cs" />
+    <None Include="Assets\StreamingAssets\Bundle.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Tool/2019.4.16f1c1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
