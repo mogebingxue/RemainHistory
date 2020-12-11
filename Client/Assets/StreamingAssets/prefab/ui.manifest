@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3259783207
+CRC: 69068420
 Hashes:
   AssetFileHash:
     serializedVersion: 2
     Hash: 68d9fd0f15d4c5169bb516c9618d5904
   TypeTreeHash:
     serializedVersion: 2
-    Hash: cb6687a53b658b46e12c93e35268fe99
+    Hash: 84526006ce75bd0e35ded1368147bd1a
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -24,9 +24,9 @@ ClassTypes:
 - Class: 83
   Script: {instanceID: 0}
 - Class: 114
-  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
 - Class: 114
@@ -79,6 +79,6 @@ Assets:
 - Assets/Resources/Prefab/UI/MainPanel.prefab
 - Assets/Resources/Prefab/UI/HeadPhotoPanel.prefab
 Dependencies:
+- C:/Project/UnityProject/RemainHistory/Client/AssetBundles/PC/font
 - C:/Project/UnityProject/RemainHistory/Client/AssetBundles/PC/sound
 - C:/Project/UnityProject/RemainHistory/Client/AssetBundles/PC/texture
-- C:/Project/UnityProject/RemainHistory/Client/AssetBundles/PC/font
