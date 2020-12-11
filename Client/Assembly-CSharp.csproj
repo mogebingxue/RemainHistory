@@ -662,9 +662,6 @@
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Timeline">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
@@ -682,12 +679,6 @@
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
@@ -707,9 +698,6 @@
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
@@ -718,6 +706,22 @@
     <ProjectReference Include="Unity.Editor.csproj">
       <Project>{924857B0-250F-1A38-1806-8092FD157AE8}</Project>
       <Name>Unity.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{C8DA974E-1B47-BC8E-E6A8-7BF55A8B1A61}</Project>
+      <Name>UnityEngine.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
+      <Project>{7EFD55FB-7567-D888-5149-68FC6E544C36}</Project>
+      <Name>Unity.2D.Sprite.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Tilemap.Editor.csproj">
+      <Project>{4F9DE50B-CA26-5401-129C-51D0B160BA3F}</Project>
+      <Name>Unity.2D.Tilemap.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{3AA710AA-B60F-C507-FCCE-BC576A35745B}</Project>
+      <Name>UnityEditor.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
