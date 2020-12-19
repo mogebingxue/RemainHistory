@@ -348,8 +348,14 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="CString">
+      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/CString.dll</HintPath>
+    </Reference>
+    <Reference Include="Debugger">
+      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/Debugger.dll</HintPath>
+    </Reference>
     <Reference Include="protobuf-net">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugs/protobuf-net.dll</HintPath>
+      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
