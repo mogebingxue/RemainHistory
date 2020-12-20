@@ -298,15 +298,6 @@
     <Reference Include="protobuf-net">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/protobuf-net.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
@@ -673,23 +664,8 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Monetization">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.multiplayer-hlapi.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Purchasing">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -700,48 +676,17 @@
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="com.unity.multiplayer-weaver.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.AssetBundleBrowser.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.AssetBundleBrowser.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Advertisements.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.Advertisements.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.multiplayer-hlapi.Runtime">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{12F44184-A422-5F27-22E6-507969043F15}</Project>
       <Name>Assembly-CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="Compiled.csproj">
-      <Project>{8EA3E631-7D74-D1C4-C45B-1308D9BCB91F}</Project>
-      <Name>Compiled</Name>
     </ProjectReference>
     <ProjectReference Include="Base.csproj">
       <Project>{115B52A4-B8CF-95C8-A14D-29EAACDD56D0}</Project>
@@ -750,14 +695,6 @@
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{C8DA974E-1B47-BC8E-E6A8-7BF55A8B1A61}</Project>
       <Name>UnityEngine.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
-      <Project>{7EFD55FB-7567-D888-5149-68FC6E544C36}</Project>
-      <Name>Unity.2D.Sprite.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Tilemap.Editor.csproj">
-      <Project>{4F9DE50B-CA26-5401-129C-51D0B160BA3F}</Project>
-      <Name>Unity.2D.Tilemap.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Bridge.csproj">
       <Project>{E05444C1-1489-C4C7-28FE-DEFE3BBABF0E}</Project>

@@ -309,15 +309,6 @@
     <Reference Include="protobuf-net">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/protobuf-net.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
