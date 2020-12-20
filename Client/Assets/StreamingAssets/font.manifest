@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1244734693
+CRC: 28239856
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -18,5 +18,5 @@ ClassTypes:
 - Class: 128
   Script: {instanceID: 0}
 Assets:
-- "Assets/Resources/Font/\u9E3F\u96F7\u677F\u4E66\u7B80\u4F53.ttf"
+- "Assets/HotFix/Font/\u9E3F\u96F7\u677F\u4E66\u7B80\u4F53.ttf"
 Dependencies: []

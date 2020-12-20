@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2481089449
+CRC: 1184466609
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -16,7 +16,4 @@ AssetBundleManifest:
       Dependencies: {}
     Info_3:
       Name: font
-      Dependencies: {}
-    Info_4:
-      Name: testhotfix
       Dependencies: {}

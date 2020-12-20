@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 309893017
+CRC: 3965492265
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -12,5 +12,5 @@ ClassTypes:
 - Class: 83
   Script: {instanceID: 0}
 Assets:
-- "Assets/Resources/Sound/\u95EE\u5251\u6C5F\u6E56.mp3"
+- "Assets/HotFix/Sound/\u95EE\u5251\u6C5F\u6E56.mp3"
 Dependencies: []

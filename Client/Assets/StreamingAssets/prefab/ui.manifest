@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 69068420
+CRC: 2428138465
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 68d9fd0f15d4c5169bb516c9618d5904
+    Hash: bb4f4d81e1e84f5f11297f7803ec5f68
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 84526006ce75bd0e35ded1368147bd1a
+    Hash: e9c2ed345af8a37dda434755586fac94
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -24,6 +24,8 @@ ClassTypes:
 - Class: 83
   Script: {instanceID: 0}
 - Class: 114
+  Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
@@ -39,8 +41,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
 - Class: 114
@@ -64,20 +64,20 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefab/UI/TipPanel.prefab
-- Assets/Resources/Prefab/UI/FriendPanel.prefab
-- Assets/Resources/Prefab/UI/HandbookPanel.prefab
-- Assets/Resources/Prefab/UI/AltarPanel.prefab
-- Assets/Resources/Prefab/UI/LoginPanel.prefab
-- Assets/Resources/Prefab/UI/FriendEnum.prefab
-- Assets/Resources/Prefab/UI/RegisterPanel.prefab
-- Assets/Resources/Prefab/UI/MyMessagePanel.prefab
-- Assets/Resources/Prefab/UI/FriendApplyPanel.prefab
-- Assets/Resources/Prefab/UI/SetPanel.prefab
-- Assets/Resources/Prefab/UI/OtherMessagePanel.prefab
-- Assets/Resources/Prefab/UI/UIRoot.prefab
-- Assets/Resources/Prefab/UI/MainPanel.prefab
-- Assets/Resources/Prefab/UI/HeadPhotoPanel.prefab
+- Assets/HotFix/Prefab/UI/TipPanel.prefab
+- Assets/HotFix/Prefab/UI/FriendPanel.prefab
+- Assets/HotFix/Prefab/UI/HandbookPanel.prefab
+- Assets/HotFix/Prefab/UI/AltarPanel.prefab
+- Assets/HotFix/Prefab/UI/LoginPanel.prefab
+- Assets/HotFix/Prefab/UI/FriendEnum.prefab
+- Assets/HotFix/Prefab/UI/RegisterPanel.prefab
+- Assets/HotFix/Prefab/UI/MyMessagePanel.prefab
+- Assets/HotFix/Prefab/UI/FriendApplyPanel.prefab
+- Assets/HotFix/Prefab/UI/SetPanel.prefab
+- Assets/HotFix/Prefab/UI/OtherMessagePanel.prefab
+- Assets/HotFix/Prefab/UI/UIRoot.prefab
+- Assets/HotFix/Prefab/UI/MainPanel.prefab
+- Assets/HotFix/Prefab/UI/HeadPhotoPanel.prefab
 Dependencies:
 - C:/Project/UnityProject/RemainHistory/Client/AssetBundles/PC/font
 - C:/Project/UnityProject/RemainHistory/Client/AssetBundles/PC/sound
