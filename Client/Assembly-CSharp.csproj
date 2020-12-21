@@ -194,8 +194,8 @@
     <Compile Include="Assets\CSharpLua\ToLua\Reflection\LuaMethod.cs" />
     <Compile Include="Assets\CSharpLua\ToLua\Reflection\LuaProperty.cs" />
     <Compile Include="Assets\CSharpLua\ToLua\Reflection\LuaReflection.cs" />
+    <Compile Include="Assets\HotFix\Scripts\CSharp\aaa.cs" />
     <Compile Include="Assets\HotFix\Scripts\CSharp\test.cs" />
-    <Compile Include="Assets\HotFix\Scripts\aaa.cs" />
     <Compile Include="Assets\Scripts\Const\Const.cs" />
     <Compile Include="Assets\Scripts\Framework\GameMain.cs" />
     <Compile Include="Assets\Scripts\Framework\Net\ByteArray.cs" />
