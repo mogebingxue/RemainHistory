@@ -3,11 +3,9 @@ return function (path)
   return System.init({
     path = path,
     files = {
-      "aaa",
       "test"
     },
     types = {
-      "aaa",
       "test"
     }
   })

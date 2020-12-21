@@ -6,13 +6,14 @@ System.namespace("", function (namespace)
     local Start, Update
     Start = function (this)
       UnityEngine.Debug.Log("姚姚姚姚！")
-      --PanelManager.Init();
-      --PanelManager.Open<TipPanel>("廷廷廷！");
+
       local go = UnityEngine.GameObject()
       go:setname("雨雨雨雨雨")
       go:AddComponent(aaa)
       go:GetComponent(aaa):printa()
       UnityEngine.Debug.Log(aaa.a)
+      if UnityEngine.Input.GetKeyDown(97 --[[KeyCode.A]]) then
+      end
     end
     Update = function (this)
     end

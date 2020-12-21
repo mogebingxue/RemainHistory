@@ -11,9 +11,7 @@ public static class LuaBinder
 		L.BeginModule(null);
 		LuaInterface_DebuggerWrap.Register(L);
 		LuaProfilerWrap.Register(L);
-#if UNITY_EDITOR
-		TestUtilsWrap.Register(L);
-#endif
+		aaaWrap.Register(L);
 		L.BeginModule("LuaInterface");
 		LuaInterface_LuaInjectionStationWrap.Register(L);
 		LuaInterface_InjectTypeWrap.Register(L);
@@ -41,7 +39,6 @@ public static class LuaBinder
 		UnityEngine_Texture2DWrap.Register(L);
 		UnityEngine_ShaderWrap.Register(L);
 		UnityEngine_RendererWrap.Register(L);
-		UnityEngine_WWWWrap.Register(L);
 		UnityEngine_ScreenWrap.Register(L);
 		UnityEngine_CameraClearFlagsWrap.Register(L);
 		UnityEngine_AudioClipWrap.Register(L);
@@ -63,6 +60,9 @@ public static class LuaBinder
 		UnityEngine_RenderSettingsWrap.Register(L);
 		UnityEngine_ResourcesWrap.Register(L);
 		UnityEngine_AudioBehaviourWrap.Register(L);
+		L.BeginModule("Networking");
+		UnityEngine_Networking_UnityWebRequestWrap.Register(L);
+		L.EndModule();
 		L.BeginModule("Events");
 		L.RegFunction("UnityAction", UnityEngine_Events_UnityAction);
 		L.EndModule();

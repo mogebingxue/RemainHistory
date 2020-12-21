@@ -697,6 +697,14 @@
       <Project>{3AA710AA-B60F-C507-FCCE-BC576A35745B}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="Bridge.csproj">
+      <Project>{E05444C1-1489-C4C7-28FE-DEFE3BBABF0E}</Project>
+      <Name>Bridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="Base.csproj">
+      <Project>{115B52A4-B8CF-95C8-A14D-29EAACDD56D0}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

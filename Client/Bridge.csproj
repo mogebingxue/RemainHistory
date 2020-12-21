@@ -64,7 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CSharpLua\CSharpLua\Bridge\TestUtils.cs" />
+    <Compile Include="Assets\CSharpLua\CSharpLua\Bridge\aaa.cs" />
     <None Include="Assets\CSharpLua\CSharpLua\Bridge\BridgeScripts.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Tool/2019.4.16f1c1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

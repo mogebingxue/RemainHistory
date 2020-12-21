@@ -116,11 +116,8 @@ public class UnityEngine_MeshRendererWrap
 		{
 			o = ToLua.ToObject(L, 1);
 			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
-#if UNITY_EDITOR
 			float ret = obj.scaleInLightmap;
-
 			LuaDLL.lua_pushnumber(L, ret);
-#endif
 			return 1;
 		}
 		catch(Exception e)
@@ -138,11 +135,8 @@ public class UnityEngine_MeshRendererWrap
 		{
 			o = ToLua.ToObject(L, 1);
 			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
-#if UNITY_EDITOR
 			UnityEngine.ReceiveGI ret = obj.receiveGI;
-
 			LuaDLL.lua_pushinteger(L, (int)ret);
-#endif
 			return 1;
 		}
 		catch(Exception e)
@@ -160,10 +154,8 @@ public class UnityEngine_MeshRendererWrap
 		{
 			o = ToLua.ToObject(L, 1);
 			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
-#if UNITY_EDITOR
 			bool ret = obj.stitchLightmapSeams;
 			LuaDLL.lua_pushboolean(L, ret);
-#endif
 			return 1;
 		}
 		catch(Exception e)
@@ -201,9 +193,7 @@ public class UnityEngine_MeshRendererWrap
 			o = ToLua.ToObject(L, 1);
 			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
 			float arg0 = (float)LuaDLL.luaL_checknumber(L, 2);
-#if UNITY_EDITOR
 			obj.scaleInLightmap = arg0;
-#endif
 			return 0;
 		}
 		catch(Exception e)
@@ -222,9 +212,7 @@ public class UnityEngine_MeshRendererWrap
 			o = ToLua.ToObject(L, 1);
 			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
 			UnityEngine.ReceiveGI arg0 = (UnityEngine.ReceiveGI)LuaDLL.luaL_checknumber(L, 2);
-#if UNITY_EDITOR
 			obj.receiveGI = arg0;
-#endif
 			return 0;
 		}
 		catch(Exception e)
@@ -243,9 +231,7 @@ public class UnityEngine_MeshRendererWrap
 			o = ToLua.ToObject(L, 1);
 			UnityEngine.MeshRenderer obj = (UnityEngine.MeshRenderer)o;
 			bool arg0 = LuaDLL.luaL_checkboolean(L, 2);
-#if UNITY_EDITOR
 			obj.stitchLightmapSeams = arg0;
-#endif
 			return 0;
 		}
 		catch(Exception e)

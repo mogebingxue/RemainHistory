@@ -57,7 +57,6 @@ public static class CustomSettings
         //_GT(typeof(TestExport)),
         //_GT(typeof(TestExport.Space)),
         //-------------------------------------------------------------------        
-                        
         _GT(typeof(LuaInjectionStation)),
         _GT(typeof(InjectType)),
         _GT(typeof(Debugger)).SetNameSpace(null),          
@@ -110,7 +109,7 @@ public static class CustomSettings
         _GT(typeof(Texture2D)),
         _GT(typeof(Shader)),
         _GT(typeof(Renderer)),
-        _GT(typeof(WWW)),
+        _GT(typeof(UnityEngine.Networking.UnityWebRequest)),
         _GT(typeof(Screen)),
         _GT(typeof(CameraClearFlags)),
         _GT(typeof(AudioClip)),
@@ -262,7 +261,7 @@ public static class CustomSettings
 
     public static BindType[] customTypeList {
         get {
-            const string kBridgeAssemblyName = "Assembly-CSharp-Editor";
+            const string kBridgeAssemblyName = "Bridge";
             List<BindType> result = new List<BindType>(customTypeList_);
             var names = Assembly.GetExecutingAssembly().GetReferencedAssemblies().Select(i => i.Name).Where(IsCustomAssembly).ToList();
             if (!names.Contains(kBridgeAssemblyName)) {
