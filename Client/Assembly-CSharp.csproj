@@ -191,37 +191,6 @@
     <Compile Include="Assets\CSharpLua\ToLua\Reflection\LuaProperty.cs" />
     <Compile Include="Assets\CSharpLua\ToLua\Reflection\LuaReflection.cs" />
     <Compile Include="Assets\HotFix\Scripts\CSharp\test.cs" />
-    <Compile Include="Assets\Scripts\Const\Const.cs" />
-    <Compile Include="Assets\Scripts\Framework\GameMain.cs" />
-    <Compile Include="Assets\Scripts\Framework\Net\ByteArray.cs" />
-    <Compile Include="Assets\Scripts\Framework\Net\MsgBase.cs" />
-    <Compile Include="Assets\Scripts\Framework\Net\NetManager.cs" />
-    <Compile Include="Assets\Scripts\Framework\Net\ProtoHelper.cs" />
-    <Compile Include="Assets\Scripts\Framework\Res\ABManager.cs" />
-    <Compile Include="Assets\Scripts\Framework\Res\HotFix.cs" />
-    <Compile Include="Assets\Scripts\Framework\Res\MD5.cs" />
-    <Compile Include="Assets\Scripts\Framework\Singleton\MonoSingleton.cs" />
-    <Compile Include="Assets\Scripts\Framework\Singleton\Singleton.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\BasePanel.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\HotFixPanel.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\PanelManager.cs" />
-    <Compile Include="Assets\Scripts\Game\CameraController.cs" />
-    <Compile Include="Assets\Scripts\Game\CtrlHuman.cs" />
-    <Compile Include="Assets\Scripts\Game\PawnBase.cs" />
-    <Compile Include="Assets\Scripts\Game\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Proto\LoginMsg.cs" />
-    <Compile Include="Assets\Scripts\Proto\MainMsg.cs" />
-    <Compile Include="Assets\Scripts\Proto\SysMsg.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\Common\TipPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\Login\LoginPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\Login\RegisterPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\AltarPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\FriendApplyPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\FriendPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\HandbookPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\HeadPhotoPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\MainPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\SetPanel.cs" />
     <None Include="Assets\CSharpLua\ToLua\Injection\InjectionBlackList.txt" />
     <None Include="Assets\CSharpLua\link.xml" />
     <None Include="Assets\CSharpLua\ToLua\readme.txt" />
@@ -793,6 +762,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Base.csproj">
+      <Project>{115B52A4-B8CF-95C8-A14D-29EAACDD56D0}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{C8DA974E-1B47-BC8E-E6A8-7BF55A8B1A61}</Project>
       <Name>UnityEngine.UI</Name>
@@ -804,10 +777,6 @@
     <ProjectReference Include="Bridge.csproj">
       <Project>{E05444C1-1489-C4C7-28FE-DEFE3BBABF0E}</Project>
       <Name>Bridge</Name>
-    </ProjectReference>
-    <ProjectReference Include="Base.csproj">
-      <Project>{115B52A4-B8CF-95C8-A14D-29EAACDD56D0}</Project>
-      <Name>Base</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

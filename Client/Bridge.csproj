@@ -64,8 +64,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CSharpLua\CSharpLua\Bridge\aaa.cs" />
-    <None Include="Assets\CSharpLua\CSharpLua\Bridge\BridgeScripts.asmdef" />
+    <Compile Include="Assets\Scripts\Const\Const.cs" />
+    <Compile Include="Assets\Scripts\Framework\GameMain.cs" />
+    <Compile Include="Assets\Scripts\Framework\Net\ByteArray.cs" />
+    <Compile Include="Assets\Scripts\Framework\Net\MsgBase.cs" />
+    <Compile Include="Assets\Scripts\Framework\Net\NetManager.cs" />
+    <Compile Include="Assets\Scripts\Framework\Net\ProtoHelper.cs" />
+    <Compile Include="Assets\Scripts\Framework\Res\ABManager.cs" />
+    <Compile Include="Assets\Scripts\Framework\Res\HotFix.cs" />
+    <Compile Include="Assets\Scripts\Framework\Res\MD5.cs" />
+    <Compile Include="Assets\Scripts\Framework\Singleton\MonoSingleton.cs" />
+    <Compile Include="Assets\Scripts\Framework\Singleton\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\BasePanel.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\HotFixPanel.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\PanelManager.cs" />
+    <Compile Include="Assets\Scripts\Game\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Game\CtrlHuman.cs" />
+    <Compile Include="Assets\Scripts\Game\PawnBase.cs" />
+    <Compile Include="Assets\Scripts\Game\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Proto\LoginMsg.cs" />
+    <Compile Include="Assets\Scripts\Proto\MainMsg.cs" />
+    <Compile Include="Assets\Scripts\Proto\SysMsg.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\Common\TipPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\Login\LoginPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\Login\RegisterPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\AltarPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\FriendApplyPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\FriendPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\HandbookPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\HeadPhotoPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\MainPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Controller\MainMenu\SetPanel.cs" />
+    <Compile Include="Assets\Scripts\aaa.cs" />
+    <None Include="Assets\Scripts\BridgeScripts.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Tool/2019.4.16f1c1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
