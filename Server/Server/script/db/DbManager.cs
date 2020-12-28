@@ -1,25 +1,33 @@
-﻿
-using System;
+﻿using System;
 using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using MongoDB.Driver;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using DBEntity;
 
-public class DbManager
+public class DBManager
 {
-    public static MySqlConnection mysql;
 
 
-    //连接mysql数据库
-    public static bool Connect(string db, string ip, int port, string user, string pw) {
-        //创建MySqlConnection对象
-        mysql = new MySqlConnection();
-        //连接参数
-        string s = string.Format("Database={0};Data Source={1}; port={2};User Id={3}; Password={4}", db, ip, port, user, pw);
-        mysql.ConnectionString = s;
+    public static IMongoDatabase database;
+
+
+    /// <summary>
+    /// 连接mongoDB
+    /// </summary>
+    /// <param name="dbname">数据库名称</param>
+    /// <param name="connStr">连接URL</param>
+    /// <returns>是否连接成功</returns>
+    public static bool Connect(string dbname, string connStr) {
         //连接
         try {
-            mysql.Open();
+            //获得连接
+            var client = new MongoClient(connStr);
+            //获得数据库
+            database = client.GetDatabase(dbname);
             Console.WriteLine("[数据库]connect 成功 ");
             return true;
         }
@@ -29,14 +37,17 @@ public class DbManager
         }
     }
 
-    //测试并重连
+
+
+    /// <summary>
+    /// 测试并重连
+    /// </summary>
     private static void CheckAndReconnect() {
         try {
-            if (mysql.Ping()) {
+            if (database != null) {
                 return;
             }
-            mysql.Close();
-            mysql.Open();
+            Connect("game", "mongodb://127.0.0.1:27017");
             Console.WriteLine("[数据库] Reconnect!");
         }
         catch (Exception e) {
@@ -45,28 +56,38 @@ public class DbManager
 
     }
 
-    //判定安全字符串
+    /// <summary>
+    /// 判定安全字符串
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
     private static bool IsSafeString(string str) {
         return !Regex.IsMatch(str, @"[-|;|,|\/|\(|\)|\[|\]|\}|\{|%|@|\*|!|\']");
     }
 
 
-    //是否存在该用户 若为真，不存在该账户
-    public static bool IsAccountExist(string id) {
+    /// <summary>
+    /// 是否存在该用户 若为真，不存在该账户
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public static bool IsAccountExist(string uid) {
+        Console.WriteLine(uid);
         CheckAndReconnect();
-        //防sql注入
-        if (!DbManager.IsSafeString(id)) {
+        //防注入
+        if (!IsSafeString(uid)) {
             return false;
         }
-        //sql 语句
-        string s = string.Format("select * from account where id='{0}';", id);
+        //创建约束生成器
+        FilterDefinitionBuilder<BsonDocument> builder = Builders<BsonDocument>.Filter;
+        //约束条件
+        FilterDefinition<BsonDocument> filter = builder.Eq("uid", uid);
         //查询
         try {
-            MySqlCommand cmd = new MySqlCommand(s, mysql);
-            MySqlDataReader dataReader = cmd.ExecuteReader();
-            bool hasRows = dataReader.HasRows;
-            dataReader.Close();
-            return !hasRows;
+            //获取数据
+            IMongoCollection<BsonDocument> coll = database.GetCollection<BsonDocument>("account");
+            var result = coll.Find(filter).ToList();
+            return result.Count == 0 ? false : true;
         }
         catch (Exception e) {
             Console.WriteLine("[数据库] IsSafeString err, " + e.Message);
@@ -75,27 +96,29 @@ public class DbManager
     }
 
     //注册
-    public static bool Register(string id, string pw) {
+    public static bool Register(string uid, string pw) {
         CheckAndReconnect();
         //防sql注入
-        if (!DbManager.IsSafeString(id)) {
+        if (!IsSafeString(uid)) {
             Console.WriteLine("[数据库] Register fail, id not safe");
             return false;
         }
-        if (!DbManager.IsSafeString(pw)) {
+        if (!IsSafeString(pw)) {
             Console.WriteLine("[数据库] Register fail, pw not safe");
             return false;
         }
         //能否注册
-        if (!IsAccountExist(id)) {
+        if (IsAccountExist(uid)) {
             Console.WriteLine("[数据库] Register fail, id exist");
             return false;
         }
         //写入数据库User表
-        string sql = string.Format("insert into account set id ='{0}' ,pw ='{1}';", id, pw);
+        Account account = new Account();
+        account.uid = uid;
+        account.pw = pw;
         try {
-            MySqlCommand cmd = new MySqlCommand(sql, mysql);
-            cmd.ExecuteNonQuery();
+            IMongoCollection<MongoBaseEntity> coll = database.GetCollection<MongoBaseEntity>("account");
+            coll.InsertOne(account);
             return true;
         }
         catch (Exception e) {
@@ -104,23 +127,21 @@ public class DbManager
         }
     }
 
-
     //创建角色
-    public static bool CreatePlayer(string id) {
+    public static bool CreatePlayer(string uid) {
         CheckAndReconnect();
-        //防sql注入
-        if (!DbManager.IsSafeString(id)) {
+        //防注入
+        if (!IsSafeString(uid)) {
             Console.WriteLine("[数据库] CreatePlayer fail, id not safe");
             return false;
         }
-        //序列化
-        PlayerData playerData = new PlayerData();
-        string data = JsonConvert.SerializeObject(playerData);
-        //写入数据库
-        string sql = string.Format("insert into player set id ='{0}' ,data ='{1}';", id, data);
+        DBEntity.Player player = new DBEntity.Player();
+        player.uid = uid;
+        player.headPhoto = 0;
+        player.palyerIntroduction = "这个人很懒，什么也没有写。";
         try {
-            MySqlCommand cmd = new MySqlCommand(sql, mysql);
-            cmd.ExecuteNonQuery();
+            IMongoCollection<MongoBaseEntity> coll = database.GetCollection<MongoBaseEntity>("player");
+            coll.InsertOne(player);
             return true;
         }
         catch (Exception e) {
@@ -131,26 +152,28 @@ public class DbManager
 
 
     //检测用户名密码
-    public static bool CheckPassword(string id, string pw) {
+    public static bool CheckPassword(string uid, string pw) {
         CheckAndReconnect();
-        //防sql注入
-        if (!DbManager.IsSafeString(id)) {
+        //防注入
+        if (!IsSafeString(uid)) {
             Console.WriteLine("[数据库] CheckPassword fail, id not safe");
             return false;
         }
-        if (!DbManager.IsSafeString(pw)) {
+        if (!IsSafeString(pw)) {
             Console.WriteLine("[数据库] CheckPassword fail, pw not safe");
             return false;
         }
         //查询
-        string sql = string.Format("select * from account where id='{0}' and pw='{1}';", id, pw);
-
+        //创建约束生成器
+        FilterDefinitionBuilder<BsonDocument> builder = Builders<BsonDocument>.Filter;
+        //约束条件
+        FilterDefinition<BsonDocument> filter = builder.And(builder.Eq("uid", uid), builder.Eq("pw", pw));
+        
         try {
-            MySqlCommand cmd = new MySqlCommand(sql, mysql);
-            MySqlDataReader dataReader = cmd.ExecuteReader();
-            bool hasRows = dataReader.HasRows;
-            dataReader.Close();
-            return hasRows;
+            //获取数据
+            IMongoCollection<BsonDocument> coll = database.GetCollection<BsonDocument>("account");
+            var result = coll.Find(filter).ToList();
+            return result.Count == 0 ? false : true;
         }
         catch (Exception e) {
             Console.WriteLine("[数据库] CheckPassword err, " + e.Message);
@@ -160,30 +183,32 @@ public class DbManager
 
 
     //获取玩家数据
-    public static PlayerData GetPlayerData(string id) {
+    public static PlayerData GetPlayerData(string uid) {
         CheckAndReconnect();
-        //防sql注入
-        if (!DbManager.IsSafeString(id)) {
+        //防注入
+        if (!IsSafeString(uid)) {
             Console.WriteLine("[数据库] GetPlayerData fail, id not safe");
             return null;
         }
-
-        //sql
-        string sql = string.Format("select * from player where id ='{0}';", id);
+        //查询
+        //创建约束生成器
+        FilterDefinitionBuilder<BsonDocument> builder = Builders<BsonDocument>.Filter;
+        //约束条件
+        FilterDefinition<BsonDocument> filter = builder.Eq("uid", uid);
         try {
             //查询
-            MySqlCommand cmd = new MySqlCommand(sql, mysql);
-            MySqlDataReader dataReader = cmd.ExecuteReader();
-            if (!dataReader.HasRows) {
-                dataReader.Close();
+            //获取数据
+            IMongoCollection<BsonDocument> coll = database.GetCollection<BsonDocument>("player");
+            var result = coll.Find(filter).ToList();
+            if (!(result.Count == 0 ? false : true)) {
                 return null;
             }
-            //读取
-            dataReader.Read();
-            string data = dataReader.GetString("data");
             //反序列化
-            PlayerData playerData = JsonConvert.DeserializeObject<PlayerData>(data);
-            dataReader.Close();
+            DBEntity.Player player = BsonSerializer.Deserialize<DBEntity.Player>(result[0]);
+
+            PlayerData playerData = new PlayerData();
+            playerData.headPhoto = player.headPhoto;
+            playerData.palyerIntroduction = player.palyerIntroduction;
             return playerData;
         }
         catch (Exception e) {
@@ -194,16 +219,19 @@ public class DbManager
 
 
     //保存角色
-    public static bool UpdatePlayerData(string id, PlayerData playerData) {
+    public static bool UpdatePlayerData(string uid, PlayerData playerData) {
         CheckAndReconnect();
-        //序列化
-        string data = JsonConvert.SerializeObject(playerData);
-        //sql
-        string sql = string.Format("update player set data='{0}' where id ='{1}';", data, id);
+        //创建约束生成器
+        FilterDefinitionBuilder<BsonDocument> builder1 = Builders<BsonDocument>.Filter;
+        //约束条件
+        FilterDefinition<BsonDocument> filter = builder1.Eq("uid", uid);
+        UpdateDefinitionBuilder<BsonDocument> builder2 = Builders<BsonDocument>.Update;
+        UpdateDefinition<BsonDocument> update = builder2.Combine(builder2.Set("headPhoto", playerData.headPhoto), builder2.Set("palyerIntroduction", playerData.palyerIntroduction));
         //更新
         try {
-            MySqlCommand cmd = new MySqlCommand(sql, mysql);
-            cmd.ExecuteNonQuery();
+            //获取数据
+            IMongoCollection<BsonDocument> coll = database.GetCollection<BsonDocument>("player");
+            coll.UpdateOne(filter,update);
             return true;
         }
         catch (Exception e) {
@@ -213,31 +241,30 @@ public class DbManager
     }
 
     //获取好友列表
-    public static List<string> GetFriendList(string id) {
+    public static List<string> GetFriendList(string uid) {
         CheckAndReconnect();
         //防sql注入
-        if (!DbManager.IsSafeString(id)) {
+        if (!IsSafeString(uid)) {
             Console.WriteLine("[数据库] GetPlayerData fail, id not safe");
             return null;
         }
-        //sql
-        string sql = string.Format("select * from friend where id ='{0}';", id);
+        //创建约束生成器
+        FilterDefinitionBuilder<BsonDocument> builder = Builders<BsonDocument>.Filter;
+        //约束条件
+        FilterDefinition<BsonDocument> filter = builder.Eq("uid", uid);
         try {
             //查询
-            MySqlCommand cmd = new MySqlCommand(sql, mysql);
-            MySqlDataReader dataReader = cmd.ExecuteReader();
-            if (!dataReader.HasRows) {
-                dataReader.Close();
+            //获取数据
+            IMongoCollection<BsonDocument> coll = database.GetCollection<BsonDocument>("friend");
+            var result = coll.Find(filter).ToList();
+            if (!(result.Count == 0 ? false : true)) {
                 return null;
             }
             //读取
-
             List<string> friendList = new List<string>();
-            while (dataReader.Read()) {
-                friendList.Add(dataReader.GetString("friendId"));
-
+            foreach (var item in result) {
+                friendList.Add(BsonSerializer.Deserialize<Friend>(item).friendId);
             }
-            dataReader.Close();
             return friendList;
         }
         catch (Exception e) {
@@ -247,25 +274,27 @@ public class DbManager
     }
 
     //删除好友
-    public static bool DeleteFriend(string id, string friendId) {
+    public static bool DeleteFriend(string uid, string friendId) {
         CheckAndReconnect();
-        //防sql注入
-        if (!DbManager.IsSafeString(id)) {
+        //防注入
+        if (!IsSafeString(uid)) {
             Console.WriteLine("[数据库] DeleteFriend fail, id not safe");
             return false;
         }
-        if (!DbManager.IsSafeString(friendId)) {
+        if (!IsSafeString(friendId)) {
             Console.WriteLine("[数据库] DeleteFriend fail, friendId not safe");
             return false;
         }
-        //sql
-        string sqlOne = string.Format("delete from friend where id ='{0}' and friendId ='{1}';", id, friendId);
-        string sqlTwo = string.Format("delete from friend where id ='{0}' and friendId ='{1}';", friendId, id);
+        //创建约束生成器
+        FilterDefinitionBuilder<BsonDocument> builder = Builders<BsonDocument>.Filter;
+        //约束条件
+        FilterDefinition<BsonDocument> filter1 = builder.And(builder.Eq("uid", uid), builder.Eq("friendid", friendId));
+        FilterDefinition<BsonDocument> filter2 = builder.And(builder.Eq("uid", friendId), builder.Eq("friendid", uid));
         try {
-            MySqlCommand cmdOne = new MySqlCommand(sqlOne, mysql);
-            MySqlCommand cmdTwo = new MySqlCommand(sqlTwo, mysql);
-            cmdOne.ExecuteNonQuery();
-            cmdTwo.ExecuteNonQuery();
+            //获取数据
+            IMongoCollection<BsonDocument> coll = database.GetCollection<BsonDocument>("friend");
+            coll.DeleteMany(filter1);
+            coll.DeleteMany(filter2);
             return true;
         }
         catch (Exception e) {
@@ -275,24 +304,24 @@ public class DbManager
     }
 
     //是否是好友
-    public static bool IsFriendExist(string id, string friendId) {
+    public static bool IsFriendExist(string uid, string friendId) {
         CheckAndReconnect();
-        //防sql注入
-        if (!DbManager.IsSafeString(id)) {
+        //防注入
+        if (!IsSafeString(uid)) {
             return false;
         }
-        if (!DbManager.IsSafeString(friendId)) {
+        if (!IsSafeString(friendId)) {
             return false;
         }
-        //sql 语句
-        string s = string.Format("select * from friend where id='{0}' and friendId='{1}';", id, friendId);
+        //创建约束生成器
+        FilterDefinitionBuilder<BsonDocument> builder = Builders<BsonDocument>.Filter;
+        //约束条件
+        FilterDefinition<BsonDocument> filter = builder.And(builder.Eq("uid", uid), builder.Eq("friendid", friendId));
         //查询
         try {
-            MySqlCommand cmd = new MySqlCommand(s, mysql);
-            MySqlDataReader dataReader = cmd.ExecuteReader();
-            bool hasRows = dataReader.HasRows;
-            dataReader.Close();
-            return !hasRows;
+            IMongoCollection<BsonDocument> coll = database.GetCollection<BsonDocument>("friend");
+            var result = coll.Find(filter).ToList();
+            return result.Count == 0 ? false : true;
         }
         catch (Exception e) {
             Console.WriteLine("[数据库] IsSafeString err, " + e.Message);
@@ -301,25 +330,29 @@ public class DbManager
     }
 
     //添加好友
-    public static bool AddFriend(string id, string friendId) {
+    public static bool AddFriend(string uid, string friendId) {
         CheckAndReconnect();
         //防sql注入
-        if (!DbManager.IsSafeString(id)) {
+        if (!IsSafeString(uid)) {
             Console.WriteLine("[数据库] AddFriend fail, id not safe");
             return false;
         }
-        if (!DbManager.IsSafeString(friendId)) {
+        if (!IsSafeString(friendId)) {
             Console.WriteLine("[数据库] AddFriend fail, friendId not safe");
             return false;
         }
-        //sql
-        string sqlOne = string.Format("insert into friend (id,friendId) values ('{0}','{1}');", id, friendId);
-        string sqlTwo = string.Format("insert into friend (id,friendId) values ('{0}','{1}');", friendId, id);
+
+        Friend friend1 = new Friend();
+        friend1.uid = uid;
+        friend1.friendId = friendId;
+        Friend friend2 = new Friend();
+        friend2.uid = friendId;
+        friend2.friendId = uid;
+
         try {
-            MySqlCommand cmdOne = new MySqlCommand(sqlOne, mysql);
-            MySqlCommand cmdTwo = new MySqlCommand(sqlTwo, mysql);
-            cmdOne.ExecuteNonQuery();
-            cmdTwo.ExecuteNonQuery();
+            IMongoCollection<MongoBaseEntity> coll = database.GetCollection<MongoBaseEntity>("friend");
+            coll.InsertOne(friend1);
+            coll.InsertOne(friend2);
             return true;
         }
         catch (Exception e) {

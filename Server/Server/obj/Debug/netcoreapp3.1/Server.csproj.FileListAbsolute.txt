@@ -58,3 +58,13 @@ C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\prot
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\protobuf-net.Core.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\obj\Debug\netcoreapp3.1\Server.csprojAssemblyReference.cache
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\DnsClient.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\MongoDB.Bson.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\MongoDB.Driver.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\MongoDB.Driver.Core.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\MongoDB.Libmongocrypt.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\SharpCompress.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\win\native\libzstd.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\win\native\snappy32.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\win\native\snappy64.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\MongoDB.Driver.Legacy.dll

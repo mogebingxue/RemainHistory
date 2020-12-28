@@ -8,8 +8,8 @@ public partial class MsgHandler {
 	public static void MsgRegister(ClientState c, MsgBase msgBase){
 		MsgRegister msg = (MsgRegister)msgBase;
 		//注册
-		if(DbManager.Register(msg.id, msg.pw)){
-			DbManager.CreatePlayer(msg.id);
+		if(DBManager.Register(msg.id, msg.pw)){
+			DBManager.CreatePlayer(msg.id);
 			msg.result = 0;
 		}
 		else{
@@ -24,7 +24,7 @@ public partial class MsgHandler {
 
 		MsgLogin msg = (MsgLogin)msgBase;
 		//密码校验
-		if(!DbManager.CheckPassword(msg.id, msg.pw)){
+		if(!DBManager.CheckPassword(msg.id, msg.pw)){
 			msg.result = 1;
 			NetManager.Send(c, msg);
 			return;
@@ -46,7 +46,7 @@ public partial class MsgHandler {
 			NetManager.Close(other.state);
 		}
 		//获取玩家数据
-		PlayerData playerData = DbManager.GetPlayerData(msg.id);
+		PlayerData playerData = DBManager.GetPlayerData(msg.id);
 		if(playerData == null){
 			msg.result = 1;
 			NetManager.Send(c, msg);

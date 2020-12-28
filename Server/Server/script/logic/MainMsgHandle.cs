@@ -21,6 +21,8 @@ public partial class MsgHandler
         if (player == null) return;
         //获取头像
         player.data.palyerIntroduction = msg.palyerIntroduction;
+        //保存数据
+        DBManager.UpdatePlayerData(c.player.id, c.player.data);
         player.Send(msg);
     }
 
@@ -41,6 +43,8 @@ public partial class MsgHandler
         if (player == null) return;
         //获取头像
         player.data.headPhoto = msg.headPhoto;
+        //保存数据
+        DBManager.UpdatePlayerData(c.player.id, c.player.data);
         player.Send(msg);
     }
 
@@ -69,7 +73,7 @@ public partial class MsgHandler
         Player player = c.player;
         if (player == null) return;
         //获取FriendList
-        msg.friendIdList = DbManager.GetFriendList(c.player.id);
+        msg.friendIdList = DBManager.GetFriendList(c.player.id);
         msg.result = 0;
         player.Send(msg);
     }
@@ -79,12 +83,12 @@ public partial class MsgHandler
         Player player = c.player;
         if (player == null) return;
 
-        if (DbManager.IsAccountExist(msg.friendId)) {
+        if (DBManager.IsAccountExist(msg.friendId)) {
             msg.result = 1;
             player.Send(msg);
             return;
         }
-        if (!DbManager.IsFriendExist(msg.id, msg.friendId)) {
+        if (!DBManager.IsFriendExist(msg.id, msg.friendId)) {
             msg.result = 3;
             player.Send(msg);
             return;
@@ -104,7 +108,7 @@ public partial class MsgHandler
         MsgDeleteFriend msg = (MsgDeleteFriend)msgBase;
         Player player = c.player;
         if (player == null) return;
-        if (DbManager.DeleteFriend(player.id, msg.friendId)) {
+        if (DBManager.DeleteFriend(player.id, msg.friendId)) {
             msg.result = 0;
             player.Send(msg);
             if (PlayerManager.GetPlayer(msg.friendId) != null) {
@@ -125,7 +129,7 @@ public partial class MsgHandler
         Player player = c.player;
         if (player == null) return;
 
-        if (DbManager.AddFriend(msg.id, msg.friendId)) {
+        if (DBManager.AddFriend(msg.id, msg.friendId)) {
             msg.result = 0;
         }
         else {

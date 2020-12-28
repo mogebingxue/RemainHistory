@@ -40,6 +40,10 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.11.5, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[8.0.12, )"
@@ -47,6 +51,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
+            },
+            "mongocsharpdriver": {
+              "target": "Package",
+              "version": "[2.11.5, )"
             },
             "protobuf-net": {
               "target": "Package",
