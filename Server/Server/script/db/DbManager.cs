@@ -1,8 +1,6 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
