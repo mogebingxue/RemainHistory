@@ -9,7 +9,6 @@ using DBEntity;
 public class DBManager
 {
 
-
     public static IMongoDatabase database;
 
 
