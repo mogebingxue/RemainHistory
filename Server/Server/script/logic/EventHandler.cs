@@ -2,11 +2,11 @@
 
 public partial class EventHandler
 {
-	//客户端socket 断开连接时执行的操作
+	//客户端断开连接时执行的操作
 	public static void OnDisconnect(ClientState c){
-		Console.WriteLine("Close");
+		
 		//Player 下线
-		if(c.player != null){
+		if (c.player != null){
 			//保存数据
 			DBManager.UpdatePlayerData(c.player.id, c.player.data);
 			//移除
@@ -14,7 +14,9 @@ public partial class EventHandler
 		}
 	}
 		
-
+	/// <summary>
+	/// 超时
+	/// </summary>
 	public static void OnTimer(){
 		CheckPing();
 	}
@@ -26,7 +28,7 @@ public partial class EventHandler
 		//遍历，删除
 		foreach(ClientState s in NetManager.clients.Values){
 			if(timeNow - s.lastPingTime > NetManager.pingInterval*4){
-				Console.WriteLine("Ping Close " + s.socket.RemoteEndPoint.ToString());
+				Console.WriteLine("Ping Close " +" ID "+ s.peer.ID + " IP " + s.peer.IP);
 				NetManager.Close(s);
 				return;
 			}

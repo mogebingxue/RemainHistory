@@ -40,6 +40,10 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "ENet-CSharp": {
+              "target": "Package",
+              "version": "[2.4.5, )"
+            },
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[2.11.5, )"

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using ENet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using UnityEngine;
 public static class NetManager
 {
-    //定义套接字
-    static Socket socket;
+    //定义ENet客户端
+    public static Host client;
+    public static Peer peer;
+    public static ENet.Event netEvent;
     //接收缓冲区
     static ByteArray readBuff;
     //写入队列
@@ -41,7 +43,11 @@ public static class NetManager
     public delegate void EventListener(String err);
     //事件监听列表
     private static Dictionary<NetEvent, EventListener> eventListeners = new Dictionary<NetEvent, EventListener>();
-    //添加事件监听
+    /// <summary>
+    /// 添加事件监听
+    /// </summary>
+    /// <param name="netEvent"></param>
+    /// <param name="listener"></param>
     public static void AddEventListener(NetEvent netEvent, EventListener listener) {
         //添加事件
         if (eventListeners.ContainsKey(netEvent)) {
@@ -52,13 +58,21 @@ public static class NetManager
             eventListeners[netEvent] = listener;
         }
     }
-    //删除事件监听
+    /// <summary>
+    /// 删除事件监听
+    /// </summary>
+    /// <param name="netEvent"></param>
+    /// <param name="listener"></param>
     public static void RemoveEventListener(NetEvent netEvent, EventListener listener) {
         if (eventListeners.ContainsKey(netEvent)) {
             eventListeners[netEvent] -= listener;
         }
     }
-    //分发事件
+    /// <summary>
+    /// 分发事件
+    /// </summary>
+    /// <param name="netEvent"></param>
+    /// <param name="err"></param>
     private static void FireEvent(NetEvent netEvent, String err) {
         if (eventListeners.ContainsKey(netEvent)) {
             eventListeners[netEvent](err);
@@ -70,7 +84,11 @@ public static class NetManager
     public delegate void MsgListener(MsgBase msgBase);
     //消息监听列表
     private static Dictionary<string, MsgListener> msgListeners = new Dictionary<string, MsgListener>();
-    //添加消息监听
+    /// <summary>
+    /// 添加消息监听
+    /// </summary>
+    /// <param name="msgName"></param>
+    /// <param name="listener"></param>
     public static void AddMsgListener(string msgName, MsgListener listener) {
         //添加
         if (msgListeners.ContainsKey(msgName)) {
@@ -81,13 +99,21 @@ public static class NetManager
             msgListeners[msgName] = listener;
         }
     }
-    //删除消息监听
+    /// <summary>
+    /// 删除消息监听
+    /// </summary>
+    /// <param name="msgName"></param>
+    /// <param name="listener"></param>
     public static void RemoveMsgListener(string msgName, MsgListener listener) {
         if (msgListeners.ContainsKey(msgName)) {
             msgListeners[msgName] -= listener;
         }
     }
-    //分发消息
+    /// <summary>
+    /// 分发消息
+    /// </summary>
+    /// <param name="msgName"></param>
+    /// <param name="msgBase"></param>
     private static void FireMsg(string msgName, MsgBase msgBase) {
         if (msgListeners.ContainsKey(msgName)) {
             msgListeners[msgName](msgBase);
@@ -98,8 +124,10 @@ public static class NetManager
 
     //连接
     public static void Connect(string ip, int port) {
+
+        ENet.Library.Initialize();
         //状态判断
-        if (socket != null && socket.Connected) {
+        if (peer.IsSet) {
             Debug.Log("Connect fail, already connected!");
             return;
         }
@@ -107,19 +135,71 @@ public static class NetManager
             Debug.Log("Connect fail, isConnecting");
             return;
         }
+
+        client = new Host();
+        Address address = new Address();
+        address.SetHost(ip);
+        address.Port = (ushort)port;
+        client.Create();
+
+        peer = client.Connect(address);
+
         //初始化成员
         InitState();
         //参数设置
-        socket.NoDelay = true;
         //Connect
         isConnecting = true;
-        socket.BeginConnect(ip, port, ConnectCallback, socket);
+    }
+
+    private static void ENetUpdata() {
+        if (client == null) {
+            return;
+        }
+        if (!client.IsSet) {
+            return;
+        }
+        
+        bool polled = false;
+
+        while (!polled) {
+            if (client.CheckEvents(out netEvent) <= 0) {
+                if (client.Service(15, out netEvent) <= 0)
+                    break;
+
+                polled = true;
+            }
+
+            switch (netEvent.Type) {
+                case ENet.EventType.None:
+                    break;
+
+                case ENet.EventType.Connect:
+                    OnConnect();
+                    break;
+
+                case ENet.EventType.Disconnect:
+                    //Console.WriteLine("Client disconnected from server");
+                    Close();
+                    break;
+
+                case ENet.EventType.Timeout:
+                    OnTimeout();
+                    break;
+
+                case ENet.EventType.Receive:
+                    //Console.WriteLine("Packet received from server - Channel ID: " + netEvent.ChannelID + ", Data length: " + netEvent.Packet.Length);
+                    OnReceive(netEvent);
+                    break;
+            }
+        }
+
+
+        client.Flush();
     }
 
     //初始化状态
     private static void InitState() {
-        //Socket
-        socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
         //接收缓冲区
         readBuff = new ByteArray();
         //写入队列
@@ -142,31 +222,31 @@ public static class NetManager
         }
     }
 
-    //Connect 回调
-    private static void ConnectCallback(IAsyncResult ar) {
-        try {
-            Socket socket = (Socket)ar.AsyncState;
-            socket.EndConnect(ar);
-            Debug.Log("Socket Connect 成功 ");
-            FireEvent(NetEvent.ConnectSucc, "");
-            isConnecting = false;
-            //开始接收
-            socket.BeginReceive(readBuff.bytes, readBuff.writeIdx,
-                                            readBuff.remain, 0, ReceiveCallback, socket);
+    /// <summary>
+    /// Connect 回调
+    /// </summary>
+    private static void OnConnect() {
 
-        }
-        catch (SocketException ex) {
-            Debug.Log("Socket Connect 失败 " + ex.ToString());
-            FireEvent(NetEvent.ConnectFail, ex.ToString());
-            isConnecting = false;
-        }
+        Debug.Log("Client connected to server");
+        FireEvent(NetEvent.ConnectSucc, "");
+        isConnecting = false;
+
     }
-
-
-    //关闭连接
+    /// <summary>
+    /// 连接超时
+    /// </summary>
+    private static void OnTimeout() {
+        Debug.Log("Client connection timeout");
+        FireEvent(NetEvent.ConnectFail, "Client connection timeout");
+        isConnecting = false;
+    }
+    /// <summary>
+    /// 关闭连接
+    /// </summary>
     public static void Close() {
+
         //状态判断
-        if (socket == null || !socket.Connected) {
+        if (!peer.IsSet) {
             return;
         }
         if (isConnecting) {
@@ -178,15 +258,18 @@ public static class NetManager
         }
         //没有数据在发送
         else {
-            socket.Close();
+
             FireEvent(NetEvent.Close, "");
         }
+        client.Dispose();
+        ENet.Library.Deinitialize();
+
     }
 
     //发送数据
     public static void Send(MsgBase msg) {
         //状态判断
-        if (socket == null || !socket.Connected) {
+        if (!peer.IsSet) {
             return;
         }
         if (isConnecting) {
@@ -209,59 +292,57 @@ public static class NetManager
         Array.Copy(bodyBytes, 0, sendBytes, 2 + nameBytes.Length, bodyBytes.Length);
         //写入队列
         ByteArray ba = new ByteArray(sendBytes);
-        int count = 0;  //writeQueue的长度
         lock (writeQueue) {
             writeQueue.Enqueue(ba);
-            count = writeQueue.Count;
         }
         //send
-        if (count == 1) {
-            socket.BeginSend(sendBytes, 0, sendBytes.Length, 0, SendCallback, socket);
-        }
+
     }
 
     //Send 回调
-    public static void SendCallback(IAsyncResult ar) {
+    public static void SendUpdata() {
 
-        //获取state、EndSend的处理
-        Socket socket = (Socket)ar.AsyncState;
-        //状态判断
-        if (socket == null || !socket.Connected) {
+        if(writeQueue.Count == 0) {
             return;
         }
-        //EndSend
-        int count = socket.EndSend(ar);
         //获取写入队列第一条数据            
         ByteArray ba;
         lock (writeQueue) {
             ba = writeQueue.First();
         }
-        //完整发送
-        ba.readIdx += count;
-        if (ba.length == 0) {
-            lock (writeQueue) {
-                writeQueue.Dequeue();
-                ba = writeQueue.First();
-            }
-        }
+
         //继续发送
         if (ba != null) {
-            socket.BeginSend(ba.bytes, ba.readIdx, ba.length, 0, SendCallback, socket);
+            byte channelID = 0;
+            Packet packet = default(Packet);
+            byte[] data = ba.bytes;
+            packet.Create(data);
+            peer.Send(channelID, ref packet);
+            lock (writeQueue) {
+                writeQueue.Dequeue();
+            }
         }
         //正在关闭
         else if (isClosing) {
-            socket.Close();
+            Close();
         }
     }
 
 
 
-    //Receive 回调
-    public static void ReceiveCallback(IAsyncResult ar) {
+    /// <summary>
+    /// 接受消息
+    /// </summary>
+    /// <param name="netEvent"></param>
+    public static void OnReceive(ENet.Event netEvent) {
         try {
-            Socket socket = (Socket)ar.AsyncState;
             //获取接收数据长度
-            int count = socket.EndReceive(ar);
+            int count = netEvent.Packet.Length;
+            byte[] buffer = new byte[count];
+            netEvent.Packet.CopyTo(buffer);
+            buffer.CopyTo(readBuff.bytes, readBuff.writeIdx);
+            netEvent.Packet.Dispose();
+
             readBuff.writeIdx += count;
             //处理二进制消息
             OnReceiveData();
@@ -270,14 +351,15 @@ public static class NetManager
                 readBuff.MoveBytes();
                 readBuff.ReSize(readBuff.length * 2);
             }
-            socket.BeginReceive(readBuff.bytes, readBuff.writeIdx, readBuff.remain, 0, ReceiveCallback, socket);
         }
-        catch (SocketException ex) {
+        catch (Exception ex) {
             Debug.Log("Socket Receive fail" + ex.ToString());
         }
     }
 
-    //数据处理
+    /// <summary>
+    /// 数据处理
+    /// </summary>
     public static void OnReceiveData() {
         //消息长度
         if (readBuff.length <= 2) {
@@ -316,11 +398,15 @@ public static class NetManager
 
     //Update
     public static void Update() {
+        ENetUpdata();
+        SendUpdata();
         MsgUpdate();
         PingUpdate();
     }
 
-    //更新消息
+    /// <summary>
+    /// 更新消息
+    /// </summary>
     public static void MsgUpdate() {
         //初步判断，提升效率
         if (msgCount == 0) {

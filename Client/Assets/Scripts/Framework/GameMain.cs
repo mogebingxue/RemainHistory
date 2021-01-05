@@ -12,7 +12,6 @@ public class GameMain : MonoSingleton<GameMain>
 
     void Awake() {
         //初始化
-        //DontDestroyObjects.Add(gameObject);
         DontDestroyOnLoad(gameObject);
 
     }
@@ -35,7 +34,7 @@ public class GameMain : MonoSingleton<GameMain>
     private void OnMsgAddFriend(MsgBase msg) {
         MsgAddFriend msgAddFriend = (MsgAddFriend)msg;
         //是被添加人显示是否同意添加
-        if (msgAddFriend.friendId == GameMain.id) {
+        if (msgAddFriend.friendId == id) {
             PanelManager.Open<FriendApplyPanel>("是否同意" + msgAddFriend.id + "的好友申请？");
             FriendApplyPanel friendApplyPanel = (FriendApplyPanel)PanelManager.panels["FriendApplyPanel"];
             friendApplyPanel.id = msgAddFriend.friendId;

@@ -1,8 +1,9 @@
-﻿using System.Net.Sockets;
+﻿using ENet;
+using System.Net.Sockets;
 
 public class ClientState
 {
-	public Socket socket; 
+	public Peer peer;
 	public ByteArray readBuff = new ByteArray(); 
 	//Ping
 	public long lastPingTime = 0;

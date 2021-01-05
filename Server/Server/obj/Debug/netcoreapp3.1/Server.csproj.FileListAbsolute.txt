@@ -41,12 +41,6 @@ C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Serv
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\MySql.Data.dll
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\System.Security.Permissions.dll
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
 C:\Project\UnityProject\RemainHistory\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
 C:\Project\UnityProject\RemainHistory\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
@@ -56,7 +50,6 @@ C:\Project\UnityProject\RemainHistory\Server\Server\obj\Debug\netcoreapp3.1\Serv
 C:\Project\UnityProject\RemainHistory\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\protobuf-net.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\protobuf-net.Core.dll
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\obj\Debug\netcoreapp3.1\Server.csprojAssemblyReference.cache
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\DnsClient.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\MongoDB.Bson.dll
@@ -68,3 +61,10 @@ C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runt
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\win\native\snappy32.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\win\native\snappy64.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\MongoDB.Driver.Legacy.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\enet.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\enet.dylib
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\libenet.so
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\ENet-CSharp.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\linux\native\libenet.so
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\osx\native\libenet.dylib
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\win\native\enet.dll

@@ -272,6 +272,9 @@
     <Reference Include="Debugger">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/Debugger.dll</HintPath>
     </Reference>
+    <Reference Include="ENet-CSharp">
+      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/ENet-CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="protobuf-net">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/protobuf-net.dll</HintPath>
     </Reference>

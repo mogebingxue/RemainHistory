@@ -11,6 +11,32 @@
           "lib/netstandard2.1/DnsClient.dll": {}
         }
       },
+      "ENet-CSharp/2.4.5": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/ENet-CSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/ENet-CSharp.dll": {}
+        },
+        "build": {
+          "build/ENet-CSharp.targets": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux/native/libenet.so": {
+            "assetType": "native",
+            "rid": "linux"
+          },
+          "runtimes/osx/native/libenet.dylib": {
+            "assetType": "native",
+            "rid": "osx"
+          },
+          "runtimes/win/native/enet.dll": {
+            "assetType": "native",
+            "rid": "win"
+          }
+        }
+      },
       "Microsoft.NETCore.Platforms/2.1.2": {
         "type": "package",
         "compile": {
@@ -1368,6 +1394,29 @@
         "lib/netstandard2.0/DnsClient.xml",
         "lib/netstandard2.1/DnsClient.dll",
         "lib/netstandard2.1/DnsClient.xml"
+      ]
+    },
+    "ENet-CSharp/2.4.5": {
+      "sha512": "O6164teTtfJusH+H3XutzduMxwKWgJlEvvq0dhORHVwfJN/3K8EmN4Ai0z/0uRWNMo0MpcYhsGuXuqz1fr/mLQ==",
+      "type": "package",
+      "path": "enet-csharp/2.4.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/ENet-CSharp.targets",
+        "enet-csharp.2.4.5.nupkg.sha512",
+        "enet-csharp.nuspec",
+        "lib/net35/ENet-CSharp.dll",
+        "lib/netcoreapp3.1/ENet-CSharp.deps.json",
+        "lib/netcoreapp3.1/ENet-CSharp.dll",
+        "lib/netcoreapp3.1/ENet-CSharp.pdb",
+        "lib/netstandard2.1/ENet-CSharp.deps.json",
+        "lib/netstandard2.1/ENet-CSharp.dll",
+        "lib/netstandard2.1/ENet-CSharp.pdb",
+        "license/license.txt",
+        "runtimes/linux/native/libenet.so",
+        "runtimes/osx/native/libenet.dylib",
+        "runtimes/win/native/enet.dll"
       ]
     },
     "Microsoft.NETCore.Platforms/2.1.2": {
@@ -4881,6 +4930,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "ENet-CSharp >= 2.4.5",
       "MongoDB.Driver >= 2.11.5",
       "mongocsharpdriver >= 2.11.5",
       "protobuf-net >= 3.0.62"
@@ -4925,6 +4975,10 @@
       "netcoreapp3.1": {
         "targetAlias": "netcoreapp3.1",
         "dependencies": {
+          "ENet-CSharp": {
+            "target": "Package",
+            "version": "[2.4.5, )"
+          },
           "MongoDB.Driver": {
             "target": "Package",
             "version": "[2.11.5, )"

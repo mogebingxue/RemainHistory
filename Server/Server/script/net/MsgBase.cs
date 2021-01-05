@@ -22,7 +22,7 @@ public class MsgBase
     public static byte[] EncodeName(MsgBase msgBase){
 		//名字bytes和长度
 		byte[] nameBytes = System.Text.Encoding.UTF8.GetBytes(msgBase.protoName);
-		Int16 len = (Int16)nameBytes.Length;
+        short len = (short)nameBytes.Length;
 		//申请bytes数值
 		byte[] bytes = new byte[2+len];
 		//组装2字节的长度信息
@@ -41,8 +41,8 @@ public class MsgBase
 		if(offset + 2 > bytes.Length){
 			return "";
 		}
-		//读取长度
-		Int16 len = (Int16)((bytes[offset+1] << 8 )| bytes[offset] );
+        //读取长度
+        int len = ((bytes[offset+1] << 8 )| bytes[offset] );
 		if(len <= 0){
 			return "";
 		}
