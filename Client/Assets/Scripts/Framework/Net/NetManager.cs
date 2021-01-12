@@ -295,11 +295,11 @@ public static class NetManager
         lock (writeQueue) {
             writeQueue.Enqueue(ba);
         }
-        //send
-
     }
 
-    //Send 回调
+    /// <summary>
+    /// 发送发送队列的数据
+    /// </summary>
     public static void SendUpdata() {
 
         if(writeQueue.Count == 0) {

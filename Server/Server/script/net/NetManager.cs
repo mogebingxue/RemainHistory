@@ -15,11 +15,15 @@ class NetManager
     //ping 间隔
     public static long pingInterval = 30;
 
+    /// <summary>
+    /// 开启ENet服务，进行监听
+    /// </summary>
+    /// <param name="listenPort"></param>
     public static void StartLoop(int listenPort) {
         //启动ENet
         ENet.Library.Initialize();
 
-        ushort port = Const.Port;
+        ushort port = (ushort)listenPort;
         int maxClients = 500;
         using (Host server = new Host()) {
             Address address = new Address();

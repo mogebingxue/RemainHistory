@@ -68,3 +68,4 @@ C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\ENet
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\linux\native\libenet.so
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\osx\native\libenet.dylib
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\win\native\enet.dll
+C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll

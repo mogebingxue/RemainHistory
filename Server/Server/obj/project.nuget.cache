@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8rw15pdsk2V3mudsBeuIvmu4f4oJ2CTBpKqO5WZ1GJJQ5P0kScMsMu3UbdcPJoCR5WrV/aoPT1D5tfLaKG/6IQ==",
+  "dgSpecHash": "SmEHXGADaHUgq46hcbLjHxjjK8hNd1O2yo9d4ad1O+oYIp8Fa6glkFIsvJqG/KzJvS7FVh81ZG69R/dz/BSm7Q==",
   "success": true,
   "projectFilePath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\Server\\Server.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\mongodb.driver.core\\2.11.5\\mongodb.driver.core.2.11.5.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\mongodb.libmongocrypt\\1.0.0\\mongodb.libmongocrypt.1.0.0.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\protobuf-net\\3.0.62\\protobuf-net.3.0.62.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\protobuf-net.core\\3.0.62\\protobuf-net.core.3.0.62.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
