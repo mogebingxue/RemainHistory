@@ -1,0 +1,108 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "YT/1.0.0": {
+        "dependencies": {
+          "ENet-CSharp": "2.4.5",
+          "Newtonsoft.Json": "12.0.3",
+          "protobuf-net": "3.0.73"
+        },
+        "runtime": {
+          "YT.dll": {}
+        }
+      },
+      "ENet-CSharp/2.4.5": {
+        "runtime": {
+          "lib/netcoreapp3.1/ENet-CSharp.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux/native/libenet.so": {
+            "rid": "linux",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx/native/libenet.dylib": {
+            "rid": "osx",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win/native/enet.dll": {
+            "rid": "win",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.3.23909"
+          }
+        }
+      },
+      "protobuf-net/3.0.73": {
+        "dependencies": {
+          "protobuf-net.Core": "3.0.73"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/protobuf-net.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.73.29921"
+          }
+        }
+      },
+      "protobuf-net.Core/3.0.73": {
+        "runtime": {
+          "lib/netcoreapp3.1/protobuf-net.Core.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.73.29921"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "YT/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ENet-CSharp/2.4.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-O6164teTtfJusH+H3XutzduMxwKWgJlEvvq0dhORHVwfJN/3K8EmN4Ai0z/0uRWNMo0MpcYhsGuXuqz1fr/mLQ==",
+      "path": "enet-csharp/2.4.5",
+      "hashPath": "enet-csharp.2.4.5.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "path": "newtonsoft.json/12.0.3",
+      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "protobuf-net/3.0.73": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rcqDbIs7bmsctQk7Jo0zAI5BBDyjlKqzGqCHbtlHKRDyJ5AFPBClS3G5KvITS52hSoobUTWW5NsUmB7Dt/0iaA==",
+      "path": "protobuf-net/3.0.73",
+      "hashPath": "protobuf-net.3.0.73.nupkg.sha512"
+    },
+    "protobuf-net.Core/3.0.73": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UKQlQY4STocSar2WoGA2mJegx3E4rTOa+ur2O8YKmhpJII/VfLILkVAF7Cyko2qljFAZ0CuOTy5uNu5JE/ZQ2A==",
+      "path": "protobuf-net.core/3.0.73",
+      "hashPath": "protobuf-net.core.3.0.73.nupkg.sha512"
+    }
+  }
+}

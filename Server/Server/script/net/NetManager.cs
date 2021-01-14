@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using ENet;
 using System.Linq;
+using YT;
 
 class NetManager
 {
@@ -19,7 +20,7 @@ class NetManager
     /// 开启ENet服务，进行监听
     /// </summary>
     /// <param name="listenPort"></param>
-    public static void StartLoop(int listenPort) {
+    public static void StartLoop(int listenPort,string listenIP) {
         //启动ENet
         ENet.Library.Initialize();
 
@@ -27,6 +28,7 @@ class NetManager
         int maxClients = 500;
         using (Host server = new Host()) {
             Address address = new Address();
+            address.SetIP(listenIP);
             address.Port = port;
             server.Create(address, maxClients);
             Console.WriteLine("[服务器]启动成功");

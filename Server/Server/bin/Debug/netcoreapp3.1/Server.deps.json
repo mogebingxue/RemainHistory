@@ -11,8 +11,8 @@
           "ENet-CSharp": "2.4.5",
           "MongoDB.Driver": "2.11.5",
           "Newtonsoft.Json": "12.0.3",
-          "mongocsharpdriver": "2.11.5",
-          "protobuf-net": "3.0.62"
+          "YT": "1.0.0",
+          "mongocsharpdriver": "2.11.5"
         },
         "runtime": {
           "Server.dll": {}
@@ -193,22 +193,22 @@
           }
         }
       },
-      "protobuf-net/3.0.62": {
+      "protobuf-net/3.0.73": {
         "dependencies": {
-          "protobuf-net.Core": "3.0.62"
+          "protobuf-net.Core": "3.0.73"
         },
         "runtime": {
           "lib/netcoreapp3.1/protobuf-net.dll": {
             "assemblyVersion": "3.0.0.0",
-            "fileVersion": "3.0.62.765"
+            "fileVersion": "3.0.73.29921"
           }
         }
       },
-      "protobuf-net.Core/3.0.62": {
+      "protobuf-net.Core/3.0.73": {
         "runtime": {
           "lib/netcoreapp3.1/protobuf-net.Core.dll": {
             "assemblyVersion": "3.0.0.0",
-            "fileVersion": "3.0.62.765"
+            "fileVersion": "3.0.73.29921"
           }
         }
       },
@@ -830,6 +830,16 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0"
         }
+      },
+      "YT/1.0.0": {
+        "dependencies": {
+          "ENet-CSharp": "2.4.5",
+          "Newtonsoft.Json": "12.0.3",
+          "protobuf-net": "3.0.73"
+        },
+        "runtime": {
+          "YT.dll": {}
+        }
       }
     }
   },
@@ -923,19 +933,19 @@
       "path": "newtonsoft.json/12.0.3",
       "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
     },
-    "protobuf-net/3.0.62": {
+    "protobuf-net/3.0.73": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-EqdVJU6BXj6SVMcZObrUV5DUThRyvWBn8jKRaTccgdB3NC/DAjNDABz85luptyPMxabWaCBYcWp3S8z9Qtbyyw==",
-      "path": "protobuf-net/3.0.62",
-      "hashPath": "protobuf-net.3.0.62.nupkg.sha512"
+      "sha512": "sha512-rcqDbIs7bmsctQk7Jo0zAI5BBDyjlKqzGqCHbtlHKRDyJ5AFPBClS3G5KvITS52hSoobUTWW5NsUmB7Dt/0iaA==",
+      "path": "protobuf-net/3.0.73",
+      "hashPath": "protobuf-net.3.0.73.nupkg.sha512"
     },
-    "protobuf-net.Core/3.0.62": {
+    "protobuf-net.Core/3.0.73": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-UfLUKkMe2VhFvlY1kwm0wzg1rGU0/2NElvKcQweB3TGGD+MBtGQ5sQA9ZFPRjqi0n/fDF2oq0D0oAYFSwVpHTg==",
-      "path": "protobuf-net.core/3.0.62",
-      "hashPath": "protobuf-net.core.3.0.62.nupkg.sha512"
+      "sha512": "sha512-UKQlQY4STocSar2WoGA2mJegx3E4rTOa+ur2O8YKmhpJII/VfLILkVAF7Cyko2qljFAZ0CuOTy5uNu5JE/ZQ2A==",
+      "path": "protobuf-net.core/3.0.73",
+      "hashPath": "protobuf-net.core.3.0.73.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
@@ -1440,6 +1450,11 @@
       "sha512": "sha512-5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
+    },
+    "YT/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

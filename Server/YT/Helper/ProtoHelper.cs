@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Server.script.net
+namespace YT
 {
-    class ProtoHelper
+    public class ProtoHelper
     {
 
         public static byte[] Serialize<T>(T t) {

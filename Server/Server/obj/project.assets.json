@@ -216,10 +216,10 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
-      "protobuf-net/3.0.62": {
+      "protobuf-net/3.0.73": {
         "type": "package",
         "dependencies": {
-          "protobuf-net.Core": "3.0.62"
+          "protobuf-net.Core": "3.0.73"
         },
         "compile": {
           "lib/netcoreapp3.1/protobuf-net.dll": {}
@@ -228,7 +228,7 @@
           "lib/netcoreapp3.1/protobuf-net.dll": {}
         }
       },
-      "protobuf-net.Core/3.0.62": {
+      "protobuf-net.Core/3.0.73": {
         "type": "package",
         "compile": {
           "lib/netcoreapp3.1/protobuf-net.Core.dll": {}
@@ -1379,6 +1379,21 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
+      },
+      "YT/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "ENet-CSharp": "2.4.5",
+          "Newtonsoft.Json": "12.0.3",
+          "protobuf-net": "3.0.73"
+        },
+        "compile": {
+          "bin/placeholder/YT.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/YT.dll": {}
+        }
       }
     }
   },
@@ -1651,10 +1666,10 @@
         "packageIcon.png"
       ]
     },
-    "protobuf-net/3.0.62": {
-      "sha512": "EqdVJU6BXj6SVMcZObrUV5DUThRyvWBn8jKRaTccgdB3NC/DAjNDABz85luptyPMxabWaCBYcWp3S8z9Qtbyyw==",
+    "protobuf-net/3.0.73": {
+      "sha512": "rcqDbIs7bmsctQk7Jo0zAI5BBDyjlKqzGqCHbtlHKRDyJ5AFPBClS3G5KvITS52hSoobUTWW5NsUmB7Dt/0iaA==",
       "type": "package",
-      "path": "protobuf-net/3.0.62",
+      "path": "protobuf-net/3.0.73",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1668,14 +1683,14 @@
         "lib/netstandard2.0/protobuf-net.xml",
         "lib/netstandard2.1/protobuf-net.dll",
         "lib/netstandard2.1/protobuf-net.xml",
-        "protobuf-net.3.0.62.nupkg.sha512",
+        "protobuf-net.3.0.73.nupkg.sha512",
         "protobuf-net.nuspec"
       ]
     },
-    "protobuf-net.Core/3.0.62": {
-      "sha512": "UfLUKkMe2VhFvlY1kwm0wzg1rGU0/2NElvKcQweB3TGGD+MBtGQ5sQA9ZFPRjqi0n/fDF2oq0D0oAYFSwVpHTg==",
+    "protobuf-net.Core/3.0.73": {
+      "sha512": "UKQlQY4STocSar2WoGA2mJegx3E4rTOa+ur2O8YKmhpJII/VfLILkVAF7Cyko2qljFAZ0CuOTy5uNu5JE/ZQ2A==",
       "type": "package",
-      "path": "protobuf-net.core/3.0.62",
+      "path": "protobuf-net.core/3.0.73",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1689,7 +1704,7 @@
         "lib/netstandard2.0/protobuf-net.Core.xml",
         "lib/netstandard2.1/protobuf-net.Core.dll",
         "lib/netstandard2.1/protobuf-net.Core.xml",
-        "protobuf-net.core.3.0.62.nupkg.sha512",
+        "protobuf-net.core.3.0.73.nupkg.sha512",
         "protobuf-net.core.nuspec"
       ]
     },
@@ -4966,6 +4981,11 @@
         "system.xml.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
+    },
+    "YT/1.0.0": {
+      "type": "project",
+      "path": "../YT/YT.csproj",
+      "msbuildProject": "../YT/YT.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4973,8 +4993,8 @@
       "ENet-CSharp >= 2.4.5",
       "MongoDB.Driver >= 2.11.5",
       "Newtonsoft.Json >= 12.0.3",
-      "mongocsharpdriver >= 2.11.5",
-      "protobuf-net >= 3.0.62"
+      "YT >= 1.0.0",
+      "mongocsharpdriver >= 2.11.5"
     ]
   },
   "packageFolders": {
@@ -5003,7 +5023,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Project\\UnityProject\\RemainHistory\\Server\\YT\\YT.csproj": {
+              "projectPath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\YT\\YT.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -5031,10 +5055,6 @@
           "mongocsharpdriver": {
             "target": "Package",
             "version": "[2.11.5, )"
-          },
-          "protobuf-net": {
-            "target": "Package",
-            "version": "[3.0.62, )"
           }
         },
         "imports": [

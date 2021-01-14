@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "zYD0j69gM80yOICLZeGMtMZSOs98Ms2sKgx+9cVC3ZVKzsCzhTUdGqQQWEFXCqFZeLphy7jX1f1Gybhf34WImA==",
+  "success": true,
+  "projectFilePath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\YT\\YT.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\enet-csharp\\2.4.5\\enet-csharp.2.4.5.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\protobuf-net\\3.0.73\\protobuf-net.3.0.73.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\protobuf-net.core\\3.0.73\\protobuf-net.core.3.0.73.nupkg.sha512"
+  ],
+  "logs": []
+}
