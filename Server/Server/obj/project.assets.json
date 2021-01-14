@@ -1379,21 +1379,6 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
-      },
-      "YT/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "dependencies": {
-          "ENet-CSharp": "2.4.5",
-          "Newtonsoft.Json": "12.0.3",
-          "protobuf-net": "3.0.73"
-        },
-        "compile": {
-          "bin/placeholder/YT.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/YT.dll": {}
-        }
       }
     }
   },
@@ -4981,11 +4966,6 @@
         "system.xml.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
-    },
-    "YT/1.0.0": {
-      "type": "project",
-      "path": "../YT/YT.csproj",
-      "msbuildProject": "../YT/YT.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4993,8 +4973,8 @@
       "ENet-CSharp >= 2.4.5",
       "MongoDB.Driver >= 2.11.5",
       "Newtonsoft.Json >= 12.0.3",
-      "YT >= 1.0.0",
-      "mongocsharpdriver >= 2.11.5"
+      "mongocsharpdriver >= 2.11.5",
+      "protobuf-net >= 3.0.73"
     ]
   },
   "packageFolders": {
@@ -5023,11 +5003,7 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {
-            "C:\\Project\\UnityProject\\RemainHistory\\Server\\YT\\YT.csproj": {
-              "projectPath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\YT\\YT.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {
@@ -5055,6 +5031,10 @@
           "mongocsharpdriver": {
             "target": "Package",
             "version": "[2.11.5, )"
+          },
+          "protobuf-net": {
+            "target": "Package",
+            "version": "[3.0.73, )"
           }
         },
         "imports": [

@@ -12,9 +12,9 @@ namespace YT
         /// <summary>客户端Peer及状态信息</summary>
         public Dictionary<Peer, ClientState> Clients = new Dictionary<Peer, ClientState>();
         /// <summary>注册的回调函数</summary>
-        public Dictionary<string, MethodInfo> Routers;
+        public Dictionary<string, MethodInfo> Routers = new Dictionary<string, MethodInfo>();
         /// <summary>待处理的消息队列</summary>
-        public Queue<Request> Requests;
+        public Queue<Request> Requests = new Queue<Request>();
         /// <summary>ping 间隔</summary>
         public long pingInterval = 30;
 
@@ -51,7 +51,10 @@ namespace YT
         /// 启动服务器
         /// </summary>
         public void Start() {
-            Console.WriteLine("[START]Server Name: {0}, IP: {1}, Port {2} ", Name, ip, this.port);
+            if(isCreate == false) {
+                return;
+            }
+            Console.WriteLine("[START]Server Name: {0}, IP: {1}, Port {2} ", Name, ip, port);
             //启动ENet
             Library.Initialize();
             using (server = new Host()) {
@@ -64,12 +67,11 @@ namespace YT
                 FireMsgHandle.Start();
                 while (!Console.KeyAvailable) {
                     bool polled = false;
-
                     while (!polled) {
+                        
                         if (server.CheckEvents(out netEvent) <= 0) {
                             if (server.Service(15, out netEvent) <= 0)
                                 break;
-
                             polled = true;
                         }
                         switch (netEvent.Type) {
@@ -106,18 +108,19 @@ namespace YT
         /// 处理消息回调的线程
         /// </summary>
         private void StartMsgHandle() {
+            
             Request request;
-            while (Requests.Count>0) {
+            while (Requests.Count!=0) {
+                Console.WriteLine("处理回调线程启动");
                 request = Requests.Dequeue();
                 //分发消息
                 object[] o = { request.Peer, request.Msg };
                 Console.WriteLine("Receive " + request.Name);
-                if (Routers.ContainsKey(request.Name)) {
-                    Routers[request.Name].Invoke(null, o);
+                if (!Routers.ContainsKey(request.Name)) {
+                    AddRouter(request.Name);
                 }
-                else {
-                    Console.WriteLine("Router 未注册 " + request.Name);
-                }
+                Routers[request.Name].Invoke(null, o);
+
             }
         }
 
@@ -143,7 +146,7 @@ namespace YT
             MethodInfo mi = typeof(MsgHandler).GetMethod(name);
             //如果得到的方法为空，则不加入
             if (mi == null) {
-                return;
+                throw new Exception("无此回调函数!");
             }
             Routers.Add(name, mi);
         }
@@ -155,15 +158,6 @@ namespace YT
                 return;
             }
             Routers.Remove(name);
-        }
-
-        /// <summary>
-        /// 获取时间戳
-        /// </summary>
-        /// <returns></returns>
-        public static long GetTimeStamp() {
-            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return Convert.ToInt64(ts.TotalSeconds);
         }
     }
 }

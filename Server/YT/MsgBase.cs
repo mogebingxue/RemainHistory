@@ -18,6 +18,7 @@ namespace YT
 	    public static MsgBase Decode(string protoName, byte[] bytes, int offset, int count) {
 			byte[] bodyBytes = new byte[count];
 			Array.Copy(bytes, offset, bodyBytes, 0, count);
+			Console.WriteLine(Type.GetType(protoName)+"sss");
 	        return (MsgBase)ProtoHelper.Deserialize(bodyBytes, Type.GetType(protoName));
 	    }
 	    //编码协议名（2字节长度+字符串）

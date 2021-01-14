@@ -4,11 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{251A571C-F84C-4B0A-AD6E-94B626028E04}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B40664D4-A1D1-46B1-9DE5-B08D873B8043} = {B40664D4-A1D1-46B1-9DE5-B08D873B8043}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YT", "YT\YT.csproj", "{B40664D4-A1D1-46B1-9DE5-B08D873B8043}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +15,6 @@ Global
 		{251A571C-F84C-4B0A-AD6E-94B626028E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{251A571C-F84C-4B0A-AD6E-94B626028E04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{251A571C-F84C-4B0A-AD6E-94B626028E04}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B40664D4-A1D1-46B1-9DE5-B08D873B8043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B40664D4-A1D1-46B1-9DE5-B08D873B8043}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B40664D4-A1D1-46B1-9DE5-B08D873B8043}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B40664D4-A1D1-46B1-9DE5-B08D873B8043}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,10 +10,7 @@
     <PackageReference Include="mongocsharpdriver" Version="2.11.5" />
     <PackageReference Include="MongoDB.Driver" Version="2.11.5" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\YT\YT.csproj" />
+    <PackageReference Include="protobuf-net" Version="3.0.73" />
   </ItemGroup>
 
 </Project>

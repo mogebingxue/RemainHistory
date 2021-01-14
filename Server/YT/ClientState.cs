@@ -12,7 +12,7 @@ namespace YT
         //客户端的Peer
         public Peer Peer;
         //player不必包含，应交给子类实现（或者包含它的一个类）
-        public ByteArray readBuff = new ByteArray();
+        private ByteArray readBuff = new ByteArray();
         //Ping
         public long LastPingTime = 0;
 
@@ -66,6 +66,7 @@ namespace YT
         /// 客户端接受消息时，需要执行的方法
         /// </summary>
         public void OnReceive(Event netEvent) {
+
             //接收
             int count = 0;
             //缓冲区不够，清除，若依旧不够，只能返回
@@ -100,7 +101,7 @@ namespace YT
             //消息处理
             readBuff.writeIdx += count;
             //处理二进制消息
-            //OnReceiveData(state);
+            OnReceiveData();
             //移动缓冲区
             readBuff.CheckAndMoveBytes();
         }
@@ -143,6 +144,7 @@ namespace YT
             Request request = new Request();
             request.Peer = Peer;
             request.Name = protoName;
+            
             request.Msg = msg;
             server.Requests.Enqueue(request);
             //继续读取消息

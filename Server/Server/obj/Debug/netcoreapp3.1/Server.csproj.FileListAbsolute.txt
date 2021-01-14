@@ -69,5 +69,3 @@ C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runt
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\osx\native\libenet.dylib
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\runtimes\win\native\enet.dll
 C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\YT.dll
-C:\Project\UnityProject\RemainHistory\Server\Server\bin\Debug\netcoreapp3.1\YT.pdb
