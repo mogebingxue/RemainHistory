@@ -158,7 +158,7 @@ public static class NetManager
         if (!client.IsSet) {
             return;
         }
-        
+
         bool polled = false;
 
         while (!polled) {
@@ -302,7 +302,7 @@ public static class NetManager
     /// </summary>
     public static void SendUpdata() {
 
-        if(writeQueue.Count == 0) {
+        if (writeQueue.Count == 0) {
             return;
         }
         //获取写入队列第一条数据            
