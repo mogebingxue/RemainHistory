@@ -9,6 +9,7 @@ namespace YT
 {
     public class Server
     {
+        
         /// <summary>客户端Peer及状态信息</summary>
         public Dictionary<Peer, Connection> Clients = new Dictionary<Peer, Connection>();
         /// <summary>注册的回调函数</summary>
