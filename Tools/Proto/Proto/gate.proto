@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package gate;
+
+message MsgPing
+{
+                  
+}
+message MsgPong
+{
+                  
+}

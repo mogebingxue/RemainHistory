@@ -16,10 +16,9 @@
 
   <ItemGroup>
     <PackageReference Include="ENet-CSharp" Version="2.4.5" />
-    <PackageReference Include="mongocsharpdriver" Version="2.11.5" />
-    <PackageReference Include="MongoDB.Driver" Version="2.11.5" />
+    <PackageReference Include="Google.Protobuf" Version="3.14.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="protobuf-net" Version="3.0.73" />
   </ItemGroup>
 
 </Project>

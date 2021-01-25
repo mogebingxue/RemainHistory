@@ -44,21 +44,17 @@
               "target": "Package",
               "version": "[2.4.5, )"
             },
+            "Google.Protobuf": {
+              "target": "Package",
+              "version": "[3.14.0, )"
+            },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.11.5, )"
+              "version": "[2.11.6, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
-            },
-            "mongocsharpdriver": {
-              "target": "Package",
-              "version": "[2.11.5, )"
-            },
-            "protobuf-net": {
-              "target": "Package",
-              "version": "[3.0.73, )"
             }
           },
           "imports": [

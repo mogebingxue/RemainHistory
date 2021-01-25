@@ -1,55 +1,31 @@
 syntax = "proto3";
 
-package msg;
+package login;
 
-message SignUpResponse
+//注册
+message MsgRegister
 {
-	  int32 errorCode = 1;
-	  float version = 2;
+                  //客户端发
+	  string id = 1;
+	  string pw = 2;
+	  //服务端回
+	  int32 result = 3;
 }
 
-
-message TosChat
+//登录
+message MsgLogin
 {
-	  string name = 1;
-	  string content = 2;
+	  //客户端发
+	  string id = 1;
+	  string pw = 2;
+	  //服务端回
+	  int32 result = 3;
 }
 
-message TocChat
+//踢人
+message MsgKick
 {
-	  string name = 1;
-	  string content = 2;
+                  //服务端回
+	  int32 result = 1;
 }
 
-message Login
-{
-	string account = 1;
-	string passward =2;
-}
-
-
-message PlayerBaseInfo
-	{
-		uint32 PlayerID = 1;
-		string Name = 2;
-
-	}
-
-message LoginSuccessfull
-{
-	
-	PlayerBaseInfo playerBaseInfo  = 1;
-}
-
- 
-message LoginFaild
-{
-	enum ErrorCode
-	{
-		 AccountOrPasswardNotMatch = 0;
-		 AccIDInvalid = 1;
-		 LoginRepeat = 2;
-		 InnerError = 3;
-	}
-	ErrorCode code = 1;
-}

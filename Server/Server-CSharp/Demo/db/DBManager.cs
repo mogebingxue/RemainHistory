@@ -238,7 +238,7 @@ public class DBManager
     }
 
     //获取好友列表
-    public static List<string> GetFriendList(string uid) {
+    public static string GetFriendList(string uid) {
         CheckAndReconnect();
         //防sql注入
         if (!IsSafeString(uid)) {
@@ -258,9 +258,9 @@ public class DBManager
                 return null;
             }
             //读取
-            List<string> friendList = new List<string>();
+            string friendList = "";
             foreach (var item in result) {
-                friendList.Add(BsonSerializer.Deserialize<Friend>(item).friendId);
+                friendList += BsonSerializer.Deserialize<Friend>(item).friendId+",";
             }
             return friendList;
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Collections.Generic;
 using YT;
 
@@ -26,7 +27,7 @@ public class PlayerManager
 		players.Remove(id);
 	}
 	//广播
-    public static void Broadcast(MsgBase msgBase) {
+    public static void Broadcast(IMessage msgBase) {
         foreach (Player player in players.Values) {
 			player.Send(msgBase);
         }

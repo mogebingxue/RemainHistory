@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using YT;
 
 public class Player {
@@ -15,7 +16,7 @@ public class Player {
 	public PlayerData data;
 
 	//发送信息
-	public void Send(MsgBase msgBase){
+	public void Send(IMessage msgBase){
 		state.Send(msgBase);
 	}
 

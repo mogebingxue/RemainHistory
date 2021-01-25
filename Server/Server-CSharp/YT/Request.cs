@@ -9,7 +9,7 @@ namespace YT
     {
         public Peer Peer;
         public string Name;
-        public MsgBase Msg;
+        public byte[] Msg;
 
     }
 }

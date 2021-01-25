@@ -1,4 +1,5 @@
 ﻿using ENet;
+using Google.Protobuf;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -128,41 +129,7 @@ namespace YT
         /// </summary>
         /// <param name="user"></param>
         private void OnReceiveData() {
-            //消息长度
-            if (readBuff.length <= 2) {
-                return;
-            }
-            //消息体长度
-            int readIdx = readBuff.readIdx;
-            byte[] bytes = readBuff.bytes;
-            Int16 bodyLength = (Int16)((bytes[readIdx + 1] << 8) | bytes[readIdx]);
-            if (readBuff.length < bodyLength) {
-                return;
-            }
-            readBuff.readIdx += 2;
-            //解析协议名
-            int nameCount = 0;
-            string protoName = MsgBase.DecodeName(readBuff.bytes, readBuff.readIdx, out nameCount);
-            if (protoName == "") {
-                Console.WriteLine("OnReceiveData MsgBase.DecodeName fail");
-                //Close(user);
-                return;
-            }
-            readBuff.readIdx += nameCount;
-            //解析协议体
-            int bodyCount = bodyLength - nameCount;
-            if (bodyCount < 0) {
-                Console.WriteLine("OnReceiveData fail, bodyCount <0 ");
-                //Close(user);
-                return;
-            }
-            MsgBase msg = MsgBase.Decode(protoName, readBuff.bytes, readBuff.readIdx, bodyCount);
-            readBuff.readIdx += bodyCount;
-            readBuff.CheckAndMoveBytes();
-            Request request = new Request();
-            request.Peer = Peer;
-            request.Name = protoName;
-            request.Msg = msg;
+            Request request = MsgHelper.Decode(readBuff, Peer);
             server.Requests.Enqueue(request);
             //继续读取消息
             if (readBuff.length > 2) {
@@ -173,19 +140,8 @@ namespace YT
         /// <summary>
         /// 发送数据
         /// </summary>
-        public void Send(MsgBase msg) {
-            //数据编码
-            byte[] nameBytes = MsgBase.EncodeName(msg);
-            byte[] bodyBytes = MsgBase.Encode(msg);
-            int len = nameBytes.Length + bodyBytes.Length;
-            byte[] sendBytes = new byte[2 + len];
-            //组装长度
-            sendBytes[0] = (byte)(len % 256);
-            sendBytes[1] = (byte)(len / 256);
-            //组装名字
-            Array.Copy(nameBytes, 0, sendBytes, 2, nameBytes.Length);
-            //组装消息体
-            Array.Copy(bodyBytes, 0, sendBytes, 2 + nameBytes.Length, bodyBytes.Length);
+        public void Send(IMessage msg) {
+            byte[] sendBytes = MsgHelper.Encode(msg);
             //发送
             try {
                 byte channelID = (byte)ChannelID;

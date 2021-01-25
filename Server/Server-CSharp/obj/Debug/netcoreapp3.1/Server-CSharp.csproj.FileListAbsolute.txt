@@ -9,14 +9,11 @@ C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\Server-CSharp.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\Server-CSharp.pdb
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\DnsClient.dll
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\MongoDB.Driver.Legacy.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\MongoDB.Bson.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\MongoDB.Driver.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\MongoDB.Driver.Core.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\MongoDB.Libmongocrypt.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\protobuf-net.dll
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\protobuf-net.Core.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\SharpCompress.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\runtimes\win\native\libzstd.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\runtimes\win\native\snappy32.dll
@@ -32,3 +29,4 @@ C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\runtimes\linux\native\libenet.so
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\runtimes\osx\native\libenet.dylib
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\runtimes\win\native\enet.dll
+C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
