@@ -1,4 +1,5 @@
-﻿using UIFramework;
+﻿using Game;
+using UIFramework;
 using UnityEngine.UI;
 
 public class FriendApplyPanel : BasePanel
@@ -36,10 +37,10 @@ public class FriendApplyPanel : BasePanel
 
 
     //接受好友申请回调
-    private void OnMsgAcceptAddFriend(MsgBase msg) {
-        MsgAcceptAddFriend msgAcceptAddFriend = (MsgAcceptAddFriend)msg;
-        if (msgAcceptAddFriend.id == GameMain.id) {
-            if (msgAcceptAddFriend.result == 0) {
+    private void OnMsgAcceptAddFriend(Request request) {
+        MsgAcceptAddFriend msgAcceptAddFriend = MsgAcceptAddFriend.Parser.ParseFrom(request.Msg);
+        if (msgAcceptAddFriend.Id == GameMain.id) {
+            if (msgAcceptAddFriend.Result == 0) {
                 PanelManager.Open<TipPanel>("添加成功！");
             }
             else {
@@ -62,8 +63,8 @@ public class FriendApplyPanel : BasePanel
     //当按下确定按钮
     public void OnOkClick() {
         MsgAcceptAddFriend msgAcceptAddFriend = new MsgAcceptAddFriend();
-        msgAcceptAddFriend.id = id;
-        msgAcceptAddFriend.friendId = friendId;
+        msgAcceptAddFriend.Id = id;
+        msgAcceptAddFriend.FriendId = friendId;
         NetManager.Send(msgAcceptAddFriend);
     }
 }

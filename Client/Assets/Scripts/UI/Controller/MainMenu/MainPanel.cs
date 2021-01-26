@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game;
+using System;
 using UIFramework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -111,37 +112,37 @@ public class MainPanel : BasePanel
 
 
     //保存简介回调
-    private void OnMsgSavePlayerIntroduction(MsgBase msg) {
+    private void OnMsgSavePlayerIntroduction(Request request) {
         Debug.Log("保存个人简介成功");
     }
 
     //获得简介回调
-    private void OnMsgGetPlayerIntroduction(MsgBase msg) {
-        MsgGetPlayerIntroduction msgGetPlayerIntroduction = (MsgGetPlayerIntroduction)msg;
-        _playerIntroduction.text = msgGetPlayerIntroduction.palyerIntroduction;
+    private void OnMsgGetPlayerIntroduction(Request request) {
+        MsgGetPlayerIntroduction msgGetPlayerIntroduction = MsgGetPlayerIntroduction.Parser.ParseFrom(request.Msg);
+        _playerIntroduction.text = msgGetPlayerIntroduction.PalyerIntroduction;
     }
 
     //获取头像回调
-    private void OnMsgGetHeadPhoto(MsgBase msg) {
-        MsgGetHeadPhoto msgGetHeadPhoto = (MsgGetHeadPhoto)msg;
-        _headPhotoName = "HeadPhoto" + msgGetHeadPhoto.headPhoto;
+    private void OnMsgGetHeadPhoto(Request request) {
+        MsgGetHeadPhoto msgGetHeadPhoto = MsgGetHeadPhoto.Parser.ParseFrom(request.Msg);
+        _headPhotoName = "HeadPhoto" + msgGetHeadPhoto.HeadPhoto;
         Texture2D texture = ABManager.Instance.LoadRes<Texture2D>("texture", _headPhotoName);
         _headPhoto.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 
     //保存头像回调
-    private void OnMsgSaveHeadPhoto(MsgBase msg) {
-        MsgSaveHeadPhoto msgSaveHeadPhoto = (MsgSaveHeadPhoto)msg;
-        _headPhotoName = "HeadPhoto" + msgSaveHeadPhoto.headPhoto;
+    private void OnMsgSaveHeadPhoto(Request request) {
+        MsgSaveHeadPhoto msgSaveHeadPhoto = MsgSaveHeadPhoto.Parser.ParseFrom(request.Msg);
+        _headPhotoName = "HeadPhoto" + msgSaveHeadPhoto.HeadPhoto;
         Texture2D texture = ABManager.Instance.LoadRes<Texture2D>("texture", _headPhotoName);
         _headPhoto.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 
     //发送世界消息回调
-    private void OnMsgSendMessageToWord(MsgBase msg) {
-        MsgSendMessageToWord msgSendMessageToWord = (MsgSendMessageToWord)msg;
+    private void OnMsgSendMessageToWord(Request request) {
+        MsgSendMessageToWord msgSendMessageToWord = MsgSendMessageToWord.Parser.ParseFrom(request.Msg);
         GameObject messagePrefab;
-        if (msgSendMessageToWord.id != GameMain.id) {
+        if (msgSendMessageToWord.Id != GameMain.id) {
             messagePrefab = ABManager.Instance.LoadRes<GameObject>("prefab/ui", "OtherMessagePanel");
         }
         else {
@@ -149,13 +150,13 @@ public class MainPanel : BasePanel
         }
         GameObject message = (GameObject)Instantiate(messagePrefab);
         message.transform.SetParent(_worldContent.transform, false);
-        message.transform.Find("Text").GetComponent<Text>().text = msgSendMessageToWord.message;
+        message.transform.Find("Text").GetComponent<Text>().text = msgSendMessageToWord.Message;
 
-        Debug.Log(msgSendMessageToWord.id + msgSendMessageToWord.message);
+        Debug.Log(msgSendMessageToWord.Id + msgSendMessageToWord.Message);
 
     }
     //发送好友消息回调
-    private void OnMsgSendMessageToFriend(MsgBase msgBase) {
+    private void OnMsgSendMessageToFriend(Request request) {
         throw new NotImplementedException();
     }
 
@@ -165,7 +166,7 @@ public class MainPanel : BasePanel
         MsgSaveHeadPhoto msgSaveHeadPhoto = new MsgSaveHeadPhoto();
         Debug.Log(_headPhotoName);
         string[] headPhoto = _headPhotoName.Split('o');
-        msgSaveHeadPhoto.headPhoto = int.Parse(headPhoto[2]);
+        msgSaveHeadPhoto.HeadPhoto = int.Parse(headPhoto[2]);
         NetManager.Send(msgSaveHeadPhoto);
     }
 
@@ -187,7 +188,7 @@ public class MainPanel : BasePanel
             _modifyBtn.transform.Find("Text").GetComponent<Text>().text = "编辑";
             _playerIntroduction.text = _modifyInput.transform.Find("Text").GetComponent<Text>().text;
             MsgSavePlayerIntroduction msgSavePlayerIntroduction = new MsgSavePlayerIntroduction();
-            msgSavePlayerIntroduction.palyerIntroduction = _playerIntroduction.text;
+            msgSavePlayerIntroduction.PalyerIntroduction = _playerIntroduction.text;
             NetManager.Send(msgSavePlayerIntroduction);
             _modifyInput.gameObject.SetActive(false);
             return;
@@ -215,10 +216,10 @@ public class MainPanel : BasePanel
         if (_sendStatus == 0) {
             //世界频道
             MsgSendMessageToWord msgSendMessageToWord = new MsgSendMessageToWord();
-            msgSendMessageToWord.message = _input.transform.Find("Text").GetComponent<Text>().text;
+            msgSendMessageToWord.Message = _input.transform.Find("Text").GetComponent<Text>().text;
             _input.transform.Find("Text").GetComponent<Text>().text = "";
             _input.GetComponent<InputField>().text = "";
-            msgSendMessageToWord.id = GameMain.id;
+            msgSendMessageToWord.Id = GameMain.id;
             NetManager.Send(msgSendMessageToWord);
 
             return;

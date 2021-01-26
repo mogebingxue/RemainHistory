@@ -8,13 +8,16 @@ namespace YT
 {
 	class MsgHelper
 	{
-		public string protoName = "null";
 	
-	
+		/// <summary>
+		/// 编码
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <returns></returns>
 		public static byte[] Encode(IMessage msg) {
-            //数据编码
-            byte[] nameBytes =EncodeName(msg);
-            byte[] bodyBytes = Encode(msg);
+			//数据编码
+			byte[] nameBytes = EncodeName(msg);
+			byte[] bodyBytes = EncodeBody(msg);
             int len = nameBytes.Length + bodyBytes.Length;
             byte[] sendBytes = new byte[2 + len];
             //组装长度
@@ -24,11 +27,17 @@ namespace YT
             Array.Copy(nameBytes, 0, sendBytes, 2, nameBytes.Length);
             //组装消息体
             Array.Copy(bodyBytes, 0, sendBytes, 2 + nameBytes.Length, bodyBytes.Length);
-            return null;
+            return sendBytes;
         }
-	    //将protobuf对象序列化位byte数组
-	    public static byte[] EncodeBody(IMessage msgBase) {
-			return msgBase.ToByteArray();
+
+		/// <summary>
+		/// 将protobuf对象序列化位byte数组
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		private static byte[] EncodeBody(IMessage msg) {
+			return msg.ToByteArray();
+			
 		}
 
 		/// <summary>
@@ -82,7 +91,7 @@ namespace YT
 	    }
 	    
 		//编码协议名（2字节长度+字符串）
-	    public static byte[] EncodeName(IMessage msg){
+	    private static byte[] EncodeName(IMessage msg){
 			//名字bytes和长度
 			byte[] nameBytes = System.Text.Encoding.UTF8.GetBytes(msg.GetType().Name);
 	        short len = (short)nameBytes.Length;

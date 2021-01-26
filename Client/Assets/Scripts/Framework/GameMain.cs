@@ -1,4 +1,5 @@
-﻿using UIFramework;
+﻿using Game;
+using UIFramework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -31,22 +32,22 @@ public class GameMain : MonoSingleton<GameMain>
         PanelManager.Open<LoginPanel>();
     }
     //收到添加好友协议
-    private void OnMsgAddFriend(MsgBase msg) {
-        MsgAddFriend msgAddFriend = (MsgAddFriend)msg;
+    private void OnMsgAddFriend(Request request) {
+        MsgAddFriend msgAddFriend = MsgAddFriend.Parser.ParseFrom(request.Msg);
         //是被添加人显示是否同意添加
-        if (msgAddFriend.friendId == id) {
-            PanelManager.Open<FriendApplyPanel>("是否同意" + msgAddFriend.id + "的好友申请？");
+        if (msgAddFriend.FriendId == id) {
+            PanelManager.Open<FriendApplyPanel>("是否同意" + msgAddFriend.Id + "的好友申请？");
             FriendApplyPanel friendApplyPanel = (FriendApplyPanel)PanelManager.panels["FriendApplyPanel"];
-            friendApplyPanel.id = msgAddFriend.friendId;
-            friendApplyPanel.friendId = msgAddFriend.id;
+            friendApplyPanel.id = msgAddFriend.FriendId;
+            friendApplyPanel.friendId = msgAddFriend.Id;
         }
     }
 
     //接受好友申请回调
-    private void OnMsgAcceptAddFriend(MsgBase msg) {
-        MsgAcceptAddFriend msgAcceptAddFriend = (MsgAcceptAddFriend)msg;
-        if (msgAcceptAddFriend.friendId == GameMain.id) {
-            PanelManager.Open<TipPanel>("添加" + msgAcceptAddFriend.id + "成功！");
+    private void OnMsgAcceptAddFriend(Request request) {
+        MsgAcceptAddFriend msgAcceptAddFriend = MsgAcceptAddFriend.Parser.ParseFrom(request.Msg);
+        if (msgAcceptAddFriend.FriendId == GameMain.id) {
+            PanelManager.Open<TipPanel>("添加" + msgAcceptAddFriend.Id + "成功！");
         }
         if (PanelManager.panels.ContainsKey("FriendPanel")) {
             FriendPanel friendPanel = (FriendPanel)PanelManager.panels["FriendPanel"];
@@ -55,11 +56,11 @@ public class GameMain : MonoSingleton<GameMain>
     }
 
     //收到删除好友协议
-    private void OnMsgDeleteFriend(MsgBase msg) {
-        MsgDeleteFriend msgDeleteFriend = (MsgDeleteFriend)msg;
-        if (msgDeleteFriend.friendId == GameMain.id) {
-            if (msgDeleteFriend.result == 0) {
-                PanelManager.Open<TipPanel>("你已被" + msgDeleteFriend.id + "删除好友！");
+    private void OnMsgDeleteFriend(Request request) {
+        MsgDeleteFriend msgDeleteFriend = MsgDeleteFriend.Parser.ParseFrom(request.Msg);
+        if (msgDeleteFriend.FriendId == GameMain.id) {
+            if (msgDeleteFriend.Result == 0) {
+                PanelManager.Open<TipPanel>("你已被" + msgDeleteFriend.Id + "删除好友！");
                 return;
             }
         }
@@ -80,7 +81,7 @@ public class GameMain : MonoSingleton<GameMain>
     }
 
     //被踢下线
-    void OnMsgKick(MsgBase msgBase) {
+    void OnMsgKick(Request request) {
         NetManager.Close();
         Transform root = GameObject.Find("Root").transform;
         Transform canvas = root.Find("Canvas");

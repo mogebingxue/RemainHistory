@@ -1,4 +1,6 @@
 ﻿using ENet;
+using Gate;
+using Google.Protobuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ public static class NetManager
     //是否正在关闭
     static bool isClosing = false;
     //消息列表
-    static List<MsgBase> msgList = new List<MsgBase>();
+    static List<Request> msgList = new List<Request>();
     //消息列表长度
     static int msgCount = 0;
     //每一次Update处理的消息量
@@ -81,7 +83,7 @@ public static class NetManager
 
 
     //消息委托类型
-    public delegate void MsgListener(MsgBase msgBase);
+    public delegate void MsgListener(Request request);
     //消息监听列表
     private static Dictionary<string, MsgListener> msgListeners = new Dictionary<string, MsgListener>();
     /// <summary>
@@ -113,10 +115,10 @@ public static class NetManager
     /// 分发消息
     /// </summary>
     /// <param name="msgName"></param>
-    /// <param name="msgBase"></param>
-    private static void FireMsg(string msgName, MsgBase msgBase) {
+    /// <param name="request"></param>
+    private static void FireMsg(string msgName, Request request) {
         if (msgListeners.ContainsKey(msgName)) {
-            msgListeners[msgName](msgBase);
+            msgListeners[msgName](request);
 
         }
     }
@@ -209,7 +211,7 @@ public static class NetManager
         //是否正在关闭
         isClosing = false;
         //消息列表
-        msgList = new List<MsgBase>();
+        msgList = new List<Request>();
         //消息列表长度
         msgCount = 0;
         //上一次发送PING的时间
@@ -267,7 +269,7 @@ public static class NetManager
     }
 
     //发送数据
-    public static void Send(MsgBase msg) {
+    public static void Send(IMessage msg) {
         //状态判断
         if (!peer.IsSet) {
             return;
@@ -278,18 +280,8 @@ public static class NetManager
         if (isClosing) {
             return;
         }
-        //数据编码
-        byte[] nameBytes = MsgBase.EncodeName(msg);
-        byte[] bodyBytes = MsgBase.Encode(msg);
-        int len = nameBytes.Length + bodyBytes.Length;
-        byte[] sendBytes = new byte[2 + len];
-        //组装长度
-        sendBytes[0] = (byte)(len % 256);
-        sendBytes[1] = (byte)(len / 256);
-        //组装名字
-        Array.Copy(nameBytes, 0, sendBytes, 2, nameBytes.Length);
-        //组装消息体
-        Array.Copy(bodyBytes, 0, sendBytes, 2 + nameBytes.Length, bodyBytes.Length);
+
+        byte[] sendBytes = MsgHelper.Encode(msg);
         //写入队列
         ByteArray ba = new ByteArray(sendBytes);
         lock (writeQueue) {
@@ -361,33 +353,13 @@ public static class NetManager
     /// 数据处理
     /// </summary>
     public static void OnReceiveData() {
-        //消息长度
-        if (readBuff.length <= 2) {
-            return;
-        }
-        //获取消息体长度
-        int readIdx = readBuff.readIdx;
-        byte[] bytes = readBuff.bytes;
-        Int16 bodyLength = (Int16)((bytes[readIdx + 1] << 8) | bytes[readIdx]);
-        if (readBuff.length < bodyLength)
-            return;
-        readBuff.readIdx += 2;
-        //解析协议名
-        int nameCount = 0;
-        string protoName = MsgBase.DecodeName(readBuff.bytes, readBuff.readIdx, out nameCount);
-        if (protoName == "") {
-            Debug.Log("OnReceiveData MsgBase.DecodeName fail");
-            return;
-        }
-        readBuff.readIdx += nameCount;
-        //解析协议体
-        int bodyCount = bodyLength - nameCount;
-        MsgBase msgBase = MsgBase.Decode(protoName, readBuff.bytes, readBuff.readIdx, bodyCount);
-        readBuff.readIdx += bodyCount;
-        readBuff.CheckAndMoveBytes();
+
+
+        Request msg = MsgHelper.Decode(readBuff,peer);
+        
         //添加到消息队列
         lock (msgList) {
-            msgList.Add(msgBase);
+            msgList.Add(msg);
             msgCount++;
         }
         //继续读取消息
@@ -415,17 +387,17 @@ public static class NetManager
         //重复处理消息
         for (int i = 0; i < MAX_MESSAGE_FIRE; i++) {
             //获取第一条消息
-            MsgBase msgBase = null;
+            Request request = null;
             lock (msgList) {
                 if (msgList.Count > 0) {
-                    msgBase = msgList[0];
+                    request = msgList[0];
                     msgList.RemoveAt(0);
                     msgCount--;
                 }
             }
             //分发消息
-            if (msgBase != null) {
-                FireMsg(msgBase.protoName, msgBase);
+            if (request != null) {
+                FireMsg(request.Name, request);
             }
             //没有消息了
             else {
@@ -453,7 +425,7 @@ public static class NetManager
     }
 
     //监听PONG协议
-    private static void OnMsgPong(MsgBase msgBase) {
+    private static void OnMsgPong(Request msgBase) {
         lastPongTime = Time.time;
     }
 }

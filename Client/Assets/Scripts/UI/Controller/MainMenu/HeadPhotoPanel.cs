@@ -1,4 +1,5 @@
-﻿using UIFramework;
+﻿using Game;
+using UIFramework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -70,9 +71,9 @@ public class HeadPhotoPanel : BasePanel
     }
 
     //获取头像回调
-    private void OnMsgGetHeadPhoto(MsgBase msg) {
-        MsgGetHeadPhoto msgGetHeadPhoto = (MsgGetHeadPhoto)msg;
-        _headPhotoIndex = msgGetHeadPhoto.headPhoto;
+    private void OnMsgGetHeadPhoto(Request request) {
+        MsgGetHeadPhoto msgGetHeadPhoto = MsgGetHeadPhoto.Parser.ParseFrom(request.Msg);
+        _headPhotoIndex = msgGetHeadPhoto.HeadPhoto;
         if (_headPhoto != null) {
             _headPhotoName = "HeadPhoto" + _headPhotoIndex;
             Texture2D texture = ABManager.Instance.LoadRes<Texture2D>("texture", _headPhotoName);
@@ -81,7 +82,7 @@ public class HeadPhotoPanel : BasePanel
     }
 
     //保存头像回调
-    private void OnMsgSaveHeadPhoto(MsgBase msg) {
+    private void OnMsgSaveHeadPhoto(Request request) {
         MsgGetHeadPhoto msgGetHeadPhoto = new MsgGetHeadPhoto();
         NetManager.Send(msgGetHeadPhoto);
         Debug.Log("保存头像成功！");
@@ -91,7 +92,7 @@ public class HeadPhotoPanel : BasePanel
     public override void OnHide() {
         MsgSaveHeadPhoto msgSaveHeadPhoto = new MsgSaveHeadPhoto();
         string[] headPhoto = _headPhotoName.Split('o');
-        msgSaveHeadPhoto.headPhoto = int.Parse(headPhoto[2]);
+        msgSaveHeadPhoto.HeadPhoto = int.Parse(headPhoto[2]);
         NetManager.Send(msgSaveHeadPhoto);
     }
 }

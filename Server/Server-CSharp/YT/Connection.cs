@@ -29,20 +29,25 @@ namespace YT
         /// 客户端连接时，需要执行的方法，交由子类重写
         /// </summary>
         public virtual void OnConnect() {
-            Console.WriteLine("客户端连接 - "+ "IP: " + Peer.IP);
-            
+            Console.WriteLine("客户端连接 - " + "IP: " + Peer.IP);
+
 
 
             //Peer.SetPingInterval(1000);
             //Peer.SetTimeouts(8, 5000, 60000);
-            server.Clients.Add(Peer, this);
+            if (!server.Clients.ContainsKey(Peer)) {
+                server.Clients.Add(Peer, this);
+            }
+
         }
         /// <summary>
         /// 客户端断开连接时，需要执行的方法，交由子类重写
         /// </summary>
         public virtual void OnDisconnect() {
             Console.WriteLine("客户端断开连接 - " + "IP: " + Peer.IP);
-            server.Clients.Remove(Peer);
+            if (server.Clients.ContainsKey(Peer)) {
+                server.Clients.Remove(Peer);
+            }
 
             //Player 下线
             if (player != null) {
@@ -75,7 +80,7 @@ namespace YT
             long timeNow = GetTimeStamp();
             //遍历，删除
             if (timeNow - LastPingTime > server.pingInterval * 4) {
-                Console.WriteLine("Ping Close - "  +  "IP: " + Peer.IP);
+                Console.WriteLine("Ping Close - " + "IP: " + Peer.IP);
                 OnDisconnect();
                 return;
             }

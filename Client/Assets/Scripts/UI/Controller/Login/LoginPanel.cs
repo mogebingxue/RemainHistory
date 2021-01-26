@@ -1,4 +1,5 @@
-﻿using UIFramework;
+﻿using Login;
+using UIFramework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -70,7 +71,7 @@ public class LoginPanel : BasePanel
     //连接失败回调
     void OnConnectFail(string err) {
         _showConnFail = true;
-        //PanelManager.Open<TipPanel>(err);
+        PanelManager.Open<TipPanel>(err);
     }
 
 
@@ -84,6 +85,7 @@ public class LoginPanel : BasePanel
 
     //当按下登陆按钮
     public void OnLoginClick() {
+        
         //用户名密码为空
         if (_idInput.text == "" || _pwInput.text == "") {
             PanelManager.Open<TipPanel>("用户名和密码不能为空");
@@ -91,18 +93,18 @@ public class LoginPanel : BasePanel
         }
         //发送
         MsgLogin msgLogin = new MsgLogin();
-        msgLogin.id = _idInput.text;
-        msgLogin.pw = _pwInput.text;
+        msgLogin.Id = _idInput.text;
+        msgLogin.Pw = _pwInput.text;
         NetManager.Send(msgLogin);
     }
 
     //收到登陆协议
-    public void OnMsgLogin(MsgBase msgBase) {
-        MsgLogin msg = (MsgLogin)msgBase;
-        if (msg.result == 0) {
+    public void OnMsgLogin(Request request) {
+        MsgLogin msg = Login.MsgLogin.Parser.ParseFrom(request.Msg);
+        if (msg.Result == 0) {
             Debug.Log("登陆成功");
             //设置id
-            GameMain.id = msg.id;
+            GameMain.id = msg.Id;
             //进入主界面
             SceneManager.LoadSceneAsync("MainMenu");
             PanelManager.Open<MainPanel>();

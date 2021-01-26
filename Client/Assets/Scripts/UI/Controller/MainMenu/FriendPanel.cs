@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Game;
+using System.Collections.Generic;
 using UIFramework;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,8 +48,8 @@ public class FriendPanel : BasePanel
     //添加好友按钮事件
     private void OnAddFriendClick() {
         MsgAddFriend msgAddFriend = new MsgAddFriend();
-        msgAddFriend.id = GameMain.id;
-        msgAddFriend.friendId = _idInput.transform.Find("Text").GetComponent<Text>().text;
+        msgAddFriend.Id = GameMain.id;
+        msgAddFriend.FriendId = _idInput.transform.Find("Text").GetComponent<Text>().text;
         NetManager.Send(msgAddFriend);
     }
 
@@ -58,30 +59,30 @@ public class FriendPanel : BasePanel
     }
 
     //接受好友申请回调
-    private void OnMsgAcceptAddFriend(MsgBase msg) {
-        MsgAcceptAddFriend msgAcceptAddFriend = (MsgAcceptAddFriend)msg;
+    private void OnMsgAcceptAddFriend(Request request) {
+        MsgAcceptAddFriend msgAcceptAddFriend = MsgAcceptAddFriend.Parser.ParseFrom(request.Msg);
 
         UpdataFriendList();
 
     }
 
     //收到添加好友协议
-    private void OnMsgAddFriend(MsgBase msg) {
-        MsgAddFriend msgAddFriend = (MsgAddFriend)msg;
+    private void OnMsgAddFriend(Request request) {
+        MsgAddFriend msgAddFriend = MsgAddFriend.Parser.ParseFrom(request.Msg);
         //是添加人显示结果
-        if (msgAddFriend.id == GameMain.id) {
-            if (msgAddFriend.result == 0) PanelManager.Open<TipPanel>("已发送添加请求");
-            if (msgAddFriend.result == 1) PanelManager.Open<TipPanel>("玩家不存在");
-            if (msgAddFriend.result == 2) PanelManager.Open<TipPanel>("玩家不在线");
-            if (msgAddFriend.result == 3) PanelManager.Open<TipPanel>("此玩家已经是您的好友");
+        if (msgAddFriend.Id == GameMain.id) {
+            if (msgAddFriend.Result == 0) PanelManager.Open<TipPanel>("已发送添加请求");
+            if (msgAddFriend.Result == 1) PanelManager.Open<TipPanel>("玩家不存在");
+            if (msgAddFriend.Result == 2) PanelManager.Open<TipPanel>("玩家不在线");
+            if (msgAddFriend.Result == 3) PanelManager.Open<TipPanel>("此玩家已经是您的好友");
         }
     }
 
     //收到删除好友协议
-    private void OnMsgDeleteFriend(MsgBase msg) {
-        MsgDeleteFriend msgDeleteFriend = (MsgDeleteFriend)msg;
-        if (msgDeleteFriend.id == GameMain.id) {
-            if (msgDeleteFriend.result == 0) {
+    private void OnMsgDeleteFriend(Request request) {
+        MsgDeleteFriend msgDeleteFriend = MsgDeleteFriend.Parser.ParseFrom(request.Msg);
+        if (msgDeleteFriend.Id == GameMain.id) {
+            if (msgDeleteFriend.Result == 0) {
                 PanelManager.Open<TipPanel>("删除好友成功！");
                 UpdataFriendList();
             }
@@ -93,9 +94,10 @@ public class FriendPanel : BasePanel
     }
 
     //收到获取好友列表协议
-    private void OnMsgGetFriendList(MsgBase msg) {
-        MsgGetFriendList msgGetFriendList = (MsgGetFriendList)msg;
-        foreach (string friendId in msgGetFriendList.friendIdList) {
+    private void OnMsgGetFriendList(Request request) {
+        MsgGetFriendList msgGetFriendList = MsgGetFriendList.Parser.ParseFrom(request.Msg);
+        string[] fl = msgGetFriendList.FriendList.Split(',');
+        foreach (string friendId in fl) {
             if (!_friendList.Contains(friendId)) {
                 _friendList.Add(friendId);
             }
@@ -128,8 +130,8 @@ public class FriendPanel : BasePanel
     //删除好友按钮事件
     private void OnDeleteFriendClick(int index) {
         MsgDeleteFriend msgDeleteFriend = new MsgDeleteFriend();
-        msgDeleteFriend.friendId = _friendList[index];
-        msgDeleteFriend.id = GameMain.id;
+        msgDeleteFriend.FriendId = _friendList[index];
+        msgDeleteFriend.Id = GameMain.id;
         NetManager.Send(msgDeleteFriend);
 
     }

@@ -1,4 +1,5 @@
-﻿using UIFramework;
+﻿using Login;
+using UIFramework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,15 +58,15 @@ public class RegisterPanel : BasePanel
         }
         //发送
         MsgRegister msgReg = new MsgRegister();
-        msgReg.id = _idInput.text;
-        msgReg.pw = _pwInput.text;
+        msgReg.Id = _idInput.text;
+        msgReg.Pw = _pwInput.text;
         NetManager.Send(msgReg);
     }
 
     //收到注册协议
-    public void OnMsgRegister(MsgBase msgBase) {
-        MsgRegister msg = (MsgRegister)msgBase;
-        if (msg.result == 0) {
+    public void OnMsgRegister(Request request) {
+        MsgRegister msg = Login.MsgRegister.Parser.ParseFrom(request.Msg);
+        if (msg.Result == 0) {
             Debug.Log("注册成功");
             //提示
             PanelManager.Open<TipPanel>("注册成功");
