@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "aRKuE0++iNsuSgz/g8Q5DjsXW1QOczQhfSvZTFxIgP4A0lbwGcJDhX85WAUVGCy14j109kemEarrqC/U58PrdQ==",
+  "success": true,
+  "projectFilePath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\TKcp\\TKcp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
