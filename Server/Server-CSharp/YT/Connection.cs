@@ -31,10 +31,6 @@ namespace YT
         public virtual void OnConnect() {
             Console.WriteLine("客户端连接 - " + "IP: " + Peer.IP);
 
-
-
-            //Peer.SetPingInterval(1000);
-            //Peer.SetTimeouts(8, 5000, 60000);
             if (!server.Clients.ContainsKey(Peer)) {
                 server.Clients.Add(Peer, this);
             }
@@ -90,7 +86,7 @@ namespace YT
         /// 客户端接受消息时，需要执行的方法
         /// </summary>
         public void OnReceive(Event netEvent) {
-
+            
             //接收
             int count = 0;
             //缓冲区不够，清除，若依旧不够，只能返回
