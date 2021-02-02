@@ -1,16 +1,16 @@
-﻿using ENet;
-using Gate;
+﻿using Gate;
 using Google.Protobuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using TKcp;
 using UnityEngine;
 public static class NetManager
 {
-    //定义ENet客户端
-    public static Host client;
-    public static Peer peer;
-    public static ENet.Event netEvent;
+    //定义客户端
+    public static Client client;
+
     //接收缓冲区
     static ByteArray readBuff;
     //写入队列
@@ -25,14 +25,6 @@ public static class NetManager
     static int msgCount = 0;
     //每一次Update处理的消息量
     readonly static int MAX_MESSAGE_FIRE = 10;
-    //是否启用心跳
-    public static bool isUsePing = true;
-    //心跳间隔时间
-    public static int pingInterval = 30;
-    //上一次发送PING的时间
-    static float lastPingTime = 0;
-    //上一次收到PONG的时间
-    static float lastPongTime = 0;
 
     //事件
     public enum NetEvent
@@ -127,25 +119,17 @@ public static class NetManager
     //连接
     public static void Connect(string ip, int port) {
 
-        ENet.Library.Initialize();
         //状态判断
-        if (peer.IsSet) {
-            Debug.Log("Connect fail, already connected!");
-            return;
-        }
         if (isConnecting) {
             Debug.Log("Connect fail, isConnecting");
             return;
         }
-
-        client = new Host();
-        Address address = new Address();
-        address.SetHost(ip);
-        address.Port = (ushort)port;
-        client.Create();
-
-        peer = client.Connect(address);
-
+        IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+        client = new Client();
+        client.Connect(iPEndPoint);
+        client.AddAcceptHandle(OnConnect);
+        client.AddReceiveHandle(OnReceive);
+        client.AddTimeoutHandle(OnTimeout);
         //初始化成员
         InitState();
         //参数设置
@@ -153,52 +137,7 @@ public static class NetManager
         isConnecting = true;
     }
 
-    private static void ENetUpdata() {
-        if (client == null) {
-            return;
-        }
-        if (!client.IsSet) {
-            return;
-        }
-
-        bool polled = false;
-
-        while (!polled) {
-            if (client.CheckEvents(out netEvent) <= 0) {
-                if (client.Service(15, out netEvent) <= 0)
-                    break;
-
-                polled = true;
-            }
-
-            switch (netEvent.Type) {
-                case ENet.EventType.None:
-                    break;
-
-                case ENet.EventType.Connect:
-                    OnConnect();
-                    break;
-
-                case ENet.EventType.Disconnect:
-                    //Console.WriteLine("Client disconnected from server");
-                    Close();
-                    break;
-
-                case ENet.EventType.Timeout:
-                    OnTimeout();
-                    break;
-
-                case ENet.EventType.Receive:
-                    //Console.WriteLine("Packet received from server - Channel ID: " + netEvent.ChannelID + ", Data length: " + netEvent.Packet.Length);
-                    OnReceive(netEvent);
-                    break;
-            }
-        }
-
-
-        client.Flush();
-    }
-
+    
     //初始化状态
     private static void InitState() {
 
@@ -214,20 +153,13 @@ public static class NetManager
         msgList = new List<Request>();
         //消息列表长度
         msgCount = 0;
-        //上一次发送PING的时间
-        lastPingTime = Time.time;
-        //上一次收到PONG的时间
-        lastPongTime = Time.time;
-        //监听PONG协议
-        if (!msgListeners.ContainsKey("MsgPong")) {
-            AddMsgListener("MsgPong", OnMsgPong);
-        }
+        
     }
 
     /// <summary>
     /// Connect 回调
     /// </summary>
-    private static void OnConnect() {
+    private static void OnConnect(byte[] bytes,int length) {
 
         Debug.Log("Client connected to server");
         FireEvent(NetEvent.ConnectSucc, "");
@@ -248,9 +180,6 @@ public static class NetManager
     public static void Close() {
 
         //状态判断
-        if (!peer.IsSet) {
-            return;
-        }
         if (isConnecting) {
             return;
         }
@@ -263,17 +192,14 @@ public static class NetManager
 
             FireEvent(NetEvent.Close, "");
         }
-        client.Dispose();
-        ENet.Library.Deinitialize();
+        //client.Dispose();
+        //TODO
 
     }
 
     //发送数据
     public static void Send(IMessage msg) {
         //状态判断
-        if (!peer.IsSet) {
-            return;
-        }
         if (isConnecting) {
             return;
         }
@@ -305,11 +231,8 @@ public static class NetManager
 
         //继续发送
         if (ba != null) {
-            byte channelID = 0;
-            Packet packet = default(Packet);
             byte[] data = ba.bytes;
-            packet.Create(data);
-            peer.Send(channelID, ref packet);
+            client.Send(data);
             lock (writeQueue) {
                 writeQueue.Dequeue();
             }
@@ -326,16 +249,14 @@ public static class NetManager
     /// 接受消息
     /// </summary>
     /// <param name="netEvent"></param>
-    public static void OnReceive(ENet.Event netEvent) {
+    public static void OnReceive(uint conv,byte[] bytes,int length) {
+        if (length <= 4) {
+            return;
+        }
         try {
             //获取接收数据长度
-            int count = netEvent.Packet.Length;
-            byte[] buffer = new byte[count];
-            netEvent.Packet.CopyTo(buffer);
-            buffer.CopyTo(readBuff.bytes, readBuff.writeIdx);
-            netEvent.Packet.Dispose();
-
-            readBuff.writeIdx += count;
+            bytes.CopyTo(readBuff.bytes, readBuff.writeIdx);
+            readBuff.writeIdx += length;
             //处理二进制消息
             OnReceiveData();
             //继续接收数据
@@ -355,7 +276,7 @@ public static class NetManager
     public static void OnReceiveData() {
 
 
-        Request msg = MsgHelper.Decode(readBuff,peer);
+        Request msg = MsgHelper.Decode(readBuff,client.peer.conv);
         
         //添加到消息队列
         lock (msgList) {
@@ -370,10 +291,8 @@ public static class NetManager
 
     //Update
     public static void Update() {
-        ENetUpdata();
         SendUpdata();
         MsgUpdate();
-        PingUpdate();
     }
 
     /// <summary>
@@ -404,28 +323,5 @@ public static class NetManager
                 break;
             }
         }
-    }
-
-    //发送PING协议
-    private static void PingUpdate() {
-        //是否启用
-        if (!isUsePing) {
-            return;
-        }
-        //发送PING
-        if (Time.time - lastPingTime > pingInterval) {
-            MsgPing msgPing = new MsgPing();
-            Send(msgPing);
-            lastPingTime = Time.time;
-        }
-        //检测PONG时间
-        if (Time.time - lastPongTime > pingInterval * 4) {
-            Close();
-        }
-    }
-
-    //监听PONG协议
-    private static void OnMsgPong(Request msgBase) {
-        lastPongTime = Time.time;
     }
 }

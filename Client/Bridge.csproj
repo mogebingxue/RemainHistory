@@ -85,6 +85,8 @@
     <Compile Include="Assets\Scripts\Proto\Game.cs" />
     <Compile Include="Assets\Scripts\Proto\Gate.cs" />
     <Compile Include="Assets\Scripts\Proto\Login.cs" />
+    <Compile Include="Assets\Scripts\TKcp\TKcp\Client.cs" />
+    <Compile Include="Assets\Scripts\TKcp\TKcp\Peer.cs" />
     <Compile Include="Assets\Scripts\UI\Controller\Common\TipPanel.cs" />
     <Compile Include="Assets\Scripts\UI\Controller\Login\LoginPanel.cs" />
     <Compile Include="Assets\Scripts\UI\Controller\Login\RegisterPanel.cs" />
@@ -301,11 +303,11 @@
     <Reference Include="Debugger">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/Debugger.dll</HintPath>
     </Reference>
-    <Reference Include="ENet-CSharp">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/ENet-CSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Kcp">
+      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/Kcp.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Buffers.dll</HintPath>
@@ -315,6 +317,9 @@
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>

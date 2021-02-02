@@ -1,9 +1,9 @@
-﻿using ENet;
+﻿using Google.Protobuf;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading;
+using TKcp;
 
 namespace YT
 {
@@ -11,13 +11,12 @@ namespace YT
     {
         
         /// <summary>客户端Peer及状态信息</summary>
-        public Dictionary<Peer, Connection> Clients = new Dictionary<Peer, Connection>();
+        public Dictionary<uint, Connection> Clients = new Dictionary<uint, Connection>();
         /// <summary>注册的回调函数</summary>
         public Dictionary<string, MethodInfo> Routers = new Dictionary<string, MethodInfo>();
         /// <summary>待处理的消息队列</summary>
         public Queue<Request> Requests = new Queue<Request>();
-        /// <summary>ping 间隔</summary>
-        public long pingInterval = 30;
+
 
 
         /// <summary>服务端名</summary>
@@ -31,7 +30,7 @@ namespace YT
         /// <summary>服务器是否被创建</summary>
         private bool isCreate = false;
         /// <summary>服务器</summary>
-        private Host server;
+        private TKcp.Server server;
 
 
         /// <summary>
@@ -58,57 +57,14 @@ namespace YT
                 return;
             }
             Console.WriteLine("[START]Server Name: {0}, IP: {1}, Port {2} ", Name, ip, port);
-            using (server = new Host()) {
-                //启动ENet
-                Library.Initialize();
-                Address address = new Address();
-                address.SetIP(ip);
-                address.Port = (ushort)port;
-                server.Create(address, maxClients);
-                //server.InitializeServer(port, maxClients);
-                Event netEvent;
-                Thread FireMsgHandle = new Thread(StartMsgHandle);
-                FireMsgHandle.Start();
-                while (!Console.KeyAvailable) {
-                    if (server.Service(15000, out netEvent)>0) {
-
-                        do {
-                            switch (netEvent.Type) {
-                                case EventType.None:
-                                    break;
-                                //当客户端连接
-                                case EventType.Connect:
-                                    //加入列表
-                                    Connection cs = new Connection();
-                                    cs.Peer = netEvent.Peer;
-                                    cs.server = this;
-                                    cs.ChannelID = netEvent.ChannelID;
-                                    cs.OnConnect();
-                                    break;
-                                //当客户端断开连接
-                                case EventType.Disconnect:
-                                    Clients[netEvent.Peer].OnDisconnect();
-                                    break;
-                                //当超时
-                                case EventType.Timeout:
-                                    Clients[netEvent.Peer].OnTimer();
-                                    break;
-                                //当接收到来自客户端的消息
-                                case EventType.Receive:
-                                    
-                                    Clients[netEvent.Peer].OnReceive(netEvent);
-                                    break;
-                            }
-                        }
-                        while (server.CheckEvents(out netEvent)>0);
-                    }
-
-
-
-                }
-            }
-            server.Flush();
-
+            server = new TKcp.Server();
+            server.Ip = ip;
+            server.Port = port;
+            server.MaxConnection = maxClients;
+            //注册回调函数
+            server.AddConnectHandle(OnConnect);
+            server.AddDisconnectHandle(OnDisconnect);
+            server.AddReceiveHandle(OnReceive);
         }
 
         /// <summary>
@@ -123,7 +79,7 @@ namespace YT
                     request = Requests.Dequeue();
                     //分发消息
 
-                    object[] o = { Clients[request.Peer], request.Msg };
+                    object[] o = { Clients[request.Conv], request.Msg };
                     Console.WriteLine("Receive " + request.Name);
                     if (!Routers.ContainsKey(request.Name)) {
                         AddRouter(request.Name);
@@ -140,8 +96,7 @@ namespace YT
         public void Stop() {
             Console.WriteLine("[STOP]Server Name: {0}, IP: {1}, Port {2} ", Name, ip, port);
             //释放服务器
-            Library.Deinitialize();
-            server.Dispose();
+            //TODO
         }
 
         /// <summary>
@@ -168,5 +123,118 @@ namespace YT
             }
             Routers.Remove(name);
         }
+
+
+        /// <summary>
+        /// 客户端连接时，需要执行的方法
+        /// </summary>
+        public void OnConnect(byte[] bytes) {
+            Console.WriteLine("客户端连接 - ");
+
+            uint conv = System.BitConverter.ToUInt32(bytes);
+            Connection connection = new Connection(conv);
+            connection.server = this;
+            if (!Clients.ContainsKey(conv)) {
+                Clients.Add(conv, connection);
+            }
+            Thread thread = new Thread(StartMsgHandle);
+            thread.Start();
+
+        }
+
+        /// <summary>
+        /// 客户端断开连接时，需要执行的方法
+        /// </summary>
+        public void OnDisconnect(uint conv) {
+            Console.WriteLine("客户端断开连接 - ");
+            if (Clients.ContainsKey(conv)) {
+                Clients.Remove(conv);
+            }
+            
+            //Player 下线
+            if (Clients.ContainsKey(conv)) {
+                Player player = Clients[conv].player;
+                //保存数据
+                DBManager.UpdatePlayerData(player.id, player.data);
+                //移除
+                PlayerManager.RemovePlayer(player.id);
+            }
+
+        }
+
+        /// <summary>
+        /// 客户端接受消息时，需要执行的方法
+        /// </summary>
+        public void OnReceive(uint conv,byte[] bytes, int length) {
+            if (length <= 4) {
+                Console.WriteLine("收到了pong");
+                return;
+            }
+            //缓冲区不够，清除，若依旧不够，只能返回
+            //当单条协议超过缓冲区长度时会发生
+            ByteArray readBuff;
+            if (Clients.ContainsKey(conv)) {
+                readBuff = Clients[conv].readBuff;
+            }
+            else {
+                Console.WriteLine("此客户端已断开连接");
+                return;
+            }
+            if (readBuff.remain <= 0) {
+                OnReceiveData(conv);
+                readBuff.MoveBytes();
+            }
+            if (readBuff.remain <= 0) {
+                Console.WriteLine("Receive fail , maybe msg length > buff capacity");
+                server.Peers[conv].DisconnectHandle(conv);
+                return;
+            }
+            bytes.CopyTo(readBuff.bytes, readBuff.writeIdx);
+            //消息处理
+            readBuff.writeIdx += length;
+            //处理二进制消息
+            OnReceiveData(conv);
+            //移动缓冲区
+            readBuff.CheckAndMoveBytes();
+        }
+        /// <summary>
+        /// 数据处理
+        /// </summary>
+        /// <param name="user"></param>
+        private void OnReceiveData(uint conv) {
+
+            ByteArray readBuff;
+            if (Clients.ContainsKey(conv)) {
+                readBuff = Clients[conv].readBuff;
+            }
+            else {
+                Console.WriteLine("此客户端已断开连接");
+                return;
+            }
+
+            Request request = MsgHelper.Decode(readBuff, conv);
+            Requests.Enqueue(request);
+            //继续读取消息
+            if (readBuff.length > 2) {
+                OnReceiveData(conv);
+            }
+        }
+
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        public void Send(uint conv, IMessage msg) {
+            byte[] sendBytes = MsgHelper.Encode(msg);
+            //发送
+            try {
+                byte[] data = sendBytes;
+                server.Send(conv,data);
+            }
+            catch (Exception ex) {
+                Console.WriteLine("Send failed" + ex.ToString());
+            }
+        }
+
     }
+
 }

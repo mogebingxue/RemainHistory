@@ -22,11 +22,7 @@ C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\obj\Debug\netcoreapp3
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\obj\Debug\netcoreapp3.1\Server-CSharp.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\obj\Debug\netcoreapp3.1\Server-CSharp.pdb
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\obj\Debug\netcoreapp3.1\Server-CSharp.genruntimeconfig.cache
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\enet.dll
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\enet.dylib
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\libenet.so
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\ENet-CSharp.dll
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\runtimes\linux\native\libenet.so
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\runtimes\osx\native\libenet.dylib
-C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\runtimes\win\native\enet.dll
 C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\TKcp.dll
+C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\TKcp.pdb
+C:\Project\UnityProject\RemainHistory\Server\Server-CSharp\bin\Debug\netcoreapp3.1\Kcp.dll

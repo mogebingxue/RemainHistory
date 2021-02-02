@@ -1,9 +1,8 @@
-﻿using ENet;
-using Google.Protobuf;
+﻿using Google.Protobuf;
 using System;
 using System.IO;
 using System.Linq;
-
+using TKcp;
 
 class MsgHelper
 {
@@ -43,7 +42,7 @@ class MsgHelper
     /// 解码
     /// </summary>
     /// <returns></returns>
-    public static Request Decode(ByteArray readBuff, Peer peer) {
+    public static Request Decode(ByteArray readBuff, uint conv) {
         //消息长度
         if (readBuff.length <= 2) {
             return null;
@@ -76,7 +75,7 @@ class MsgHelper
         readBuff.readIdx += bodyCount;
         readBuff.CheckAndMoveBytes();
         Request request = new Request();
-        request.Peer = peer;
+        request.Conv = conv;
         request.Name = protoName;
         request.Msg = msg;
         return request;

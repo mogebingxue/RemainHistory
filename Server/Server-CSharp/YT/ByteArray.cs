@@ -2,7 +2,7 @@
 using System;
 namespace YT
 {
-    class ByteArray
+    public class ByteArray
     {
         //默认大小
         const int DEFAULT_SIZE = 1024;
