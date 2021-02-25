@@ -4969,11 +4969,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Project\\UnityProject\\RemainHistory\\Server\\Server-CSharp\\Server-CSharp.csproj",
+      "projectUniqueName": "C:\\Project\\RemainHistory\\Server-CSharp\\Server-CSharp\\Server-CSharp.csproj",
       "projectName": "Server-CSharp",
-      "projectPath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\Server-CSharp\\Server-CSharp.csproj",
+      "projectPath": "C:\\Project\\RemainHistory\\Server-CSharp\\Server-CSharp\\Server-CSharp.csproj",
       "packagesPath": "C:\\Users\\莫歌冰雪\\.nuget\\packages\\",
-      "outputPath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\Server-CSharp\\obj\\",
+      "outputPath": "C:\\Project\\RemainHistory\\Server-CSharp\\Server-CSharp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\莫歌冰雪\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4990,8 +4990,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Project\\UnityProject\\RemainHistory\\Server\\TKcp\\TKcp.csproj": {
-              "projectPath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\TKcp\\TKcp.csproj"
+            "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj": {
+              "projectPath": "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj"
             }
           }
         }

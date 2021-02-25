@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Project\\UnityProject\\RemainHistory\\Server\\TKcp\\TKcp.csproj": {}
+    "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj": {}
   },
   "projects": {
-    "C:\\Project\\UnityProject\\RemainHistory\\Server\\TKcp\\TKcp.csproj": {
+    "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\UnityProject\\RemainHistory\\Server\\TKcp\\TKcp.csproj",
+        "projectUniqueName": "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj",
         "projectName": "TKcp",
-        "projectPath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\TKcp\\TKcp.csproj",
+        "projectPath": "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj",
         "packagesPath": "C:\\Users\\莫歌冰雪\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\UnityProject\\RemainHistory\\Server\\TKcp\\obj\\",
+        "outputPath": "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\莫歌冰雪\\AppData\\Roaming\\NuGet\\NuGet.Config",
