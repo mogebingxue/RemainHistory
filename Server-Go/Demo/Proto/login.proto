@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package login;
+
+option go_package = "Demo/Proto";
+
+message MsgRegister
+{
+
+	  string id = 1;
+	  string pw = 2;
+	  int32 result = 3;
+}
+
+
+message MsgLogin
+{
+	  string id = 1;
+	  string pw = 2;
+	  int32 result = 3;
+}
+
+
+message MsgKick
+{
+	  int32 result = 1;
+}
+

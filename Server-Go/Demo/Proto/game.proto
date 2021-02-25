@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package game;
+
+option go_package = "Demo/Proto";
+
+message MsgGetPlayerIntroduction
+{
+	  string palyerIntroduction = 1;
+}
+
+
+message MsgSavePlayerIntroduction
+{
+	  string palyerIntroduction = 1;
+	  int32 result = 2;
+}
+
+
+message MsgGetHeadPhoto
+{
+	  int32 headPhoto = 1;
+}
+
+
+message MsgSaveHeadPhoto
+{
+	   int32 headPhoto = 1;
+	   int32 result = 2;
+}
+
+
+message MsgSendMessageToWord
+{
+	  string message = 1;
+	  string id = 2;
+	  int32 result = 3;
+}
+
+
+message MsgSendMessageToFriend
+{
+	  string message = 1;
+	  string id = 2;
+	  string friendId = 3;
+	  int32 result = 4;
+}
+
+
+message MsgGetFriendList
+{
+                  string friendList = 1;
+	  int32 result = 2;
+}
+
+
+message MsgDeleteFriend
+{
+                  string friendId = 1;
+	  string id = 2;
+	  int32 result = 3;
+}
+
+
+message MsgAddFriend
+{
+                  string friendId = 1;
+	  string id = 2;
+	  int32 result = 3;
+}
+
+
+message MsgAcceptAddFriend
+{
+                  string friendId = 1;
+	  string id = 2;
+	  int32 result = 3;
+}

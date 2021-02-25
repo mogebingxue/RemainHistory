@@ -14,25 +14,20 @@ namespace TKcp
         /// 重连时间
         /// </summary>
         public int Interval = 10;
+        public Peer Peer;
         /// <summary>
         /// 客户端udp
         /// </summary>
         Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        
         IPEndPoint localIpep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8889);
-
-        public Peer peer;
-
         long connectTime;
-
         IPEndPoint serverIpep;
 
-        Thread updataAcceptThread;
-        Thread updataThread;
-        Thread updataPeerThread;
+        Thread updateAcceptThread;
+        Thread updateThread;
+        Thread updatePeerThread;
 
         public Client() {
-            peer = new Peer(null, 0, null);
             InitClient();
         }
 
@@ -49,10 +44,11 @@ namespace TKcp
         /// 初始化客户端
         /// </summary>
         void InitClient() {
+            Peer = new Peer(null, 0, null);
             socket.Bind(localIpep);
-            updataAcceptThread = new Thread(UpdataAccept);
-            updataThread = new Thread(Updata);
-            updataPeerThread = new Thread(UpdataPeer);
+            updateAcceptThread = new Thread(UpdateAccept);
+            updateThread = new Thread(Update);
+            updatePeerThread = new Thread(UpdatePeer);
         }
 
         /// <summary>
@@ -65,7 +61,7 @@ namespace TKcp
             socket.SendTo(bytes, server);
             connectTime = GetTimeStamp();
             
-            updataAcceptThread.Start();
+            updateAcceptThread.Start();
 
         }
         /// <summary>
@@ -73,18 +69,18 @@ namespace TKcp
         /// </summary>
         /// <param name="sendbuffer">发送的数据</param>
         public void Send(byte[] sendbuffer) {
-            if (peer == null) {
+            if (Peer == null) {
                 Console.WriteLine("未与服务器建立连接");
                 return;
             }
-            peer.Send(sendbuffer);
+            Peer.Send(sendbuffer);
             
         }
 
         /// <summary>
         /// 接收同意连接的消息
         /// </summary>
-        void UpdataAccept() {
+        void UpdateAccept() {
             while (true) {
                 if (socket.Available > 0) {
                     byte[] recvBuffer = new byte[socket.ReceiveBufferSize];
@@ -96,20 +92,17 @@ namespace TKcp
                     uint head = System.BitConverter.ToUInt32(headBytes,0);
 
                     //如果是接受连接会送
-                    if (head == 1) {
+                    if (head == 1&&remote==serverIpep) {
                         byte[] convBytes = new byte[4];
                         Array.Copy(recvBuffer, 4, convBytes, 0, 4);
                         uint conv = System.BitConverter.ToUInt32(convBytes,0);
-                        peer.LocalSocket = socket;
-                        peer.conv = conv;
-                        peer.Remote = remote;
-                        peer.InitKcp();
-                        if (peer.AcceptHandle != null) {
-                            peer.AcceptHandle(System.BitConverter.GetBytes(conv), 4);
+                        Peer = new Peer(socket, conv, remote);
+                        Peer.InitKcp();
+                        if (Peer.AcceptHandle != null) {
+                            Peer.AcceptHandle(System.BitConverter.GetBytes(conv), 4);
                         }
-                        updataThread.Start();
-                        updataPeerThread.Start();
-                        
+                        updateThread.Start();
+                        updatePeerThread.Start();
                         
                         Thread.Sleep(Timeout.Infinite);
                         
@@ -120,16 +113,16 @@ namespace TKcp
                     //现在的时间戳
                     long timeNow = GetTimeStamp();
                     //重连
-                    if (timeNow - connectTime > 10) {
+                    if (timeNow - connectTime > Interval) {
                         byte[] bytes = System.BitConverter.GetBytes(0);
                         socket.SendTo(bytes, serverIpep);
                         connectTime = GetTimeStamp();
-                        peer.TimeoutTime++;
+                        Peer.TimeoutTime++;
                     }
                     //超时
-                    if (peer.TimeoutTime >= 4) {
-                        if (peer.TimeoutHandle != null) {
-                            peer.TimeoutHandle();
+                    if (Peer.TimeoutTime >= 4) {
+                        if (Peer.TimeoutHandle != null) {
+                            Peer.TimeoutHandle();
                         }   
                     }
                 }
@@ -139,7 +132,7 @@ namespace TKcp
         /// <summary>
         /// 更新接收信息
         /// </summary>
-        void Updata() {
+        void Update() {
             while (true) {
 
                 if (socket.Available > 0) {
@@ -152,11 +145,9 @@ namespace TKcp
                     uint head = System.BitConverter.ToUInt32(headBytes,0);
 
                     //如果是收到的消息
-                    if (head != 1) {
-                        peer.kcp.Input(recvBuffer);
+                    if (head != 1&&remote==this.serverIpep) {
+                        Peer.Kcp.Input(recvBuffer);
                     }
-                    recvBuffer = null;
-
                 }
             }
         }
@@ -164,13 +155,13 @@ namespace TKcp
         /// <summary>
         /// 更新Peer
         /// </summary>
-        void UpdataPeer() {
+        void UpdatePeer() {
             
             while (true) {
-                if (peer == null) {
+                if (Peer == null) {
                     continue;
                 }
-                peer.PeerUpdata();
+                Peer.PeerUpdate();
                 
             }
 
@@ -178,15 +169,15 @@ namespace TKcp
         #region 注册回调
 
         public void AddReceiveHandle(Action<uint,byte[],int> method) {
-            peer.ReceiveHandle += method;
+            Peer.ReceiveHandle += method;
         }
 
         public void AddAcceptHandle(Action<byte[], int> method) {
-            peer.AcceptHandle += method;
+            Peer.AcceptHandle += method;
         }
 
         public void AddTimeoutHandle(Action method) {
-            peer.TimeoutHandle += method;
+            Peer.TimeoutHandle += method;
         }
 
         #endregion

@@ -1,0 +1,8 @@
+{
+  "Name": "YTServer",
+  "IP": "127.0.0.1",
+  "Port": 8888,
+  "MaxClients": 999,
+  "DBName": "game",
+  "DBURL": "mongodb://127.0.0.1:27017"
+}
