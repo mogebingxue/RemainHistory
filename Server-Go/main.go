@@ -6,6 +6,7 @@ import (
 	"ReaminHistory/YT/Helper/ConfigHelper"
 	"fmt"
 	"github.com/golang/protobuf/proto"
+	"reflect"
 )
 
 func main() {
@@ -19,5 +20,6 @@ func main() {
 	data := &Proto.MsgGetPlayerIntroduction{}
 	_ = proto.Unmarshal(buffer, data)
 	fmt.Println("反序列化之后的信息为：", data)
+	fmt.Println(reflect.TypeOf(data))
 
 }
