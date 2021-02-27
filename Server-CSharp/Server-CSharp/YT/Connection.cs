@@ -9,20 +9,20 @@ namespace YT
     public class Connection
     {
         //玩家
-        public Player player;
+        public Player Player;
         //客户端的Peer
         public uint Conv;
         //缓存区
         public ByteArray readBuff = new ByteArray();
 
-        public Server server;
+        public Server Server;
 
         public Connection(uint conv) {
             Conv = conv;
         }
 
         public void Send(IMessage message) {
-            server.Send(Conv, message);
+            Server.Send(Conv, message);
         }
     }
 }

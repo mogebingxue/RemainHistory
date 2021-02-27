@@ -133,7 +133,7 @@ namespace YT
 
             uint conv = System.BitConverter.ToUInt32(bytes);
             Connection connection = new Connection(conv);
-            connection.server = this;
+            connection.Server = this;
             if (!Clients.ContainsKey(conv)) {
                 Clients.Add(conv, connection);
             }
@@ -153,7 +153,7 @@ namespace YT
             
             //Player 下线
             if (Clients.ContainsKey(conv)) {
-                Player player = Clients[conv].player;
+                Player player = Clients[conv].Player;
                 //保存数据
                 DBManager.UpdatePlayerData(player.id, player.data);
                 //移除

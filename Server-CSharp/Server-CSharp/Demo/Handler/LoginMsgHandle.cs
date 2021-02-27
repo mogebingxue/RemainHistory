@@ -38,7 +38,7 @@ namespace YT
                 return;
             }
             //不允许再次登陆
-            if (c.player != null) {
+            if (c.Player != null) {
                 msg.Result = 1;
                 c.Send(msg);
                 return;
@@ -65,7 +65,7 @@ namespace YT
             player.id = msg.Id;
             player.data = playerData;
             PlayerManager.AddPlayer(msg.Id, player);
-            c.player = player;
+            c.Player = player;
             //返回协议
             msg.Result = 0;
             player.Send(msg);

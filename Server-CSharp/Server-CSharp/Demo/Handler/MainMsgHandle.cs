@@ -11,7 +11,7 @@ namespace YT
         //获取个人简介内容
         public static void MsgGetPlayerIntroduction(Connection c, byte[] bytes) {
             MsgGetPlayerIntroduction msg = Game.MsgGetPlayerIntroduction.Parser.ParseFrom(bytes);
-            Player player = c.player;
+            Player player = c.Player;
             if (player == null) return;
             //获取text
             msg.PalyerIntroduction = player.data.palyerIntroduction;
@@ -21,19 +21,19 @@ namespace YT
         //保存个人简介内容
         public static void MsgSavePlayerIntroduction(Connection c, byte[] bytes) {
             MsgSavePlayerIntroduction msg = Game.MsgSavePlayerIntroduction.Parser.ParseFrom(bytes);
-            Player player = c.player;
+            Player player = c.Player;
             if (player == null) return;
             //获取头像
             player.data.palyerIntroduction = msg.PalyerIntroduction;
             //保存数据
-            DBManager.UpdatePlayerData(c.player.id, c.player.data);
+            DBManager.UpdatePlayerData(c.Player.id, c.Player.data);
             player.Send(msg);
         }
 
         //获取头像
         public static void MsgGetHeadPhoto(Connection c, byte[] bytes) {
             MsgGetHeadPhoto msg = Game.MsgGetHeadPhoto.Parser.ParseFrom(bytes);
-            Player player = c.player;
+            Player player = c.Player;
             if (player == null) return;
             //获取头像
             msg.HeadPhoto = player.data.headPhoto;
@@ -43,12 +43,12 @@ namespace YT
         //保存头像
         public static void MsgSaveHeadPhoto(Connection c, byte[] bytes) {
             MsgSaveHeadPhoto msg = Game.MsgSaveHeadPhoto.Parser.ParseFrom(bytes);
-            Player player = c.player;
+            Player player = c.Player;
             if (player == null) return;
             //获取头像
             player.data.headPhoto = msg.HeadPhoto;
             //保存数据
-            DBManager.UpdatePlayerData(c.player.id, c.player.data);
+            DBManager.UpdatePlayerData(c.Player.id, c.Player.data);
             player.Send(msg);
         }
 
@@ -56,7 +56,7 @@ namespace YT
         public static void MsgSendMessageToWord(Connection c, byte[] bytes) {
             MsgSendMessageToWord msg = Game.MsgSendMessageToWord.Parser.ParseFrom(bytes);
 
-            Player player = c.player;
+            Player player = c.Player;
             //返回协议
             msg.Result = 0;
             PlayerManager.Broadcast(msg);
@@ -74,17 +74,17 @@ namespace YT
         //获取好友列表
         public static void MsgGetFriendList(Connection c, byte[] bytes) {
             MsgGetFriendList msg = Game.MsgGetFriendList.Parser.ParseFrom(bytes);
-            Player player = c.player;
+            Player player = c.Player;
             if (player == null) return;
             //获取FriendList
-            msg.FriendList = DBManager.GetFriendList(c.player.id);
+            msg.FriendList = DBManager.GetFriendList(c.Player.id);
             msg.Result = 0;
             player.Send(msg);
         }
         //添加好友
         public static void MsgAddFriend(Connection c, byte[] bytes) {
             MsgAddFriend msg = Game.MsgAddFriend.Parser.ParseFrom(bytes);
-            Player player = c.player;
+            Player player = c.Player;
             if (player == null) return;
 
             if (DBManager.IsAccountExist(msg.FriendId)) {
@@ -110,7 +110,7 @@ namespace YT
         //删除好友
         public static void MsgDeleteFriend(Connection c, byte[] bytes) {
             MsgDeleteFriend msg = Game.MsgDeleteFriend.Parser.ParseFrom(bytes);
-            Player player = c.player;
+            Player player = c.Player;
             if (player == null) return;
             if (DBManager.DeleteFriend(player.id, msg.FriendId)) {
                 msg.Result = 0;
@@ -130,7 +130,7 @@ namespace YT
         //同意添加好友
         public static void MsgAcceptAddFriend(Connection c, byte[] bytes) {
             MsgAcceptAddFriend msg = Game.MsgAcceptAddFriend.Parser.ParseFrom(bytes);
-            Player player = c.player;
+            Player player = c.Player;
             if (player == null) return;
 
             if (DBManager.AddFriend(msg.Id, msg.FriendId)) {
