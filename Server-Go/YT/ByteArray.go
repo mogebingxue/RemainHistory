@@ -17,6 +17,7 @@ func NewByteArray() *ByteArray {
 //写数据
 func (byteArray *ByteArray) Write(bs []byte) int {
 	byteArray.Bytes = append(byteArray.Bytes, bs...)
+	byteArray.WriteIdx+=len(byteArray.Bytes)
 	return len(byteArray.Bytes)
 }
 
@@ -44,6 +45,7 @@ func (byteArray *ByteArray) checkAndMoveBytes() {
 //移动数据
 func (byteArray *ByteArray) moveBytes() {
 	byteArray.Bytes = byteArray.Bytes[byteArray.ReadIdx:]
+	byteArray.ReadIdx = 0
 }
 
 //打印缓冲区

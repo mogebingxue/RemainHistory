@@ -87,7 +87,7 @@ func (client *Client) updateAccept()  {
 		headBytes :=recvBuffer[0:4]
 		head:=uint32(headBytes[0])|uint32(headBytes[1])<<8|uint32(headBytes[2])<<16|uint32(headBytes[3])<<24
 
-		if head==1 && remote.String()==client.serverIpep.String(){
+		if head==1{
 			convBytes := recvBuffer[4:8]
 			conv:=uint32(convBytes[0])|uint32(convBytes[1])<<8|uint32(convBytes[2])<<16|uint32(convBytes[3])<<24
 			client.Peer = NewPeer(client.socket,*remote,conv)

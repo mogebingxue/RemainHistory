@@ -168,7 +168,7 @@ func (peer *Peer) Send(bytes []byte)  {
 //Peer 的更新操作，负责接收来自udp的数据
 func (peer *Peer) PeerUpdate()  {
 	peer.Kcp.Update()
-	receiveBytes:=make([]byte,1400)
+	receiveBytes:=make([]byte,1024)
 	availedSize :=peer.Kcp.Recv(receiveBytes)
 	if availedSize >0 {
 		peer.ReceiveHandle.Call(peer.Conv,receiveBytes, availedSize)

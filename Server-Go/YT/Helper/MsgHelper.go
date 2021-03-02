@@ -38,7 +38,7 @@ func encodeName(msg protoiface.MessageV1) []byte {
 	return sendBytes
 }
 
-func Decode(readBuf YT.ByteArray, conv uint32) *YT.Request {
+func Decode(readBuf *YT.ByteArray, conv uint32) *YT.Request {
 	bytes := readBuf.Read()
 	//解析协议名
 	protoName, nameCount := decodeName(bytes)

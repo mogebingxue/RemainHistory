@@ -126,10 +126,11 @@ public static class NetManager
         }
         IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
         client = new Client();
-        client.Connect(iPEndPoint);
         client.AddAcceptHandle(OnConnect);
         client.AddReceiveHandle(OnReceive);
         client.AddTimeoutHandle(OnTimeout);
+        client.Connect(iPEndPoint);
+
         //初始化成员
         InitState();
         //参数设置
@@ -276,7 +277,7 @@ public static class NetManager
     public static void OnReceiveData() {
 
 
-        Request msg = MsgHelper.Decode(readBuff,client.peer.conv);
+        Request msg = MsgHelper.Decode(readBuff,client.Peer.Conv);
         
         //添加到消息队列
         lock (msgList) {

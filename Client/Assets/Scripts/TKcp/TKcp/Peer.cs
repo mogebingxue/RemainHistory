@@ -3,6 +3,7 @@ using System.Buffers;
 using System.Net;
 using System.Net.Sockets;
 using System.Net.Sockets.Kcp;
+using UnityEngine;
 
 namespace TKcp
 {
@@ -137,15 +138,15 @@ namespace TKcp
         }
 
         private void OnTimeout() {
-            Console.WriteLine("连接超时，请检查你的网络");
+            Debug.Log("连接超时，请检查你的网络");
         }
 
         private void OnDisconnect(uint conv) {
-            Console.WriteLine("客户端 " + conv + "断开");
+            Debug.Log("客户端 " + conv + "断开");
         }
 
         private void OnAccept(byte[] arg1, int arg2) {
-            Console.WriteLine("客户端收到接受了连接请求" + Conv);
+            Debug.Log("客户端收到接受了连接请求" + Conv);
             ReceiveHandle += OnReceive;
         }
 
@@ -186,7 +187,7 @@ namespace TKcp
         /// <param name="bytes">发送的数据</param>
         public void Send(Span<byte> bytes) {
             Kcp.Send(bytes);
-            Console.WriteLine("发送数据 " + " TO " + Remote + " " + Conv+" "+ System.Text.Encoding.UTF8.GetString(bytes));
+            Debug.Log("发送数据 " + " TO " + Remote + " " + Conv+" "+ System.Text.Encoding.UTF8.GetString(bytes.ToArray()));
         }
 
         /// <summary>
@@ -197,7 +198,7 @@ namespace TKcp
             Kcp.Update(DateTime.UtcNow);
             var (temp, avalidSize) = Kcp.TryRecv();
             if (avalidSize > 0) {
-                byte[] receiveBytes = new byte[1400];
+                byte[] receiveBytes = new byte[1024];
                 temp.Memory.Span.Slice(0, avalidSize).CopyTo(receiveBytes);
                 if (ReceiveHandle != null) {
                     ReceiveHandle(Conv, receiveBytes, avalidSize);

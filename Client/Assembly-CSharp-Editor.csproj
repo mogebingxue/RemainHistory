@@ -288,31 +288,31 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="CString">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/CString.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/CString.dll</HintPath>
     </Reference>
     <Reference Include="Debugger">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/Debugger.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/Debugger.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/Google.Protobuf.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="Kcp">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/Kcp.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/Kcp.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Buffers.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Memory.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Threading.Tasks.Extensions.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Tool/2019.4.16f1c1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -669,34 +669,34 @@
       <HintPath>C:/Tool/2019.4.16f1c1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.AssetBundleBrowser.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.AssetBundleBrowser.Editor.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/Unity.AssetBundleBrowser.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

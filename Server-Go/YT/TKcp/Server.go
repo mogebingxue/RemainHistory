@@ -9,11 +9,11 @@ import (
 )
 
 type Server struct {
-	MaxConnection int
-	Ip string
-	Port int
-	PingInterval int
-	Peers map[uint32]*Peer
+	MaxConnections int
+	Ip             string
+	Port           int
+	PingInterval   int
+	Peers          map[uint32]*Peer
 
 	clients map[uint32]net.UDPAddr
 	peerpool []*Peer
@@ -24,7 +24,7 @@ type Server struct {
 
 func NewServer() *Server {
 
-	server :=&Server{MaxConnection: 999, Ip: "127.0.0.1", Port: 8888, PingInterval: 500}
+	server :=&Server{MaxConnections: 999, Ip: "127.0.0.1", Port: 8888, PingInterval: 500}
     server.initServer()
 	return server
 }
@@ -43,7 +43,7 @@ func (server *Server) initServer()  {
 	server.Peers = make(map[uint32]*Peer)
 	server.clients = make(map[uint32]net.UDPAddr)
 	//初始化缓存池
-	server.peerpool = make([]*Peer,server.MaxConnection)
+	server.peerpool = make([]*Peer,server.MaxConnections)
 	for key,_:=range server.peerpool{
 		server.peerpool[key] = NewPeer(server.socket,net.UDPAddr{},uint32(key+1000))
 	}
@@ -55,7 +55,7 @@ func (server *Server) initServer()  {
 //连接号生成器
 func (server *Server) GenerateConv() uint32 {
 	rand.Seed(time.Now().Unix())
-	conv:=rand.Intn(server.MaxConnection)+1000
+	conv:=rand.Intn(server.MaxConnections)+1000
 	return uint32(conv)
 }
 
@@ -88,7 +88,7 @@ func (server *Server) update() {
 		convBytes:=recvBuffer[0:4]
 		head:=uint32(convBytes[0])|uint32(convBytes[1])<<8|uint32(convBytes[2])<<16|uint32(convBytes[3])<<24
 		if head==0{
-			if len(server.clients)>server.MaxConnection {
+			if len(server.clients)>server.MaxConnections {
 				fmt.Println("已达到最大连接数")
 				continue
 			}

@@ -12,10 +12,10 @@
     /// <summary>
     /// 资源服务器域名
     /// </summary>
-    public const string AssetServerURL = @"C:\Project\UnityProject\RemainHistory\Client\AssetBundles\";
+    public const string AssetServerURL = @"C:\Project\RemainHistory\Client\AssetBundles\";
     /// <summary>
     /// 本地资源文件夹
     /// </summary>
-    public const string LocalAssetURL = @"C:\Project\UnityProject\RemainHistory\Client\Assets\StreamingAssets\";
+    public const string LocalAssetURL = @"C:\Project\RemainHistory\Client\Assets\StreamingAssets\";
 }
 

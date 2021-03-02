@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using UnityEngine;
 
 namespace TKcp
 {
@@ -70,11 +71,10 @@ namespace TKcp
         /// <param name="sendbuffer">发送的数据</param>
         public void Send(byte[] sendbuffer) {
             if (Peer == null) {
-                Console.WriteLine("未与服务器建立连接");
+                Debug.Log("未与服务器建立连接");
                 return;
             }
             Peer.Send(sendbuffer);
-            
         }
 
         /// <summary>
@@ -92,15 +92,18 @@ namespace TKcp
                     uint head = System.BitConverter.ToUInt32(headBytes,0);
 
                     //如果是接受连接会送
-                    if (head == 1&&remote==serverIpep) {
+                    if (head == 1) {
                         byte[] convBytes = new byte[4];
                         Array.Copy(recvBuffer, 4, convBytes, 0, 4);
                         uint conv = System.BitConverter.ToUInt32(convBytes,0);
-                        Peer = new Peer(socket, conv, remote);
+                        Peer.LocalSocket = socket;
+                        Peer.Conv = conv;
+                        Peer.Remote = remote;
                         Peer.InitKcp();
                         if (Peer.AcceptHandle != null) {
                             Peer.AcceptHandle(System.BitConverter.GetBytes(conv), 4);
                         }
+                        
                         updateThread.Start();
                         updatePeerThread.Start();
                         
@@ -145,7 +148,7 @@ namespace TKcp
                     uint head = System.BitConverter.ToUInt32(headBytes,0);
 
                     //如果是收到的消息
-                    if (head != 1&&remote==this.serverIpep) {
+                    if (head != 1) {
                         Peer.Kcp.Input(recvBuffer);
                     }
                 }

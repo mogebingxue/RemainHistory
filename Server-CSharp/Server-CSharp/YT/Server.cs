@@ -129,9 +129,10 @@ namespace YT
         /// 客户端连接时，需要执行的方法
         /// </summary>
         public void OnConnect(byte[] bytes) {
-            Console.WriteLine("客户端连接 - ");
+            
 
             uint conv = System.BitConverter.ToUInt32(bytes);
+            Console.WriteLine("客户端连接 - "+ conv);
             Connection connection = new Connection(conv);
             connection.Server = this;
             if (!Clients.ContainsKey(conv)) {
@@ -146,18 +147,20 @@ namespace YT
         /// 客户端断开连接时，需要执行的方法
         /// </summary>
         public void OnDisconnect(uint conv) {
-            Console.WriteLine("客户端断开连接 - ");
-            if (Clients.ContainsKey(conv)) {
-                Clients.Remove(conv);
-            }
+            Console.WriteLine("客户端断开连接 - "+ conv);
             
             //Player 下线
             if (Clients.ContainsKey(conv)) {
                 Player player = Clients[conv].Player;
+                if (player == null) {
+                    Clients.Remove(conv);
+                    return;
+                }
                 //保存数据
                 DBManager.UpdatePlayerData(player.id, player.data);
                 //移除
                 PlayerManager.RemovePlayer(player.id);
+                Clients.Remove(conv);
             }
 
         }
@@ -227,8 +230,7 @@ namespace YT
             byte[] sendBytes = MsgHelper.Encode(msg);
             //发送
             try {
-                byte[] data = sendBytes;
-                server.Send(conv,data);
+                server.Send(conv,sendBytes);
             }
             catch (Exception ex) {
                 Console.WriteLine("Send failed" + ex.ToString());

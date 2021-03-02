@@ -8,7 +8,7 @@ type Player struct {
 	//指向ClientState
 	State *YT.Connection
 	//数据库数据
-	Data PlayerData
+	Data *PlayerData
 }
 
 func NewPlayer(state *YT.Connection) *Player {

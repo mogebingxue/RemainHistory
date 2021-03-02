@@ -186,7 +186,7 @@ namespace TKcp
         /// <param name="bytes">发送的数据</param>
         public void Send(Span<byte> bytes) {
             Kcp.Send(bytes);
-            Console.WriteLine("发送数据 " + " TO " + Remote + " " + Conv+" "+ System.Text.Encoding.UTF8.GetString(bytes));
+            Console.WriteLine("发送数据 " + " TO " + Remote + " " + Conv+" "+ System.Text.Encoding.UTF8.GetString(bytes.ToArray()));
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace TKcp
             Kcp.Update(DateTime.UtcNow);
             var (temp, avalidSize) = Kcp.TryRecv();
             if (avalidSize > 0) {
-                byte[] receiveBytes = new byte[1400];
+                byte[] receiveBytes = new byte[1024];
                 temp.Memory.Span.Slice(0, avalidSize).CopyTo(receiveBytes);
                 if (ReceiveHandle != null) {
                     ReceiveHandle(Conv, receiveBytes, avalidSize);

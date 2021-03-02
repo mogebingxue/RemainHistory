@@ -267,31 +267,31 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="CString">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/CString.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/CString.dll</HintPath>
     </Reference>
     <Reference Include="Debugger">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/Debugger.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/Debugger.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/Google.Protobuf.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="Kcp">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/Kcp.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/Kcp.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Buffers.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Memory.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Assets/Plugins/3rd/System.Threading.Tasks.Extensions.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>C:/Project/UnityProject/RemainHistory/Client/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Tool/2019.4.16f1c1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
