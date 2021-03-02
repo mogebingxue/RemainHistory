@@ -28,8 +28,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj": {
-                "projectPath": "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj"
+              "C:\\Project\\RemainHistory\\Server-CSharp\\YT\\YT.csproj": {
+                "projectPath": "C:\\Project\\RemainHistory\\Server-CSharp\\YT\\YT.csproj"
               }
             }
           }
@@ -44,10 +44,6 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
-            "Google.Protobuf": {
-              "target": "Package",
-              "version": "[3.14.0, )"
-            },
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[2.11.6, )"
@@ -115,6 +111,70 @@
             "Kcp": {
               "target": "Package",
               "version": "[2.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Project\\RemainHistory\\Server-CSharp\\YT\\YT.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Project\\RemainHistory\\Server-CSharp\\YT\\YT.csproj",
+        "projectName": "YT",
+        "projectPath": "C:\\Project\\RemainHistory\\Server-CSharp\\YT\\YT.csproj",
+        "packagesPath": "C:\\Users\\莫歌冰雪\\.nuget\\packages\\",
+        "outputPath": "C:\\Project\\RemainHistory\\Server-CSharp\\YT\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\莫歌冰雪\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj": {
+                "projectPath": "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "dependencies": {
+            "Google.Protobuf": {
+              "target": "Package",
+              "version": "[3.15.3, )"
             }
           },
           "imports": [

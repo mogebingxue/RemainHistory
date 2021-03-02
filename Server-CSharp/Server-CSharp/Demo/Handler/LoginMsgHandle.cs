@@ -38,7 +38,7 @@ namespace YT
                 return;
             }
             //不允许再次登陆
-            if (Server.Players.ContainsKey(c.Conv)) {
+            if (Player.Players.ContainsKey(c.Conv)) {
                 msg.Result = 1;
                 c.Send(msg);
                 return;
@@ -65,7 +65,7 @@ namespace YT
             player.id = msg.Id;
             player.data = playerData;
             PlayerManager.AddPlayer(msg.Id, player);
-            Server.Players.Add(c.Conv,player);
+            Player.Players.Add(c.Conv,player);
             //返回协议
             msg.Result = 0;
             player.Send(msg);

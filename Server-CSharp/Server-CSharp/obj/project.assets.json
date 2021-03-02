@@ -11,7 +11,7 @@
           "lib/netstandard2.1/DnsClient.dll": {}
         }
       },
-      "Google.Protobuf/3.14.0": {
+      "Google.Protobuf/3.15.3": {
         "type": "package",
         "dependencies": {
           "System.Memory": "4.5.3",
@@ -1361,6 +1361,20 @@
         "runtime": {
           "bin/placeholder/TKcp.dll": {}
         }
+      },
+      "YT/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "Google.Protobuf": "3.15.3",
+          "TKcp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/YT.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/YT.dll": {}
+        }
       }
     }
   },
@@ -1387,14 +1401,14 @@
         "lib/netstandard2.1/DnsClient.xml"
       ]
     },
-    "Google.Protobuf/3.14.0": {
-      "sha512": "9AkodyGNmLI+wJJPbwpWLmh4BMHoXDQ9+8qvDPhQQi/BNsleqKMBn3OlyLwC6CALwan2kc5+Cenb8fJSITX3nQ==",
+    "Google.Protobuf/3.15.3": {
+      "sha512": "Go4XA9C/qpVLzT5NF9xKtZ9JrVS1SqR0wRN6du8GNkRfGYKOFDdjyF8PFZicmfFgebdtc3tvDQW80p/kzY1Ipg==",
       "type": "package",
-      "path": "google.protobuf/3.14.0",
+      "path": "google.protobuf/3.15.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "google.protobuf.3.14.0.nupkg.sha512",
+        "google.protobuf.3.15.3.nupkg.sha512",
         "google.protobuf.nuspec",
         "lib/net45/Google.Protobuf.dll",
         "lib/net45/Google.Protobuf.pdb",
@@ -4953,14 +4967,18 @@
       "type": "project",
       "path": "../TKcp/TKcp.csproj",
       "msbuildProject": "../TKcp/TKcp.csproj"
+    },
+    "YT/1.0.0": {
+      "type": "project",
+      "path": "../YT/YT.csproj",
+      "msbuildProject": "../YT/YT.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Google.Protobuf >= 3.14.0",
       "MongoDB.Driver >= 2.11.6",
       "Newtonsoft.Json >= 12.0.3",
-      "TKcp >= 1.0.0"
+      "YT >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -4990,8 +5008,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj": {
-              "projectPath": "C:\\Project\\RemainHistory\\Server-CSharp\\TKcp\\TKcp.csproj"
+            "C:\\Project\\RemainHistory\\Server-CSharp\\YT\\YT.csproj": {
+              "projectPath": "C:\\Project\\RemainHistory\\Server-CSharp\\YT\\YT.csproj"
             }
           }
         }
@@ -5006,10 +5024,6 @@
       "netcoreapp3.1": {
         "targetAlias": "netcoreapp3.1",
         "dependencies": {
-          "Google.Protobuf": {
-            "target": "Package",
-            "version": "[3.14.0, )"
-          },
           "MongoDB.Driver": {
             "target": "Package",
             "version": "[2.11.6, )"

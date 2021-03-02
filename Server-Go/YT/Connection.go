@@ -1,13 +1,10 @@
 package YT
 
 import (
-	"ReaminHistory/Demo/Player"
 	"google.golang.org/protobuf/runtime/protoiface"
 )
 
 type Connection struct {
-	//玩家
-	Player *Player.Player
 	//客户端Peer
 	Conv uint32
 	//缓存区

@@ -1,6 +1,7 @@
 package Player
 
 import (
+	"ReaminHistory/Demo/Player/PlayerData"
 	"ReaminHistory/YT"
 	"google.golang.org/protobuf/runtime/protoiface"
 )
@@ -8,10 +9,10 @@ import (
 type Player struct {
 	//id
 	Id string
-	//指向ClientState
+	//连接号
 	Conv uint32
 	//数据库数据
-	Data *PlayerData
+	Data *PlayerData.PlayerData
 }
 
 func NewPlayer(conv uint32 ) *Player {
@@ -22,3 +23,5 @@ func NewPlayer(conv uint32 ) *Player {
 func (player *Player) Send(msg protoiface.MessageV1) {
 	YT.Clients[player.Conv].Send(msg)
 }
+
+

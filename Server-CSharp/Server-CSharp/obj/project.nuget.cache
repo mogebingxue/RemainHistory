@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "WPT2fkrZv4iO6s6118ao+PloI3/4ZoyqDv6p4Iri1Pr66lfT9W5RPhS9KyEL0MRMBI+lqd6/dOKNrYvus2LcUA==",
+  "dgSpecHash": "4QdSf9t+ljIfBzlU9oToVq8qZzyyLXRDTEmof/phZLvsjYWMlAJi+ADrYiyfgdKp+dV3Fu4RDiv+59olYxkcJg==",
   "success": true,
   "projectFilePath": "C:\\Project\\RemainHistory\\Server-CSharp\\Server-CSharp\\Server-CSharp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\dnsclient\\1.3.1\\dnsclient.1.3.1.nupkg.sha512",
-    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\google.protobuf\\3.15.3\\google.protobuf.3.15.3.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\kcp\\2.2.0\\kcp.2.2.0.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
     "C:\\Users\\莫歌冰雪\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",

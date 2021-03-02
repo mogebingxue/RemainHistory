@@ -1,7 +1,7 @@
 package db
 
 import (
-	Player2 "ReaminHistory/Demo/Player"
+	"ReaminHistory/Demo/Player/PlayerData"
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -38,7 +38,7 @@ func IsSafeString(str string) bool {
 	return true
 }
 
-func UpdatePlayerData(id string,data *Player2.PlayerData)  {
-	
+func UpdatePlayerData(id string,data *PlayerData.PlayerData)  {
+
 }
 

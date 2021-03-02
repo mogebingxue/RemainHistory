@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "EU5ZLHRBhh0tTtgroYDt7BP4inn4Rrrs1tekSoXyXHvdNwctHv5jXK2uIP66r67TEQlYFhlTb09Fw7pIbIYJkg==",
+  "success": true,
+  "projectFilePath": "C:\\Project\\RemainHistory\\Server-CSharp\\YT\\YT.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\google.protobuf\\3.15.3\\google.protobuf.3.15.3.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\kcp\\2.2.0\\kcp.2.2.0.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\system.numerics.vectors\\4.4.0\\system.numerics.vectors.4.4.0.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.3\\system.runtime.compilerservices.unsafe.4.5.3.nupkg.sha512",
+    "C:\\Users\\莫歌冰雪\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+  ],
+  "logs": []
+}

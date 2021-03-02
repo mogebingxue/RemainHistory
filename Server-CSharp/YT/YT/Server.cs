@@ -9,12 +9,10 @@ namespace YT
 {
     public class Server
     {
-        /// <summary>玩家信息</summary>
-        public static Dictionary<uint, Player> Players = new Dictionary<uint, Player>();
         /// <summary>客户端Peer及状态信息</summary>
         public static Dictionary<uint, Connection> Clients = new Dictionary<uint, Connection>();
         /// <summary>注册的回调函数</summary>
-        public Dictionary<string, MethodInfo> Routers = new Dictionary<string, MethodInfo>();
+        public Dictionary<string, Action<Connection,byte[]>> Routers = new Dictionary<string, Action<Connection, byte[]>> ();
         /// <summary>待处理的消息队列</summary>
         public Queue<Request> Requests = new Queue<Request>();
 
@@ -39,13 +37,12 @@ namespace YT
         /// </summary>
         /// <typeparam name="T">自定义的连接类型</typeparam>
         /// <returns></returns>
-        public static Server CreateServer() {
+        public static Server CreateServer(string ip,int port, string name = "default", int maxClients = 999) {
             Server server = new Server();
-            NetConfig netConfig = ConfigHelper.GetNetConfig();
-            server.Name = netConfig.Name;
-            server.ip = netConfig.IP;
-            server.port = netConfig.Port;
-            server.maxClients = netConfig.MaxClients;
+            server.Name = name;
+            server.ip =ip;
+            server.port = port;
+            server.maxClients = maxClients;
             server.isCreate = true;
             return server;
         }
@@ -79,13 +76,12 @@ namespace YT
                 while (Requests.Count != 0) {
                     request = Requests.Dequeue();
                     //分发消息
-
-                    object[] o = { Clients[request.Conv], request.Msg };
                     Console.WriteLine("Receive " + request.Name);
                     if (!Routers.ContainsKey(request.Name)) {
-                        AddRouter(request.Name);
+                        Console.WriteLine("此回调未注册");
+                        continue;
                     }
-                    Routers[request.Name].Invoke(null, o);
+                    Routers[request.Name](Clients[request.Conv], request.Msg);
 
                 }
             }
@@ -103,17 +99,12 @@ namespace YT
         /// <summary>
         /// 为当前服务添加一个路由
         /// </summary>
-        public void AddRouter(string name) {
+        public void AddRouter(string name, Action<Connection, byte[]> handle) {
             //如果已经注册了就不用了
             if (Routers.ContainsKey(name)) {
                 return;
             }
-            MethodInfo mi = typeof(MsgHandler).GetMethod(name);
-            //如果得到的方法为空，则不加入
-            if (mi == null) {
-                throw new Exception("无此回调函数!");
-            }
-            Routers.Add(name, mi);
+            Routers.Add(name, handle);
         }
         /// <summary>
         /// 为当前服务移除一个路由
@@ -130,12 +121,9 @@ namespace YT
         /// 客户端连接时，需要执行的方法
         /// </summary>
         public void OnConnect(byte[] bytes) {
-            
-
             uint conv = System.BitConverter.ToUInt32(bytes);
             Console.WriteLine("客户端连接 - "+ conv);
             Connection connection = new Connection(conv);
-            Player player = new Player(conv);
             connection.Server = this;
             if (!Clients.ContainsKey(conv)) {
                 Clients.Add(conv, connection);
@@ -153,18 +141,6 @@ namespace YT
             
             //Player 下线
             if (Clients.ContainsKey(conv)) {
-                if (Players.ContainsKey(conv)) {
-                    Player player = Players[conv];
-                    if (player == null) {
-                        Clients.Remove(conv);
-                        Players.Remove(conv);
-                        return;
-                    }
-                    //保存数据
-                    DBManager.UpdatePlayerData(player.id, player.data);
-                    //移除
-                    PlayerManager.RemovePlayer(player.id);
-                }
                 Clients.Remove(conv);
             }
         }
@@ -239,6 +215,16 @@ namespace YT
             catch (Exception ex) {
                 Console.WriteLine("Send failed" + ex.ToString());
             }
+        }
+
+        public void AddDisconnectHandle(Action<uint> method) {
+            server.AddDisconnectHandle(method);
+        }
+        public void AddConnectHandle(Action<byte[]> method) {
+            server.AddConnectHandle(method);
+        }
+        public void AddReceiveHandle(Action<uint, byte[], int> method) {
+            server.AddReceiveHandle(method);
         }
 
     }

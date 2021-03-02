@@ -15,13 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.14.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TKcp\TKcp.csproj" />
+    <ProjectReference Include="..\YT\YT.csproj" />
   </ItemGroup>
 
 </Project>

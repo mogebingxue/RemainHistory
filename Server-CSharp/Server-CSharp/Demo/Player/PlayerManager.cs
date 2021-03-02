@@ -31,8 +31,6 @@ public class PlayerManager
         foreach (Player player in players.Values) {
 			player.Send(msgBase);
         }
-
-
     }
 }
 

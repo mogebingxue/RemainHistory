@@ -1,10 +1,8 @@
 package main
 
 import (
+	"ReaminHistory/Demo/Helper/ConfigHelper"
 	"ReaminHistory/Demo/db"
-	"ReaminHistory/YT/Helper/ConfigHelper"
-	"fmt"
-	"gopkg.in/eapache/queue.v1"
 )
 
 func main() {
@@ -19,9 +17,5 @@ func main() {
 	//_ = proto.Unmarshal(buffer, data)
 	//fmt.Println("反序列化之后的信息为：", data)
 	//fmt.Println(reflect.TypeOf(data))
-	queue:= queue.New()
-	queue.Add("姚姚姚")
-	i:=queue.Remove()
-	fmt.Println(i)
 
 }

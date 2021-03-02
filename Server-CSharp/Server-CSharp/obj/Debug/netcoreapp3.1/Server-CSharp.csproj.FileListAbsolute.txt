@@ -54,3 +54,5 @@ C:\Project\RemainHistory\Server-CSharp\Server-CSharp\obj\Debug\netcoreapp3.1\Ser
 C:\Project\RemainHistory\Server-CSharp\Server-CSharp\obj\Debug\netcoreapp3.1\Server-CSharp.dll
 C:\Project\RemainHistory\Server-CSharp\Server-CSharp\obj\Debug\netcoreapp3.1\Server-CSharp.pdb
 C:\Project\RemainHistory\Server-CSharp\Server-CSharp\obj\Debug\netcoreapp3.1\Server-CSharp.genruntimeconfig.cache
+C:\Project\RemainHistory\Server-CSharp\Server-CSharp\bin\Debug\netcoreapp3.1\YT.dll
+C:\Project\RemainHistory\Server-CSharp\Server-CSharp\bin\Debug\netcoreapp3.1\YT.pdb

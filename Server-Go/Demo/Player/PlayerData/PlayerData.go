@@ -1,4 +1,4 @@
-package Player
+package PlayerData
 
 type PlayerData struct {
 	HeadPhoto          int

@@ -1,10 +1,7 @@
 package YT
 
 import (
-	"ReaminHistory/Demo/Player"
-	"ReaminHistory/Demo/db"
-	MsgHelper "ReaminHistory/YT/Helper"
-	"ReaminHistory/YT/Helper/ConfigHelper"
+	"ReaminHistory/YT/Helper/MsgHelper"
 	"ReaminHistory/YT/TKcp"
 	"fmt"
 	"google.golang.org/protobuf/runtime/protoiface"
@@ -27,13 +24,12 @@ type Server struct {
 	server *TKcp.Server
 }
 
-func NewServer() *Server {
+func NewServer(name string,ip string,port int,maxClients int) *Server {
 	server := &Server{}
-	netConfig := ConfigHelper.GetNetConfig()
-	server.Name = netConfig.Name
-	server.ip = netConfig.IP
-	server.port = netConfig.Port
-	server.maxClients = netConfig.MaxClients
+	server.Name = name
+	server.ip = ip
+	server.port = port
+	server.maxClients = maxClients
 	return server
 }
 
@@ -108,10 +104,8 @@ func (server *Server) OnConnect(bytes []byte) {
 //客户端断开连接时，需要执行的方法
 func (server *Server) OnDisconnect(conv uint32) {
 	fmt.Println("客户端连接: ",conv)
-	if client,ok:=Clients[conv];ok{
-		//Player下线
-		db.UpdatePlayerData(client.Player.Id,client.Player.Data)
-		Player.RemovePlayer(client.Player.Id)
+	if _,ok:=Clients[conv];ok{
+
 		delete(Clients,conv)
 	}
 }
@@ -136,7 +130,7 @@ func (server *Server) OnReceive(conv uint32, bytes []byte, len int) {
 //数据处理
 func (server *Server) onReceiveData(conv uint32) {
 	readBuf:=Clients[conv].readBuf
-	request:=MsgHelper.Decode(readBuf,conv)
+	request:= MsgHelper.Decode(readBuf,conv)
 	server.Requests.Enqueue(request)
 	if len(readBuf.Bytes)>2{
 		server.onReceiveData(conv)
@@ -145,6 +139,18 @@ func (server *Server) onReceiveData(conv uint32) {
 
 //发送消息
 func (server *Server) Send(conv uint32, message protoiface.MessageV1) {
-	sendBytes:=MsgHelper.Encode(message)
+	sendBytes:= MsgHelper.Encode(message)
 	server.server.Send(conv,sendBytes)
+}
+
+func (server *Server) AddDisconnectHandle(name string, handleFunc func(conv uint32)) {
+	server.server.AddDisconnectHandle(name,handleFunc)
+}
+
+func (server *Server) AddConnectHandle(name string, handleFunc func(bytes []byte)) {
+	server.server.AddConnectHandle(name,handleFunc)
+}
+
+func (server *Server) AddReceiveHandle(name string, handleFunc func(conv uint32, bytes []byte, len int)) {
+	server.server.AddReceiveHandle(name,handleFunc)
 }
