@@ -8,8 +8,6 @@ namespace YT
 {
     public class Connection
     {
-        //玩家
-        public Player Player;
         //客户端的Peer
         public uint Conv;
         //缓存区

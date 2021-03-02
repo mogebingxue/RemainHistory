@@ -1,6 +1,7 @@
 package Player
 
 import (
+	"ReaminHistory/YT"
 	"google.golang.org/protobuf/runtime/protoiface"
 )
 
@@ -19,5 +20,5 @@ func NewPlayer(conv uint32 ) *Player {
 
 //发送消息
 func (player *Player) Send(msg protoiface.MessageV1) {
-	//YT.Clients[player.Conv].Send(msg)
+	YT.Clients[player.Conv].Send(msg)
 }

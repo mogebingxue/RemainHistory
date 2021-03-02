@@ -5,7 +5,6 @@ using YT;
 public class Player {
 	//id
 	public string id = "";
-	//指向ClientState
 	public uint Conv;
 	//构造函数
 	public Player(uint conv){

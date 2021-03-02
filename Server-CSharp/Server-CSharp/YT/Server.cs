@@ -9,7 +9,8 @@ namespace YT
 {
     public class Server
     {
-        
+        /// <summary>玩家信息</summary>
+        public static Dictionary<uint, Player> Players = new Dictionary<uint, Player>();
         /// <summary>客户端Peer及状态信息</summary>
         public static Dictionary<uint, Connection> Clients = new Dictionary<uint, Connection>();
         /// <summary>注册的回调函数</summary>
@@ -134,6 +135,7 @@ namespace YT
             uint conv = System.BitConverter.ToUInt32(bytes);
             Console.WriteLine("客户端连接 - "+ conv);
             Connection connection = new Connection(conv);
+            Player player = new Player(conv);
             connection.Server = this;
             if (!Clients.ContainsKey(conv)) {
                 Clients.Add(conv, connection);
@@ -151,18 +153,20 @@ namespace YT
             
             //Player 下线
             if (Clients.ContainsKey(conv)) {
-                Player player = Clients[conv].Player;
-                if (player == null) {
-                    Clients.Remove(conv);
-                    return;
+                if (Players.ContainsKey(conv)) {
+                    Player player = Players[conv];
+                    if (player == null) {
+                        Clients.Remove(conv);
+                        Players.Remove(conv);
+                        return;
+                    }
+                    //保存数据
+                    DBManager.UpdatePlayerData(player.id, player.data);
+                    //移除
+                    PlayerManager.RemovePlayer(player.id);
                 }
-                //保存数据
-                DBManager.UpdatePlayerData(player.id, player.data);
-                //移除
-                PlayerManager.RemovePlayer(player.id);
                 Clients.Remove(conv);
             }
-
         }
 
         /// <summary>

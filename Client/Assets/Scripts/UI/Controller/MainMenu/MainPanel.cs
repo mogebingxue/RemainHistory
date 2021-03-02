@@ -119,7 +119,7 @@ public class MainPanel : BasePanel
     //获得简介回调
     private void OnMsgGetPlayerIntroduction(Request request) {
         MsgGetPlayerIntroduction msgGetPlayerIntroduction = MsgGetPlayerIntroduction.Parser.ParseFrom(request.Msg);
-        _playerIntroduction.text = msgGetPlayerIntroduction.PalyerIntroduction;
+        _playerIntroduction.text = msgGetPlayerIntroduction.PlayerIntroduction;
     }
 
     //获取头像回调
