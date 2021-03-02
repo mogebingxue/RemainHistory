@@ -8,13 +8,13 @@ import (
 	"ReaminHistory/YT/TKcp"
 	"fmt"
 	"google.golang.org/protobuf/runtime/protoiface"
-	"gopkg.in/eapache/queue.v1"
 )
 
+var Clients  map[uint32]*Connection
 type Server struct {
-	Clients  map[uint32]*Connection
+
 	Routers  map[string]func(connection *Connection,bytes []byte)
-	Requests queue.Queue
+	Requests RequestQueue
 	//服务端名
 	Name string
 	//服务端ip地址
@@ -60,15 +60,14 @@ func (server *Server) Start() {
 func (server *Server) StartMsgHandle() {
 
 	for{
-		for server.Requests.Length()>0{
-			request:=&Request{}
-
-			//request:=Request(server.Requests.Remove())
+		for server.Requests.Count()>0{
+			request:=server.Requests.Dequeue()
 			fmt.Println("Receive: ",request.Name)
-			//注册回调应手动进行
+			//注册回调应手动进行,在创建Server的时候
 			//TODO
-			server.Routers[request.Name](server.Clients[request.Conv],request.Msg)
-
+			if router,ok:=server.Routers[request.Name];ok{
+				router(Clients[request.Conv],request.Msg)
+			}
 		}
 	}
 }
@@ -100,8 +99,8 @@ func (server *Server) OnConnect(bytes []byte) {
 	conv:=uint32(bytes[0])|uint32(bytes[1])<<8|uint32(bytes[2])<<16|uint32(bytes[3])<<24
 	fmt.Println("客户端连接: ",conv)
 	connection:=&Connection{Conv: conv,Server: server}
-	if _,ok:=server.Clients[conv];!ok{
-		server.Clients[conv]=connection
+	if _,ok:=Clients[conv];!ok{
+		Clients[conv]=connection
 	}
 	go server.StartMsgHandle()
 }
@@ -109,11 +108,11 @@ func (server *Server) OnConnect(bytes []byte) {
 //客户端断开连接时，需要执行的方法
 func (server *Server) OnDisconnect(conv uint32) {
 	fmt.Println("客户端连接: ",conv)
-	if client,ok:=server.Clients[conv];ok{
+	if client,ok:=Clients[conv];ok{
 		//Player下线
 		db.UpdatePlayerData(client.Player.Id,client.Player.Data)
 		Player.RemovePlayer(client.Player.Id)
-		delete(server.Clients,conv)
+		delete(Clients,conv)
 	}
 }
 
@@ -123,7 +122,7 @@ func (server *Server) OnReceive(conv uint32, bytes []byte, len int) {
 		fmt.Println("收到了pong")
 		return
 	}
-	if client,ok:=server.Clients[conv];ok{
+	if client,ok:=Clients[conv];ok{
 		readBuf:=client.readBuf
 		readBuf.Write(bytes)
 		server.onReceiveData(conv)
@@ -136,9 +135,9 @@ func (server *Server) OnReceive(conv uint32, bytes []byte, len int) {
 
 //数据处理
 func (server *Server) onReceiveData(conv uint32) {
-	readBuf:=server.Clients[conv].readBuf
+	readBuf:=Clients[conv].readBuf
 	request:=MsgHelper.Decode(readBuf,conv)
-	server.Requests.Add(request)
+	server.Requests.Enqueue(request)
 	if len(readBuf.Bytes)>2{
 		server.onReceiveData(conv)
 	}

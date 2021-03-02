@@ -5,7 +5,7 @@ package game;
 //获取个人简介内容
 message MsgGetPlayerIntroduction
 {
-	  string palyerIntroduction = 1;
+	  string playerIntroduction = 1;
 }
 
 //保存个人简介内容

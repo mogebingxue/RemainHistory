@@ -11,7 +11,7 @@ namespace YT
     {
         
         /// <summary>客户端Peer及状态信息</summary>
-        public Dictionary<uint, Connection> Clients = new Dictionary<uint, Connection>();
+        public static Dictionary<uint, Connection> Clients = new Dictionary<uint, Connection>();
         /// <summary>注册的回调函数</summary>
         public Dictionary<string, MethodInfo> Routers = new Dictionary<string, MethodInfo>();
         /// <summary>待处理的消息队列</summary>

@@ -14,7 +14,7 @@ namespace YT
             Player player = c.Player;
             if (player == null) return;
             //获取text
-            msg.PalyerIntroduction = player.data.palyerIntroduction;
+            msg.PlayerIntroduction = player.data.palyerIntroduction;
             player.Send(msg);
         }
 

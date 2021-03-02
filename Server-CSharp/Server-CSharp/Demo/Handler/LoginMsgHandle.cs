@@ -61,7 +61,7 @@ namespace YT
                 return;
             }
             //构建Player
-            Player player = new Player(c);
+            Player player = new Player(c.Conv);
             player.id = msg.Id;
             player.data = playerData;
             PlayerManager.AddPlayer(msg.Id, player);
