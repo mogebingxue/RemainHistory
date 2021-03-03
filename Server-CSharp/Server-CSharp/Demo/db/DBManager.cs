@@ -64,7 +64,7 @@ public class DBManager
 
 
     /// <summary>
-    /// 是否存在该用户 若为真，不存在该账户
+    /// 是否存在该用户
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

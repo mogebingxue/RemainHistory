@@ -143,6 +143,13 @@ func (server *Server) Send(conv uint32, message protoiface.MessageV1) {
 	server.server.Send(conv,sendBytes)
 }
 
+//广播消息
+func (server *Server) Broadcast(message protoiface.MessageV1)  {
+	for _,connection:=range Clients{
+		connection.Send(message)
+	}
+}
+
 func (server *Server) AddDisconnectHandle(name string, handleFunc func(conv uint32)) {
 	server.server.AddDisconnectHandle(name,handleFunc)
 }

@@ -216,7 +216,14 @@ namespace YT
                 Console.WriteLine("Send failed" + ex.ToString());
             }
         }
-
+        /// <summary>
+        /// 广播
+        /// </summary>
+        public void Broadcast(IMessage msg) {
+            foreach(Connection connection in Clients.Values) {
+                connection.Send(msg);
+            }
+        }
         public void AddDisconnectHandle(Action<uint> method) {
             server.AddDisconnectHandle(method);
         }

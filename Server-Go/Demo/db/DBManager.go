@@ -27,6 +27,11 @@ func Connect(dbname string,connStr string) {
 	fmt.Println("连接数据库成功"+db.Name())
 }
 
+//测试并重连
+func CheckAndReconnect()  {
+	
+}
+
 //判断安全字符
 func IsSafeString(str string) bool {
 	s:=[...]string{"[","-","|",",",".","!","@","#","$","%","^","&","*","(",")","_","=","+","]","{","}","'",":",";","?","/"}
@@ -38,7 +43,54 @@ func IsSafeString(str string) bool {
 	return true
 }
 
+//是否存在该用户
+func IsAccountExist(id string) bool {
+	return true
+}
+
+//注册
+func Register(uid string,pw string)  {
+	
+}
+
+//创建角色
+func CreatePlayer()  {
+	
+}
+
+//检测用户名及密码
+func CheckPassword(uid string,pw string)  {
+	
+}
+
+//获取玩家数据
+func GetPlayerData(uid string)  {
+
+}
+
+//保存玩家角色数据
 func UpdatePlayerData(id string,data *PlayerData.PlayerData)  {
 
 }
+
+//获取好友列表
+func GetFriendList(uid string)  {
+
+}
+
+//删除好友
+func DeleteFriend(uid string,pw string)  {
+
+}
+
+//是否是好友
+func IsFriendExist(uid string,pw string) bool {
+	return true
+}
+
+//添加好友
+func AddFriend(uid string,pw string)  {
+
+}
+
 
