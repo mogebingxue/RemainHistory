@@ -12,7 +12,7 @@ import (
 )
 
 //连接数据库
-func Connect(dbname string,connStr string) {
+func Connect(dbname string, connStr string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(connStr))
@@ -24,19 +24,19 @@ func Connect(dbname string,connStr string) {
 		panic(err)
 	}
 	db := client.Database(dbname)
-	fmt.Println("连接数据库成功"+db.Name())
+	fmt.Println("连接数据库成功" + db.Name())
 }
 
 //测试并重连
-func CheckAndReconnect()  {
-	
+func CheckAndReconnect() {
+
 }
 
 //判断安全字符
 func IsSafeString(str string) bool {
-	s:=[...]string{"[","-","|",",",".","!","@","#","$","%","^","&","*","(",")","_","=","+","]","{","}","'",":",";","?","/"}
-	for _,v := range s {
-		if strings.ContainsAny(str,v) {
+	s := [...]string{"[", "-", "|", ",", ".", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "]", "{", "}", "'", ":", ";", "?", "/"}
+	for _, v := range s {
+		if strings.ContainsAny(str, v) {
 			return false
 		}
 	}
@@ -49,48 +49,46 @@ func IsAccountExist(id string) bool {
 }
 
 //注册
-func Register(uid string,pw string)  {
-	
+func Register(uid string, pw string) bool {
+	return true
 }
 
 //创建角色
-func CreatePlayer()  {
-	
+func CreatePlayer(uid string) {
+
 }
 
 //检测用户名及密码
-func CheckPassword(uid string,pw string)  {
-	
+func CheckPassword(uid string, pw string) bool {
+	return true
 }
 
 //获取玩家数据
-func GetPlayerData(uid string)  {
-
+func GetPlayerData(uid string) *PlayerData.PlayerData {
+	return &PlayerData.PlayerData{}
 }
 
 //保存玩家角色数据
-func UpdatePlayerData(id string,data *PlayerData.PlayerData)  {
+func UpdatePlayerData(id string, data *PlayerData.PlayerData) {
 
 }
 
 //获取好友列表
-func GetFriendList(uid string)  {
+func GetFriendList(uid string) {
 
 }
 
 //删除好友
-func DeleteFriend(uid string,pw string)  {
+func DeleteFriend(uid string, pw string) {
 
 }
 
 //是否是好友
-func IsFriendExist(uid string,pw string) bool {
+func IsFriendExist(uid string, pw string) bool {
 	return true
 }
 
 //添加好友
-func AddFriend(uid string,pw string)  {
+func AddFriend(uid string, pw string) {
 
 }
-
-
