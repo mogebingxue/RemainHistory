@@ -40,11 +40,12 @@ public class DBManager
     /// 测试并重连
     /// </summary>
     private static void CheckAndReconnect() {
+        NetConfig netConfig = ConfigHelper.GetNetConfig();
         try {
             if (database != null) {
                 return;
             }
-            Connect("game", "mongodb://127.0.0.1:27017");
+            Connect(netConfig.DBName, netConfig.DBURL);
             Console.WriteLine("[数据库] Reconnect!");
         }
         catch (Exception e) {

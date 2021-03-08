@@ -53,14 +53,12 @@ func (server *Server) Start() {
 }
 
 //处理消息回调的线程
-func (server *Server) StartMsgHandle() {
+func (server *Server) startMsgHandle() {
 
 	for{
 		for server.Requests.Count()>0{
 			request:=server.Requests.Dequeue()
 			fmt.Println("Receive: ",request.Name)
-			//注册回调应手动进行,在创建Server的时候
-			//TODO
 			if router,ok:=server.Routers[request.Name];ok{
 				router(Clients[request.Conv],request.Msg)
 			}
@@ -98,7 +96,7 @@ func (server *Server) OnConnect(bytes []byte) {
 	if _,ok:=Clients[conv];!ok{
 		Clients[conv]=connection
 	}
-	go server.StartMsgHandle()
+	go server.startMsgHandle()
 }
 
 //客户端断开连接时，需要执行的方法

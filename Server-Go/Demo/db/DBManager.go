@@ -1,6 +1,7 @@
 package db
 
 import (
+	"ReaminHistory/Demo/Helper/ConfigHelper"
 	"ReaminHistory/Demo/Player/PlayerData"
 	"context"
 	"fmt"
@@ -11,6 +12,7 @@ import (
 	"time"
 )
 
+var database *mongo.Database
 //连接数据库
 func Connect(dbname string, connStr string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -21,15 +23,20 @@ func Connect(dbname string, connStr string) {
 	}
 	// Ping the primary
 	if err := client.Ping(ctx, readpref.Primary()); err != nil {
+		fmt.Println("连接数据库成功失败")
 		panic(err)
 	}
-	db := client.Database(dbname)
-	fmt.Println("连接数据库成功" + db.Name())
+	database= client.Database(dbname)
+	fmt.Println("连接数据库成功",database.Name())
 }
 
 //测试并重连
 func CheckAndReconnect() {
-
+	netInfo := ConfigHelper.GetNetConfig()
+	if database==nil{
+		Connect(netInfo.DBName, netInfo.DBURL)
+		fmt.Println("数据库重连")
+	}
 }
 
 //判断安全字符

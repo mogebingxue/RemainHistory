@@ -6,7 +6,6 @@ using YT;
 
 public partial class MsgHandler
 {
-
     //获取个人简介内容
     public static void MsgGetPlayerIntroduction(Connection c, byte[] bytes) {
         MsgGetPlayerIntroduction msg = Game.MsgGetPlayerIntroduction.Parser.ParseFrom(bytes);
@@ -47,7 +46,7 @@ public partial class MsgHandler
         //获取头像
         player.data.headPhoto = msg.HeadPhoto;
         //保存数据
-        DBManager.UpdatePlayerData(PlayerManager.Players[c.Conv].id, PlayerManager.Players[c.Conv].data);
+        DBManager.UpdatePlayerData(player.id, player.data);
         player.Send(msg);
     }
 
@@ -59,8 +58,6 @@ public partial class MsgHandler
         //返回协议
         msg.Result = 0;
         PlayerManager.Broadcast(msg);
-
-
     }
 
     //发送消息到好友

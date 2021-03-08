@@ -27,7 +27,7 @@ namespace Game
             }
             //连接数据库成功则开启服务器
             server.Start();
-            server.AddDisconnectHandle(Player.OnPlayerDisconnect);
+            server.AddDisconnectHandle(PlayerManager.OnPlayerDisconnect);
             
         }
 

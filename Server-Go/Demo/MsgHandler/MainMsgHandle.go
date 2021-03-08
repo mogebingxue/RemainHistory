@@ -1,4 +1,4 @@
-package Handler
+package MsgHandler
 
 import (
 	"ReaminHistory/Demo/Player/PlayerManager"
