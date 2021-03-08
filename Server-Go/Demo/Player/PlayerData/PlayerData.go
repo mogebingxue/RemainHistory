@@ -1,6 +1,6 @@
 package PlayerData
 
 type PlayerData struct {
-	HeadPhoto          int
+	HeadPhoto          int32
 	PlayerIntroduction string
 }

@@ -74,21 +74,21 @@ func UpdatePlayerData(id string, data *PlayerData.PlayerData) {
 }
 
 //获取好友列表
-func GetFriendList(uid string) {
-
+func GetFriendList(uid string) string {
+	return ""
 }
 
 //删除好友
-func DeleteFriend(uid string, pw string) {
-
+func DeleteFriend(uid string, friendId string) bool {
+	return true
 }
 
 //是否是好友
-func IsFriendExist(uid string, pw string) bool {
+func IsFriendExist(uid string, friendId string) bool {
 	return true
 }
 
 //添加好友
-func AddFriend(uid string, pw string) {
-
+func AddFriend(uid string, friendId string) bool {
+	return true
 }
