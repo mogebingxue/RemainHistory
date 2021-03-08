@@ -1,17 +1,21 @@
 package YT
 
+import (
+	"ReaminHistory/YT/Base"
+)
+
 type RequestQueue struct {
-	requestQueue []*Request
+	requestQueue []*Base.Request
 }
 
-func (queue *RequestQueue) Enqueue(request *Request)  {
+func (queue *RequestQueue) Enqueue(request *Base.Request)  {
 	if queue.requestQueue==nil{
-		queue.requestQueue = make([]*Request,0)
+		queue.requestQueue = make([]*Base.Request,0)
 	}
 	queue.requestQueue = append(queue.requestQueue, request)
 }
 
-func (queue *RequestQueue) Dequeue() *Request {
+func (queue *RequestQueue) Dequeue() *Base.Request {
 	request :=queue.requestQueue[0]
 	queue.requestQueue=queue.requestQueue[1:]
 	return request

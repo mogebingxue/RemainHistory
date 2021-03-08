@@ -1,7 +1,7 @@
 package MsgHandler
 
 import (
-	"ReaminHistory/Demo/Player"
+	Player2 "ReaminHistory/Demo/Player/Player"
 	"ReaminHistory/Demo/Player/PlayerManager"
 	"ReaminHistory/Demo/Proto"
 	"ReaminHistory/Demo/db"
@@ -61,7 +61,7 @@ func MsgLogin(c *YT.Connection, bytes []byte) {
 		c.Send(msg)
 		return
 	}
-	player := Player.NewPlayer(c.Conv)
+	player := Player2.NewPlayer(c.Conv)
 	player.Id = msg.Id
 	player.Data = playerData
 	PlayerManager.AddPlayer(msg.Id, player)

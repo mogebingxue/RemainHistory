@@ -1,7 +1,7 @@
-package MsgHelper
+package Helper
 
 import (
-	"ReaminHistory/YT"
+	"ReaminHistory/YT/Base"
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	"google.golang.org/protobuf/runtime/protoiface"
@@ -38,22 +38,22 @@ func encodeName(msg protoiface.MessageV1) []byte {
 	return sendBytes
 }
 
-func Decode(readBuf *YT.ByteArray, conv uint32) *YT.Request {
+func Decode(readBuf *Base.ByteArray, conv uint32) *Base.Request {
 	bytes := readBuf.Read()
 	//解析协议名
 	protoName, nameCount := decodeName(bytes)
 	if protoName == "" {
 		fmt.Println("OnReceiveData MsgBase.DecodeName fail")
-		return &YT.Request{}
+		return &Base.Request{}
 	}
 	//解析协议体
 	if len(bytes) < nameCount {
 		fmt.Println("OnReceiveData fail, bodyCount <0")
-		return &YT.Request{}
+		return &Base.Request{}
 	}
 	bytes = bytes[nameCount:]
 	msg := decodeBody(bytes)
-	request := &YT.Request{Conv: conv, Name: protoName, Msg: msg}
+	request := &Base.Request{Conv: conv, Name: protoName, Msg: msg}
 	return request
 }
 

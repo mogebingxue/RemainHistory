@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ReaminHistory/Demo/Helper/ConfigHelper"
+	"ReaminHistory/Demo/Helper"
 	"ReaminHistory/Demo/MsgHandler"
 	"ReaminHistory/Demo/Player/PlayerManager"
 	"ReaminHistory/Demo/db"
@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	netInfo := ConfigHelper.GetNetConfig()
+	netInfo := Helper.GetNetConfig()
 	db.Connect(netInfo.DBName, netInfo.DBURL)
 	server:=YT.NewServer(netInfo.Name,netInfo.IP,netInfo.Port,netInfo.MaxClients)
 	server.AddRouter("MsgLogin", MsgHandler.MsgLogin)
@@ -27,4 +27,7 @@ func main() {
 	server.AddRouter("MsgAddFriend", MsgHandler.MsgAddFriend)
 	server.Start()
 	server.AddDisconnectHandle("OnPlayerDisconnect",PlayerManager.OnPlayerDisconnect)
+	for{
+		
+	}
 }

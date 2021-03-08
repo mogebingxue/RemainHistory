@@ -63,6 +63,8 @@ namespace YT
             server.AddConnectHandle(OnConnect);
             server.AddDisconnectHandle(OnDisconnect);
             server.AddReceiveHandle(OnReceive);
+            Thread thread = new Thread(StartMsgHandle);
+            thread.Start();
         }
 
         /// <summary>
@@ -128,8 +130,7 @@ namespace YT
             if (!Clients.ContainsKey(conv)) {
                 Clients.Add(conv, connection);
             }
-            Thread thread = new Thread(StartMsgHandle);
-            thread.Start();
+            
 
         }
 

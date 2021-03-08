@@ -1,12 +1,12 @@
 package PlayerManager
 
 import (
-	"ReaminHistory/Demo/Player"
+	Player2 "ReaminHistory/Demo/Player/Player"
 	"ReaminHistory/Demo/db"
 	"google.golang.org/protobuf/runtime/protoiface"
 )
 
-var Players map[uint32]*Player.Player
+var Players map[uint32]*Player2.Player
 
 func OnPlayerDisconnect(conv uint32) {
 	if player, ok := Players[conv]; ok {
@@ -18,7 +18,7 @@ func OnPlayerDisconnect(conv uint32) {
 }
 
 //玩家列表
-var players map[string]*Player.Player
+var players map[string]*Player2.Player
 
 //玩家是否在线
 func IsOnline(id string) bool {
@@ -27,7 +27,7 @@ func IsOnline(id string) bool {
 }
 
 //获取玩家
-func GetPlayer(id string) *Player.Player {
+func GetPlayer(id string) *Player2.Player {
 	if player, ok := players[id]; ok {
 		return player
 	} else {
@@ -36,7 +36,7 @@ func GetPlayer(id string) *Player.Player {
 }
 
 //添加玩家
-func AddPlayer(id string, player *Player.Player) {
+func AddPlayer(id string, player *Player2.Player) {
 	players[id] = player
 }
 

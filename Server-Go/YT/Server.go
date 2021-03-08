@@ -1,7 +1,7 @@
 package YT
 
 import (
-	"ReaminHistory/YT/Helper/MsgHelper"
+	"ReaminHistory/YT/Helper"
 	"ReaminHistory/YT/TKcp"
 	"fmt"
 	"google.golang.org/protobuf/runtime/protoiface"
@@ -50,6 +50,7 @@ func (server *Server) Start() {
 	server.server.AddDisconnectHandle("OnDisconnect", func(conv uint32) {
 		server.OnDisconnect(conv)
 	})
+	go server.startMsgHandle()
 }
 
 //处理消息回调的线程
@@ -96,7 +97,6 @@ func (server *Server) OnConnect(bytes []byte) {
 	if _,ok:=Clients[conv];!ok{
 		Clients[conv]=connection
 	}
-	go server.startMsgHandle()
 }
 
 //客户端断开连接时，需要执行的方法
@@ -128,7 +128,7 @@ func (server *Server) OnReceive(conv uint32, bytes []byte, len int) {
 //数据处理
 func (server *Server) onReceiveData(conv uint32) {
 	readBuf:=Clients[conv].readBuf
-	request:= MsgHelper.Decode(readBuf,conv)
+	request:= Helper.Decode(readBuf,conv)
 	server.Requests.Enqueue(request)
 	if len(readBuf.Bytes)>2{
 		server.onReceiveData(conv)
@@ -137,7 +137,7 @@ func (server *Server) onReceiveData(conv uint32) {
 
 //发送消息
 func (server *Server) Send(conv uint32, message protoiface.MessageV1) {
-	sendBytes:= MsgHelper.Encode(message)
+	sendBytes:= Helper.Encode(message)
 	server.server.Send(conv,sendBytes)
 }
 

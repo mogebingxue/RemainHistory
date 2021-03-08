@@ -70,7 +70,6 @@ public class DBManager
     /// <param name="id"></param>
     /// <returns></returns>
     public static bool IsAccountExist(string uid) {
-        Console.WriteLine(uid);
         CheckAndReconnect();
         //防注入
         if (!IsSafeString(uid)) {

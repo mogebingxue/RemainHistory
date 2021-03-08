@@ -1,10 +1,11 @@
 package db
 
 import (
-	"ReaminHistory/Demo/Helper/ConfigHelper"
+	"ReaminHistory/Demo/Helper"
 	"ReaminHistory/Demo/Player/PlayerData"
 	"context"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -32,7 +33,7 @@ func Connect(dbname string, connStr string) {
 
 //测试并重连
 func CheckAndReconnect() {
-	netInfo := ConfigHelper.GetNetConfig()
+	netInfo := Helper.GetNetConfig()
 	if database==nil{
 		Connect(netInfo.DBName, netInfo.DBURL)
 		fmt.Println("数据库重连")
@@ -52,7 +53,18 @@ func IsSafeString(str string) bool {
 
 //是否存在该用户
 func IsAccountExist(id string) bool {
-	return true
+	CheckAndReconnect()
+	if !IsSafeString(id){
+		return false
+	}
+	account:=Account{}
+	account.UId=id
+	query:=database.Collection("account").FindOne(context.TODO(),bson.M{"uid":id})
+	if query!=nil{
+		return true
+	}else {
+		return false
+	}
 }
 
 //注册
