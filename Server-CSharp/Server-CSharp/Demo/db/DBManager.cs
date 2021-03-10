@@ -95,7 +95,6 @@ public class DBManager
     //注册
     public static bool Register(string uid, string pw) {
         CheckAndReconnect();
-        //防sql注入
         if (!IsSafeString(uid)) {
             Console.WriteLine("[数据库] Register fail, id not safe");
             return false;

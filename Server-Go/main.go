@@ -11,7 +11,7 @@ import (
 func main() {
 	netInfo := Helper.GetNetConfig()
 	db.Connect(netInfo.DBName, netInfo.DBURL)
-	server:=YT.NewServer(netInfo.Name,netInfo.IP,netInfo.Port,netInfo.MaxClients)
+	server := YT.NewServer(netInfo.Name, netInfo.IP, netInfo.Port, netInfo.MaxClients)
 	server.AddRouter("MsgLogin", MsgHandler.MsgLogin)
 	server.AddRouter("MsgRegister", MsgHandler.MsgRegister)
 	server.AddRouter("MsgGetPlayerIntroduction", MsgHandler.MsgGetPlayerIntroduction)
@@ -26,8 +26,8 @@ func main() {
 	server.AddRouter("MsgAcceptAddFriend", MsgHandler.MsgAcceptAddFriend)
 	server.AddRouter("MsgAddFriend", MsgHandler.MsgAddFriend)
 	server.Start()
-	server.AddDisconnectHandle("OnPlayerDisconnect",PlayerManager.OnPlayerDisconnect)
-	for{
-		
+	server.AddDisconnectHandle("OnPlayerDisconnect", PlayerManager.OnPlayerDisconnect)
+	for {
+
 	}
 }
