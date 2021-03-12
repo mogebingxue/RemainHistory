@@ -12,6 +12,9 @@ func (queue *RequestQueue) Enqueue(request *Request) {
 }
 
 func (queue *RequestQueue) Dequeue() *Request {
+	if queue.Count() == 0 {
+		return nil
+	}
 	request := queue.requestQueue[0]
 	queue.requestQueue = queue.requestQueue[1:]
 	return request

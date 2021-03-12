@@ -1,0 +1,1 @@
+protoc --go_out=. Demo/Proto/*.proto

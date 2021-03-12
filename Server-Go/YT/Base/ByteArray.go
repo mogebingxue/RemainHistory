@@ -16,8 +16,11 @@ func NewByteArray() *ByteArray {
 
 //写数据
 func (byteArray *ByteArray) Write(bs []byte) int {
+	if byteArray.Bytes == nil {
+		byteArray.Bytes = make([]byte, 0)
+	}
 	byteArray.Bytes = append(byteArray.Bytes, bs...)
-	byteArray.WriteIdx+=len(byteArray.Bytes)
+	byteArray.WriteIdx += len(byteArray.Bytes)
 	return len(byteArray.Bytes)
 }
 
@@ -26,7 +29,7 @@ func (byteArray *ByteArray) Read() []byte {
 	if len(byteArray.Bytes) <= 2 {
 		return nil
 	}
-	length := int16((byteArray.Bytes[byteArray.ReadIdx+1] << 8) | byteArray.Bytes[byteArray.ReadIdx])
+	length := int16(byteArray.Bytes[byteArray.ReadIdx+1])*256 + int16(byteArray.Bytes[byteArray.ReadIdx])
 	if len(byteArray.Bytes) < int(length) {
 		return nil
 	}

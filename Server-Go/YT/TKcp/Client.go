@@ -7,21 +7,17 @@ import (
 
 type Client struct {
 	Interval int
-	Peer *Peer
-
+	Peer     *Peer
 
 	//客户端udp
-	socket net.UDPConn
-	localIpep net.UDPAddr
-	serverIpep net.UDPAddr
+	socket      net.UDPConn
+	localIpep   net.UDPAddr
+	serverIpep  net.UDPAddr
 	connectTime int64
-
-
-
 }
 
 func NewClient() *Client {
-	client :=&Client{Interval: 1000}
+	client := &Client{Interval: 1000}
 
 	client.initClient()
 
@@ -29,10 +25,10 @@ func NewClient() *Client {
 }
 
 //初始化客户端
-func (client *Client) initClient()  {
-	client.Peer = NewPeer(net.UDPConn{},net.UDPAddr{},0)
-	addr,err1 := net.ResolveUDPAddr("udp","127.0.0.1:8889")
-	if err1 != nil{
+func (client *Client) initClient() {
+	client.Peer = NewPeer(net.UDPConn{}, net.UDPAddr{}, 0)
+	addr, err1 := net.ResolveUDPAddr("udp", "127.0.0.1:8889")
+	if err1 != nil {
 		panic("IP地址错误")
 	}
 	client.localIpep = *addr
@@ -44,29 +40,29 @@ func (client *Client) initClient()  {
 }
 
 //连接服务器
-func (client *Client) Connect(server string)  {
-	addr,err1 := net.ResolveUDPAddr("udp",server)
-	if err1 != nil{
+func (client *Client) Connect(server string) {
+	addr, err1 := net.ResolveUDPAddr("udp", server)
+	if err1 != nil {
 		panic("IP地址错误")
 	}
 	client.serverIpep = *addr
-	flag:=0
-	sendBytes:=make([]byte,4)
+	flag := 0
+	sendBytes := make([]byte, 4)
 	sendBytes[0] = uint8(flag)
-	sendBytes[1] = uint8(flag>>8)
-	sendBytes[2] = uint8(flag>>16)
-	sendBytes[3] = uint8(flag>>24)
-	_,err2:=client.socket.WriteToUDP(sendBytes,addr)
-	if err2!=nil{
+	sendBytes[1] = uint8(flag >> 8)
+	sendBytes[2] = uint8(flag >> 16)
+	sendBytes[3] = uint8(flag >> 24)
+	_, err2 := client.socket.WriteToUDP(sendBytes, addr)
+	if err2 != nil {
 		fmt.Println("udp发送失败")
 	}
-	client.connectTime=GetTimeStamp()
+	client.connectTime = GetTimeStamp()
 	go client.updateAccept()
 }
 
 //客户端发送数据
-func (client *Client) Send(sendBytes []byte)  {
-	if client.Peer.Conv == 0{
+func (client *Client) Send(sendBytes []byte) {
+	if client.Peer.Conv == 0 {
 		fmt.Println("未与服务器建立连接")
 		return
 	}
@@ -74,50 +70,49 @@ func (client *Client) Send(sendBytes []byte)  {
 }
 
 //接收同意连接的消息
-func (client *Client) updateAccept()  {
-	for{
-		recvBuffer := make([]byte, 1472)
+func (client *Client) updateAccept() {
+	for {
+		recvBuffer := make([]byte, 1024)
 		count, remote, err := client.socket.ReadFromUDP(recvBuffer)
-		if count<=0{
+		if count <= 0 {
 			return
 		}
-		if err!=nil{
+		if err != nil {
 			return
 		}
-		headBytes :=recvBuffer[0:4]
-		head:=uint32(headBytes[0])|uint32(headBytes[1])<<8|uint32(headBytes[2])<<16|uint32(headBytes[3])<<24
+		headBytes := recvBuffer[0:4]
+		head := uint32(headBytes[0]) | uint32(headBytes[1])<<8 | uint32(headBytes[2])<<16 | uint32(headBytes[3])<<24
 
-		if head==1{
+		if head == 1 {
 			convBytes := recvBuffer[4:8]
-			conv:=uint32(convBytes[0])|uint32(convBytes[1])<<8|uint32(convBytes[2])<<16|uint32(convBytes[3])<<24
-			client.Peer = NewPeer(client.socket,*remote,conv)
+			conv := uint32(convBytes[0]) | uint32(convBytes[1])<<8 | uint32(convBytes[2])<<16 | uint32(convBytes[3])<<24
+			client.Peer = NewPeer(client.socket, *remote, conv)
 			client.Peer.InitKcp()
-			client.Peer.AcceptHandle.Call(convBytes,4)
+			client.Peer.AcceptHandle.Call(convBytes, 4)
 			go client.update()
 			go client.updatePeer()
 			//退出此go程
 			return
-		}else {
-			timeNow:=GetTimeStamp()
+		} else {
+			timeNow := GetTimeStamp()
 			//重连
-			if timeNow - client.connectTime > int64(client.Interval){
-				flag:=0
-				sendBytes:=make([]byte,4)
+			if timeNow-client.connectTime > int64(client.Interval) {
+				flag := 0
+				sendBytes := make([]byte, 4)
 				sendBytes[0] = uint8(flag)
-				sendBytes[1] = uint8(flag>>8)
-				sendBytes[2] = uint8(flag>>16)
-				sendBytes[3] = uint8(flag>>24)
-				_,err:=client.socket.WriteToUDP(sendBytes,&client.serverIpep)
-				if err!=nil{
+				sendBytes[1] = uint8(flag >> 8)
+				sendBytes[2] = uint8(flag >> 16)
+				sendBytes[3] = uint8(flag >> 24)
+				_, err := client.socket.WriteToUDP(sendBytes, &client.serverIpep)
+				if err != nil {
 					fmt.Println("udp发送失败")
 				}
-				client.connectTime=GetTimeStamp()
+				client.connectTime = GetTimeStamp()
 				client.Peer.TimeoutTime++
-
 
 			}
 			//超时
-			if client.Peer.TimeoutTime>=4{
+			if client.Peer.TimeoutTime >= 4 {
 				client.Peer.TimeoutHandle.Call()
 			}
 		}
@@ -126,28 +121,28 @@ func (client *Client) updateAccept()  {
 }
 
 //更新接收信息
-func (client *Client) update()  {
+func (client *Client) update() {
 	for {
-		recvBuffer := make([]byte, 1472)
+		recvBuffer := make([]byte, 1024)
 		count, remote, err := client.socket.ReadFromUDP(recvBuffer)
-		if count<=0{
+		if count <= 0 {
 			return
 		}
-		if err!=nil{
+		if err != nil {
 			return
 		}
-		convBytes:=recvBuffer[0:4]
-		head:=uint32(convBytes[0])|uint32(convBytes[1])<<8|uint32(convBytes[2])<<16|uint32(convBytes[3])<<24
-		if head!=1 && remote.String()==client.serverIpep.String() {
-			client.Peer.Kcp.Input(recvBuffer,true,true)
+		convBytes := recvBuffer[0:4]
+		head := uint32(convBytes[0]) | uint32(convBytes[1])<<8 | uint32(convBytes[2])<<16 | uint32(convBytes[3])<<24
+		if head != 1 && remote.String() == client.serverIpep.String() {
+			client.Peer.Kcp.Input(recvBuffer, true, true)
 		}
 	}
 }
 
 //更新Peer
-func (client *Client) updatePeer()  {
-	for{
-		if client.Peer==nil{
+func (client *Client) updatePeer() {
+	for {
+		if client.Peer == nil {
 			continue
 		}
 		client.Peer.PeerUpdate()
@@ -156,12 +151,12 @@ func (client *Client) updatePeer()  {
 
 //注册回调
 
-func (client *Client) AddReceiveHandle(name string,handleFunc func(conv uint32, bytes []byte, len int))  {
-	client.Peer.ReceiveHandle.Add(name,handleFunc)
+func (client *Client) AddReceiveHandle(name string, handleFunc func(conv uint32, bytes []byte, len int)) {
+	client.Peer.ReceiveHandle.Add(name, handleFunc)
 }
-func (client *Client) AddAcceptHandle(name string, handleFunc func(bytes []byte, len int))  {
-	client.Peer.AcceptHandle.Add(name,handleFunc)
+func (client *Client) AddAcceptHandle(name string, handleFunc func(bytes []byte, len int)) {
+	client.Peer.AcceptHandle.Add(name, handleFunc)
 }
-func (client *Client) AddTimeoutHandle(name string, handleFunc func())  {
-	client.Peer.TimeoutHandle.Add(name,handleFunc)
+func (client *Client) AddTimeoutHandle(name string, handleFunc func()) {
+	client.Peer.TimeoutHandle.Add(name, handleFunc)
 }

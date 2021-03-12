@@ -12,7 +12,7 @@ var Clients map[uint32]*Connection
 
 type Server struct {
 	Routers  map[string]func(connection *Connection, bytes []byte)
-	Requests Base.RequestQueue
+	Requests *Base.RequestQueue
 	//服务端名
 	Name string
 	//服务端ip地址
@@ -31,6 +31,8 @@ func NewServer(name string, ip string, port int, maxClients int) *Server {
 	server.ip = ip
 	server.port = port
 	server.maxClients = maxClients
+	server.Requests = new(Base.RequestQueue)
+	server.Routers = make(map[string]func(connection *Connection, bytes []byte))
 	return server
 }
 
@@ -58,9 +60,11 @@ func (server *Server) Start() {
 func (server *Server) startMsgHandle() {
 
 	for {
-		for server.Requests.Count() > 0 {
-			request := server.Requests.Dequeue()
+		if request := server.Requests.Dequeue(); request != nil {
 			fmt.Println("Receive: ", request.Name)
+			if server.Routers == nil {
+				server.Routers = make(map[string]func(connection *Connection, bytes []byte))
+			}
 			if router, ok := server.Routers[request.Name]; ok {
 				router(Clients[request.Conv], request.Msg)
 			}
@@ -94,7 +98,11 @@ func (server *Server) RemoveRouter(name string) {
 func (server *Server) OnConnect(bytes []byte) {
 	conv := uint32(bytes[0]) | uint32(bytes[1])<<8 | uint32(bytes[2])<<16 | uint32(bytes[3])<<24
 	fmt.Println("客户端连接: ", conv)
-	connection := &Connection{Conv: conv, Server: server}
+	connection := NewConnection(conv)
+	connection.Server = server
+	if Clients == nil {
+		Clients = make(map[uint32]*Connection)
+	}
 	if _, ok := Clients[conv]; !ok {
 		Clients[conv] = connection
 	}

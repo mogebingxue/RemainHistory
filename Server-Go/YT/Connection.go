@@ -14,7 +14,10 @@ type Connection struct {
 }
 
 func NewConnection(conv uint32) *Connection {
-	return &Connection{Conv: conv}
+	connection := new(Connection)
+	connection.Conv = conv
+	connection.readBuf = new(Base.ByteArray)
+	return connection
 }
 
 func (connection *Connection) Send(message protoiface.MessageV1) {
