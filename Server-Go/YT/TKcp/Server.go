@@ -119,6 +119,7 @@ func (server *Server) update() {
 		} else {
 			//如果是收到的消息
 			if value, ok := server.Peers[head]; ok {
+
 				value.Kcp.Input(recvBuffer, true, true)
 			}
 		}

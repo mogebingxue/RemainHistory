@@ -27,7 +27,7 @@ func NewClient() *Client {
 //初始化客户端
 func (client *Client) initClient() {
 	client.Peer = NewPeer(net.UDPConn{}, net.UDPAddr{}, 0)
-	addr, err1 := net.ResolveUDPAddr("udp", "127.0.0.1:8889")
+	addr, err1 := net.ResolveUDPAddr("udp", "127.0.0.1:8886")
 	if err1 != nil {
 		panic("IP地址错误")
 	}
@@ -86,7 +86,9 @@ func (client *Client) updateAccept() {
 		if head == 1 {
 			convBytes := recvBuffer[4:8]
 			conv := uint32(convBytes[0]) | uint32(convBytes[1])<<8 | uint32(convBytes[2])<<16 | uint32(convBytes[3])<<24
-			client.Peer = NewPeer(client.socket, *remote, conv)
+			client.Peer.LocalSocket = client.socket
+			client.Peer.Remote = *remote
+			client.Peer.Conv = conv
 			client.Peer.InitKcp()
 			client.Peer.AcceptHandle.Call(convBytes, 4)
 			go client.update()
@@ -124,16 +126,17 @@ func (client *Client) updateAccept() {
 func (client *Client) update() {
 	for {
 		recvBuffer := make([]byte, 1024)
-		count, remote, err := client.socket.ReadFromUDP(recvBuffer)
+		count, _, err := client.socket.ReadFromUDP(recvBuffer)
 		if count <= 0 {
 			return
 		}
 		if err != nil {
 			return
 		}
-		convBytes := recvBuffer[0:4]
+
+		convBytes := recvBuffer[:4]
 		head := uint32(convBytes[0]) | uint32(convBytes[1])<<8 | uint32(convBytes[2])<<16 | uint32(convBytes[3])<<24
-		if head != 1 && remote.String() == client.serverIpep.String() {
+		if head != 1 {
 			client.Peer.Kcp.Input(recvBuffer, true, true)
 		}
 	}
@@ -142,7 +145,7 @@ func (client *Client) update() {
 //更新Peer
 func (client *Client) updatePeer() {
 	for {
-		if client.Peer == nil {
+		if client.Peer.Conv == 0 {
 			continue
 		}
 		client.Peer.PeerUpdate()

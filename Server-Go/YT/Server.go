@@ -12,7 +12,7 @@ var Clients map[uint32]*Connection
 
 type Server struct {
 	Routers  map[string]func(connection *Connection, bytes []byte)
-	Requests *Base.RequestQueue
+	Requests *Base.Queue
 	//服务端名
 	Name string
 	//服务端ip地址
@@ -31,7 +31,7 @@ func NewServer(name string, ip string, port int, maxClients int) *Server {
 	server.ip = ip
 	server.port = port
 	server.maxClients = maxClients
-	server.Requests = new(Base.RequestQueue)
+	server.Requests = Base.NewQueue()
 	server.Routers = make(map[string]func(connection *Connection, bytes []byte))
 	return server
 }
@@ -60,7 +60,8 @@ func (server *Server) Start() {
 func (server *Server) startMsgHandle() {
 
 	for {
-		if request := server.Requests.Dequeue(); request != nil {
+		if v := server.Requests.Dequeue(); v != nil {
+			request := v.(*Base.Request)
 			fmt.Println("Receive: ", request.Name)
 			if server.Routers == nil {
 				server.Routers = make(map[string]func(connection *Connection, bytes []byte))

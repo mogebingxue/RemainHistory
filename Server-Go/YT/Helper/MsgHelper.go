@@ -63,7 +63,7 @@ func decodeName(bytes []byte) (name string, count int) {
 		return "", 0
 	}
 	//读取长度
-	length := int16((bytes[1] << 8) | bytes[0])
+	length := int16(bytes[1])*256 + int16(bytes[0])
 	if length < 0 {
 		return "", 0
 	}
