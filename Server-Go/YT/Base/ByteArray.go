@@ -31,3 +31,8 @@ func (byteArray *ByteArray) Read() []byte {
 		return nil
 	}
 }
+
+//长度
+func (byteArray *ByteArray) Count() int {
+	return len(byteArray.Buffer)
+}
