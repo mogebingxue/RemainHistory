@@ -30,16 +30,17 @@ func encodeBody(msg protoiface.MessageV1) []byte {
 }
 
 func encodeName(msg protoiface.MessageV1) []byte {
-	name := reflect.TypeOf(msg).Name()
+	name := reflect.TypeOf(msg).String()
 	sendBytes := make([]byte, 2)
-	sendBytes[0] = byte(len(name) % 256)
-	sendBytes[1] = byte(len(name) / 256)
-	sendBytes = append(sendBytes, []byte(name)...)
+	sendBytes[0] = byte((len(name) - 7) % 256)
+	sendBytes[1] = byte((len(name) - 7) / 256)
+	sendBytes = append(sendBytes, []byte(name)[7:]...)
 	return sendBytes
 }
 
 func Decode(readBuf *Base.ByteArray, conv uint32) *Base.Request {
 	bytes := readBuf.Read()
+	fmt.Println(len(bytes), "  ", string(bytes))
 	//解析协议名
 	protoName, nameCount := decodeName(bytes)
 	if protoName == "" {
@@ -64,6 +65,7 @@ func decodeName(bytes []byte) (name string, count int) {
 	}
 	//读取长度
 	length := int16(bytes[1])*256 + int16(bytes[0])
+
 	if length < 0 {
 		return "", 0
 	}
@@ -71,8 +73,8 @@ func decodeName(bytes []byte) (name string, count int) {
 	if int(length)+2 > len(bytes) {
 		return "", 0
 	}
-	name = string(bytes[2:])
-	return name, int(length)
+	name = string(bytes[2 : length+2])
+	return name, int(length + 2)
 }
 
 func decodeBody(bytes []byte) []byte {

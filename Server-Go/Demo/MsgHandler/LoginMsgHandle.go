@@ -56,7 +56,7 @@ func MsgLogin(c *YT.Connection, bytes []byte) {
 		return
 	}
 	playerData := db.GetPlayerData(msg.Id)
-	if playerData != nil {
+	if playerData == nil {
 		msg.Result = 1
 		c.Send(msg)
 		return
@@ -65,7 +65,10 @@ func MsgLogin(c *YT.Connection, bytes []byte) {
 	player.Id = msg.Id
 	player.Data = playerData
 	PlayerManager.AddPlayer(msg.Id, player)
+	if PlayerManager.Players == nil {
+		PlayerManager.Players = make(map[uint32]*Player2.Player)
+	}
 	PlayerManager.Players[c.Conv] = player
-	msg.Result = 1
+	msg.Result = 0
 	player.Send(msg)
 }

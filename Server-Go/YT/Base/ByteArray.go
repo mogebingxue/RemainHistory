@@ -9,18 +9,21 @@ type ByteArray struct {
 }
 
 func NewByteArray() *ByteArray {
-	byteArray := &ByteArray{ReadIdx: 0, WriteIdx: 0}
+	byteArray := &ByteArray{ReadIdx: 0, WriteIdx: 1}
 	byteArray.Bytes = make([]byte, 0)
 	return byteArray
 }
 
 //写数据
 func (byteArray *ByteArray) Write(bs []byte) int {
+	length := int16(bs[1])*256 + int16(bs[0])
+	bytes := bs[:length+2]
 	if byteArray.Bytes == nil {
 		byteArray.Bytes = make([]byte, 0)
 	}
-	byteArray.Bytes = append(byteArray.Bytes, bs...)
-	byteArray.WriteIdx += len(byteArray.Bytes)
+	byteArray.Bytes = append(byteArray.Bytes, bytes...)
+	byteArray.WriteIdx += len(bytes)
+
 	return len(byteArray.Bytes)
 }
 
@@ -31,24 +34,17 @@ func (byteArray *ByteArray) Read() []byte {
 	}
 	length := int16(byteArray.Bytes[byteArray.ReadIdx+1])*256 + int16(byteArray.Bytes[byteArray.ReadIdx])
 	if len(byteArray.Bytes) < int(length) {
+
 		return nil
 	}
-	bytes := byteArray.Bytes[byteArray.ReadIdx+2 : byteArray.ReadIdx+2+int(length)]
-	byteArray.checkAndMoveBytes()
-	return bytes
-}
-
-//移动并检查数据
-func (byteArray *ByteArray) checkAndMoveBytes() {
-	if len(byteArray.Bytes) < 8 {
-		byteArray.moveBytes()
-	}
-}
-
-//移动数据
-func (byteArray *ByteArray) moveBytes() {
+	byteArray.ReadIdx += 2
+	bytes := byteArray.Bytes[byteArray.ReadIdx : byteArray.ReadIdx+int(length)]
+	byteArray.ReadIdx += int(length)
+	byteArray.WriteIdx = byteArray.WriteIdx - 2 - int(length)
 	byteArray.Bytes = byteArray.Bytes[byteArray.ReadIdx:]
 	byteArray.ReadIdx = 0
+
+	return bytes
 }
 
 //打印缓冲区

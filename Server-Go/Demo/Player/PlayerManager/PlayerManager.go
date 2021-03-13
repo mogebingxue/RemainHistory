@@ -37,6 +37,9 @@ func GetPlayer(id string) *Player2.Player {
 
 //添加玩家
 func AddPlayer(id string, player *Player2.Player) {
+	if players == nil {
+		players = make(map[string]*Player2.Player)
+	}
 	players[id] = player
 }
 
