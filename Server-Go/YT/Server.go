@@ -62,7 +62,7 @@ func (server *Server) startMsgHandle() {
 	for {
 		if v := server.Requests.Dequeue(); v != nil {
 			if request, ok := v.(*Base.Request); ok {
-				fmt.Println("Receive: ", request.Name)
+				fmt.Println("Receive:", request.Name)
 				if server.Routers == nil {
 					server.Routers = make(map[string]func(connection *Connection, bytes []byte))
 				}
@@ -140,11 +140,12 @@ func (server *Server) OnReceive(conv uint32, bytes []byte, len int) {
 //数据处理
 func (server *Server) onReceiveData(conv uint32) {
 	readBuf := Clients[conv].readBuf
-	request := Helper.Decode(readBuf, conv)
-	server.Requests.Enqueue(request)
-	//if len(readBuf.Bytes) > 2 {
-	//	server.onReceiveData(conv)
-	//}
+	bytes := readBuf.Read()
+	for bytes != nil {
+		request := Helper.Decode(bytes, conv)
+		server.Requests.Enqueue(request)
+		bytes = readBuf.Read()
+	}
 }
 
 //发送消息

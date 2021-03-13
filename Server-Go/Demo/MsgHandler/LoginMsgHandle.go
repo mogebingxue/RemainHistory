@@ -70,5 +70,6 @@ func MsgLogin(c *YT.Connection, bytes []byte) {
 	}
 	PlayerManager.Players[c.Conv] = player
 	msg.Result = 0
+	fmt.Println("id:", msg.Id, "pw:", msg.Pw, "result:", msg.Result)
 	player.Send(msg)
 }

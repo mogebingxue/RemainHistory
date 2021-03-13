@@ -38,9 +38,7 @@ func encodeName(msg protoiface.MessageV1) []byte {
 	return sendBytes
 }
 
-func Decode(readBuf *Base.ByteArray, conv uint32) *Base.Request {
-	bytes := readBuf.Read()
-	fmt.Println(len(bytes), "  ", string(bytes))
+func Decode(bytes []byte, conv uint32) *Base.Request {
 	//解析协议名
 	protoName, nameCount := decodeName(bytes)
 	if protoName == "" {
@@ -65,7 +63,6 @@ func decodeName(bytes []byte) (name string, count int) {
 	}
 	//读取长度
 	length := int16(bytes[1])*256 + int16(bytes[0])
-
 	if length < 0 {
 		return "", 0
 	}
