@@ -1,5 +1,7 @@
 package TKcp
 
+import Log2 "ReaminHistory/YT/Log"
+
 //应用层接收消息之后的回调
 type ReceiveHandle struct {
 	handle map[string]func(conv uint32, bytes []byte, len int)
@@ -16,7 +18,7 @@ func (action *ReceiveHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log.Info("handle function <%s> does not exist\n", name)
+		Log2.Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
@@ -26,7 +28,7 @@ func (action *ReceiveHandle) Call(conv uint32, bytes []byte, len int) {
 			handleFunc(conv, bytes, len)
 		}
 	} else {
-		Log.Info("no handle function was attached")
+		Log2.Log.Info("no handle function was attached")
 	}
 }
 
@@ -46,7 +48,7 @@ func (action *ConnectHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log.Info("handle function <%s> does not exist\n", name)
+		Log2.Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
@@ -56,7 +58,7 @@ func (action *ConnectHandle) Call(bytes []byte) {
 			handleFunc(bytes)
 		}
 	} else {
-		Log.Info("no handle function was attached")
+		Log2.Log.Info("no handle function was attached")
 	}
 }
 
@@ -76,7 +78,7 @@ func (action *AcceptHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log.Info("handle function <%s> does not exist\n", name)
+		Log2.Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
@@ -86,7 +88,7 @@ func (action *AcceptHandle) Call(bytes []byte, len int) {
 			handleFunc(bytes, len)
 		}
 	} else {
-		Log.Info("no handle function was attached")
+		Log2.Log.Info("no handle function was attached")
 	}
 }
 
@@ -106,7 +108,7 @@ func (action *DisconnectHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log.Info("handle function <%s> does not exist\n", name)
+		Log2.Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
@@ -116,7 +118,7 @@ func (action *DisconnectHandle) Call(conv uint32) {
 			handleFunc(conv)
 		}
 	} else {
-		Log.Info("no handle function was attached")
+		Log2.Log.Info("no handle function was attached")
 	}
 }
 
@@ -136,7 +138,7 @@ func (action *TimeoutHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log.Info("handle function <%s> does not exist\n", name)
+		Log2.Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
@@ -146,6 +148,6 @@ func (action *TimeoutHandle) Call() {
 			handleFunc()
 		}
 	} else {
-		Log.Info("no handle function was attached")
+		Log2.Log.Info("no handle function was attached")
 	}
 }

@@ -8,8 +8,6 @@ import (
 	"time"
 )
 
-var Log = Log2.NewLog("./TKcp.log")
-
 type Server struct {
 	MaxConnections int
 	Ip             string
@@ -34,12 +32,12 @@ func NewServer() *Server {
 func (server *Server) initServer() {
 	addr, err1 := net.ResolveUDPAddr("udp", server.Ip+":"+strconv.Itoa(server.Port))
 	if err1 != nil {
-		Log.Panic("IP地址错误")
+		Log2.Log.Panic("IP地址错误")
 	}
 	server.localIpep = *addr
 	conn, err2 := net.ListenUDP("udp", addr)
 	if err2 != nil {
-		Log.Panic("监听UDP失败")
+		Log2.Log.Panic("监听UDP失败")
 	}
 	server.socket = *conn
 	server.Peers = make(map[uint32]*Peer)
@@ -73,7 +71,7 @@ func (server *Server) CheckPing(peer Peer) {
 	}
 	//如果超时次数大于4，则移除客户端
 	if peer.TimeoutTime > 4 {
-		Log.Warn("超时删除")
+		Log2.Log.Warn("超时删除")
 		peer.DisconnectHandle.Call(peer.Conv)
 		delete(server.Peers, peer.Conv)
 	}
@@ -95,7 +93,7 @@ func (server *Server) update() {
 		head := uint32(convBytes[0]) | uint32(convBytes[1])<<8 | uint32(convBytes[2])<<16 | uint32(convBytes[3])<<24
 		if head == 0 {
 			if len(server.clients) > server.MaxConnections {
-				Log.Info("已达到最大连接数")
+				Log2.Log.Info("已达到最大连接数")
 				continue
 			}
 			//判断是否map里存在这个remote
@@ -118,10 +116,10 @@ func (server *Server) update() {
 				sendBytes[2] = uint8(conv >> 16)
 				sendBytes[3] = uint8(conv >> 24)
 				server.peerpool[conv-1000].ConnectHandle.Call(sendBytes)
-				Log.Info("接受了一个连接请求", remote, " ", conv)
+				Log2.Log.Info("接受了一个连接请求", remote, " ", conv)
 			} else {
 				//客户端已经连接，则不再连接
-				Log.Info("已经连接到服务器", remote)
+				Log2.Log.Info("已经连接到服务器", remote)
 			}
 		} else {
 			//如果是收到的消息,传给Kcp

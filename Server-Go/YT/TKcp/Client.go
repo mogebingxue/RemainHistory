@@ -1,6 +1,7 @@
 package TKcp
 
 import (
+	Log2 "ReaminHistory/YT/Log"
 	"net"
 )
 
@@ -28,12 +29,12 @@ func (client *Client) initClient() {
 	client.Peer = NewPeer(net.UDPConn{}, net.UDPAddr{}, 0)
 	addr, err1 := net.ResolveUDPAddr("udp", "127.0.0.1:8886")
 	if err1 != nil {
-		Log.Panic("IP地址错误")
+		Log2.Log.Panic("IP地址错误")
 	}
 	client.localIpep = *addr
 	conn, err2 := net.ListenUDP("udp", addr)
 	if err2 != nil {
-		Log.Panic("监听UDP失败")
+		Log2.Log.Panic("监听UDP失败")
 	}
 	client.socket = *conn
 }
@@ -53,7 +54,7 @@ func (client *Client) Connect(server string) {
 	sendBytes[3] = uint8(flag >> 24)
 	_, err2 := client.socket.WriteToUDP(sendBytes, addr)
 	if err2 != nil {
-		Log.Info("udp发送失败")
+		Log2.Log.Info("udp发送失败")
 	}
 	client.connectTime = GetTimeStamp()
 	go client.updateAccept()
@@ -62,7 +63,7 @@ func (client *Client) Connect(server string) {
 //客户端发送数据
 func (client *Client) Send(sendBytes []byte) {
 	if client.Peer.Conv == 0 {
-		Log.Info("未与服务器建立连接")
+		Log2.Log.Info("未与服务器建立连接")
 		return
 	}
 	client.Peer.Send(sendBytes)
@@ -106,7 +107,7 @@ func (client *Client) updateAccept() {
 				sendBytes[3] = uint8(flag >> 24)
 				_, err := client.socket.WriteToUDP(sendBytes, &client.serverIpep)
 				if err != nil {
-					Log.Info("udp发送失败")
+					Log2.Log.Info("udp发送失败")
 				}
 				client.connectTime = GetTimeStamp()
 				client.Peer.TimeoutTime++

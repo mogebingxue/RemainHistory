@@ -1,6 +1,7 @@
 package TKcp
 
 import (
+	Log2 "ReaminHistory/YT/Log"
 	"github.com/xtaci/kcp-go/v5"
 	"net"
 	"time"
@@ -96,7 +97,7 @@ func (peer *Peer) onConnect(conv []byte) {
 	sendBytes = append(sendBytes, conv...)
 	_, err := peer.LocalSocket.WriteToUDP(sendBytes, &peer.Remote)
 	if err != nil {
-		Log.Info("udp发送失败")
+		Log2.Log.Info("udp发送失败")
 	}
 	peer.ReceiveHandle.Add("onReceive", func(conv uint32, bytes []byte, len int) {
 		peer.onReceive(conv, bytes, len)
@@ -108,15 +109,15 @@ func (peer *Peer) onConnect(conv []byte) {
 }
 
 func (peer *Peer) onTimeout() {
-	Log.Info("连接超时，请检查你的网络")
+	Log2.Log.Info("连接超时，请检查你的网络")
 }
 
 func (peer *Peer) onDisconnect(conv uint32) {
-	Log.Info("客户端 ", conv, "断开")
+	Log2.Log.Info("客户端 ", conv, "断开")
 }
 
 func (peer *Peer) onAccept(conv []byte, len int) {
-	Log.Info("客户端收到接受了连接请求", conv)
+	Log2.Log.Info("客户端收到接受了连接请求", conv)
 	peer.ReceiveHandle.Add("onReceive", func(conv uint32, bytes []byte, len int) {
 		peer.onReceive(conv, bytes, len)
 	})
@@ -158,7 +159,7 @@ func (peer *Peer) Pong() {
 //发送数据
 func (peer *Peer) Send(bytes []byte) {
 	peer.Kcp.Send(bytes)
-	Log.Info("发送数据"+"TO", peer.Remote, peer.Conv, bytes)
+	Log2.Log.Info("发送数据"+"TO", peer.Remote, peer.Conv, bytes)
 }
 
 //Peer 的更新操作，负责接收来自udp的数据
@@ -184,7 +185,7 @@ func (peer *Peer) handle(buf []byte, size int) {
 	if size > 0 {
 		_, err := peer.LocalSocket.WriteToUDP(buf, &peer.Remote)
 		if err != nil {
-			Log.Info("udp发送失败")
+			Log2.Log.Info("udp发送失败")
 		}
 	}
 }

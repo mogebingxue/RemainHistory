@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+var Log = NewLog("./Server.log")
+
 func NewLog(path string) *logrus.Logger {
 	log := logrus.New()
 	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
