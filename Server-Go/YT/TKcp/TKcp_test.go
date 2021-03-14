@@ -13,7 +13,6 @@ func TestTKcp(t *testing.T) {
 	server.AddReceiveHandle("a", a)
 	time.Sleep(1 * time.Second)
 	client.Connect("127.0.0.1:8888")
-
 	time.Sleep(1 * time.Second)
 	bytes := []byte("姚姚姚")
 	client.Send(bytes)

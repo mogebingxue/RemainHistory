@@ -1,15 +1,13 @@
 package TKcp
 
-import "fmt"
-
 //应用层接收消息之后的回调
 type ReceiveHandle struct {
-	handle map[string]func(conv uint32,bytes []byte,len int)
+	handle map[string]func(conv uint32, bytes []byte, len int)
 }
 
-func (action *ReceiveHandle) Add(name string,handleFunc func(conv uint32,bytes []byte,len int))  {
-	if action.handle == nil{
-		action.handle = make(map[string]func(conv uint32,bytes []byte,len int))
+func (action *ReceiveHandle) Add(name string, handleFunc func(conv uint32, bytes []byte, len int)) {
+	if action.handle == nil {
+		action.handle = make(map[string]func(conv uint32, bytes []byte, len int))
 	}
 	action.handle[name] = handleFunc
 }
@@ -17,18 +15,18 @@ func (action *ReceiveHandle) Add(name string,handleFunc func(conv uint32,bytes [
 func (action *ReceiveHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
-	}else {
-		fmt.Printf("handle function <%s> does not exist\n", name)
+	} else {
+		Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
-func (action *ReceiveHandle) Call(conv uint32,bytes []byte,len int) {
+func (action *ReceiveHandle) Call(conv uint32, bytes []byte, len int) {
 	if action.handle != nil {
 		for _, handleFunc := range action.handle {
-			handleFunc(conv,bytes,len)
+			handleFunc(conv, bytes, len)
 		}
-	}else {
-		fmt.Println("no handle function was attached")
+	} else {
+		Log.Info("no handle function was attached")
 	}
 }
 
@@ -37,8 +35,8 @@ type ConnectHandle struct {
 	handle map[string]func(bytes []byte)
 }
 
-func (action *ConnectHandle) Add(name string,handleFunc func(bytes []byte))  {
-	if action.handle == nil{
+func (action *ConnectHandle) Add(name string, handleFunc func(bytes []byte)) {
+	if action.handle == nil {
 		action.handle = make(map[string]func(bytes []byte))
 	}
 	action.handle[name] = handleFunc
@@ -47,8 +45,8 @@ func (action *ConnectHandle) Add(name string,handleFunc func(bytes []byte))  {
 func (action *ConnectHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
-	}else {
-		fmt.Printf("handle function <%s> does not exist\n", name)
+	} else {
+		Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
@@ -57,19 +55,19 @@ func (action *ConnectHandle) Call(bytes []byte) {
 		for _, handleFunc := range action.handle {
 			handleFunc(bytes)
 		}
-	}else {
-		fmt.Println("no handle function was attached")
+	} else {
+		Log.Info("no handle function was attached")
 	}
 }
 
 //接收连接请求回调，客户端收到服务端的接收连接请求，之后的回调
 type AcceptHandle struct {
-	handle map[string]func(bytes []byte,len int)
+	handle map[string]func(bytes []byte, len int)
 }
 
-func (action *AcceptHandle) Add(name string,handleFunc func(bytes []byte,len int))  {
-	if action.handle == nil{
-		action.handle = make(map[string]func(bytes []byte,len int))
+func (action *AcceptHandle) Add(name string, handleFunc func(bytes []byte, len int)) {
+	if action.handle == nil {
+		action.handle = make(map[string]func(bytes []byte, len int))
 	}
 	action.handle[name] = handleFunc
 }
@@ -77,18 +75,18 @@ func (action *AcceptHandle) Add(name string,handleFunc func(bytes []byte,len int
 func (action *AcceptHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
-	}else {
-		fmt.Printf("handle function <%s> does not exist\n", name)
+	} else {
+		Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
-func (action *AcceptHandle) Call(bytes []byte,len int) {
+func (action *AcceptHandle) Call(bytes []byte, len int) {
 	if action.handle != nil {
 		for _, handleFunc := range action.handle {
-			handleFunc(bytes,len)
+			handleFunc(bytes, len)
 		}
-	}else {
-		fmt.Println("no handle function was attached")
+	} else {
+		Log.Info("no handle function was attached")
 	}
 }
 
@@ -97,8 +95,8 @@ type DisconnectHandle struct {
 	handle map[string]func(conv uint32)
 }
 
-func (action *DisconnectHandle) Add(name string,handleFunc func(conv uint32))  {
-	if action.handle == nil{
+func (action *DisconnectHandle) Add(name string, handleFunc func(conv uint32)) {
+	if action.handle == nil {
 		action.handle = make(map[string]func(conv uint32))
 	}
 	action.handle[name] = handleFunc
@@ -107,8 +105,8 @@ func (action *DisconnectHandle) Add(name string,handleFunc func(conv uint32))  {
 func (action *DisconnectHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
-	}else {
-		fmt.Printf("handle function <%s> does not exist\n", name)
+	} else {
+		Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
@@ -117,8 +115,8 @@ func (action *DisconnectHandle) Call(conv uint32) {
 		for _, handleFunc := range action.handle {
 			handleFunc(conv)
 		}
-	}else {
-		fmt.Println("no handle function was attached")
+	} else {
+		Log.Info("no handle function was attached")
 	}
 }
 
@@ -127,8 +125,8 @@ type TimeoutHandle struct {
 	handle map[string]func()
 }
 
-func (action *TimeoutHandle) Add(name string,handleFunc func())  {
-	if action.handle == nil{
+func (action *TimeoutHandle) Add(name string, handleFunc func()) {
+	if action.handle == nil {
 		action.handle = make(map[string]func())
 	}
 	action.handle[name] = handleFunc
@@ -137,8 +135,8 @@ func (action *TimeoutHandle) Add(name string,handleFunc func())  {
 func (action *TimeoutHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
-	}else {
-		fmt.Printf("handle function <%s> does not exist\n", name)
+	} else {
+		Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
@@ -147,7 +145,7 @@ func (action *TimeoutHandle) Call() {
 		for _, handleFunc := range action.handle {
 			handleFunc()
 		}
-	}else {
-		fmt.Println("no handle function was attached")
+	} else {
+		Log.Info("no handle function was attached")
 	}
 }

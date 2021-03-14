@@ -2,9 +2,10 @@ package Net
 
 import (
 	"ReaminHistory/YT/Base"
+	"ReaminHistory/YT/Log"
 	"ReaminHistory/YT/TKcp"
 	"ReaminHistory/YT/Util"
-	"fmt"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/runtime/protoiface"
 )
 
@@ -23,6 +24,8 @@ type Server struct {
 	maxClients int
 	//服务器
 	server *TKcp.Server
+	//日志
+	Log *logrus.Logger
 }
 
 func NewServer(name string, ip string, port int, maxClients int) *Server {
@@ -33,12 +36,13 @@ func NewServer(name string, ip string, port int, maxClients int) *Server {
 	server.maxClients = maxClients
 	server.Requests = Base.NewQueue()
 	server.Routers = make(map[string]func(connection *Connection, bytes []byte))
+	server.Log = Log.NewLog("./Server.log")
 	return server
 }
 
 //启动服务器
 func (server *Server) Start() {
-	fmt.Println("[START]Server Name: ", server.Name, ", IP: ", server.ip, "Port: ", server.port)
+	server.Log.Info("[START]Server Name: ", server.Name, ", IP: ", server.ip, ", Port: ", server.port)
 	server.server = TKcp.NewServer()
 	server.server.Ip = server.ip
 	server.server.Port = server.port
@@ -61,7 +65,7 @@ func (server *Server) msgHandle() {
 	for {
 		if v := server.Requests.Dequeue(); v != nil {
 			if request, ok := v.(*Base.Request); ok {
-				fmt.Println("Receive:", request.Name)
+				server.Log.Info("Receive:", request.Name)
 				if server.Routers == nil {
 					server.Routers = make(map[string]func(connection *Connection, bytes []byte))
 				}
@@ -75,7 +79,7 @@ func (server *Server) msgHandle() {
 
 //关闭服务器
 func (server *Server) Stop() {
-	fmt.Println("[STOP]Server Name: ", server.Name, ", IP: ", server.ip, "Port: ", server.port)
+	server.Log.Info("[STOP]Server Name: ", server.Name, ", IP: ", server.ip, "Port: ", server.port)
 }
 
 //为当前服务添加一个路由
@@ -91,14 +95,14 @@ func (server *Server) RemoveRouter(name string) {
 	if _, ok := server.Routers[name]; ok {
 		delete(server.Routers, name)
 	} else {
-		fmt.Printf("handle function <%s> does not exist\n", name)
+		server.Log.Info("handle function <%s> does not exist\n", name)
 	}
 }
 
 //客户端连接时，需要执行的方法
 func (server *Server) OnConnect(bytes []byte) {
 	conv := uint32(bytes[0]) | uint32(bytes[1])<<8 | uint32(bytes[2])<<16 | uint32(bytes[3])<<24
-	fmt.Println("客户端连接: ", conv)
+
 	connection := NewConnection(conv)
 	connection.Server = server
 	if Clients == nil {
@@ -107,11 +111,12 @@ func (server *Server) OnConnect(bytes []byte) {
 	if _, ok := Clients[conv]; !ok {
 		Clients[conv] = connection
 	}
+	server.Log.Info("客户端连接:", "Conv:", conv)
 }
 
 //客户端断开连接时，需要执行的方法
 func (server *Server) OnDisconnect(conv uint32) {
-	fmt.Println("客户端连接: ", conv)
+	server.Log.Info("客户端断开连接: ", conv)
 	if _, ok := Clients[conv]; ok {
 
 		delete(Clients, conv)
@@ -121,7 +126,7 @@ func (server *Server) OnDisconnect(conv uint32) {
 //客户端接受消息时，需要执行的方法
 func (server *Server) OnReceive(conv uint32, bytes []byte, len int) {
 	if len <= 4 {
-		fmt.Println("收到了pong")
+		server.Log.Info("收到了pong")
 		return
 	}
 	if client, ok := Clients[conv]; ok {
@@ -129,7 +134,7 @@ func (server *Server) OnReceive(conv uint32, bytes []byte, len int) {
 		readBuf.Write(bytes)
 		server.onReceiveData(conv)
 	} else {
-		fmt.Println("客户端已断开连接: ", conv)
+		server.Log.Info("客户端已断开连接: ", conv)
 		return
 	}
 
