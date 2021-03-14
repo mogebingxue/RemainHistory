@@ -1,5 +1,7 @@
 package Base
 
+import "sync"
+
 // minQueueLen is smallest capacity that queue may have.
 // Must be power of 2 for bitwise modulus: x % n == x & (n - 1).
 const minQueueLen = 16 // 队列缓存区最小长度
@@ -8,6 +10,7 @@ const minQueueLen = 16 // 队列缓存区最小长度
 type Queue struct {
 	buf               []interface{} // 缓存区
 	head, tail, count int           // 队头下标，队尾下标，队列长度
+	lock              sync.Mutex
 }
 
 // New constructs and returns a new Queue.
@@ -43,6 +46,8 @@ func (q *Queue) resize() {
 
 // Add puts an element on the end of the queue.
 func (q *Queue) Enqueue(elem interface{}) {
+	q.lock.Lock()
+	defer q.lock.Unlock()
 	if q.count == len(q.buf) {
 		q.resize() // 新元素入队之前，当队列长度等于缓存区长度时，缓存区长度重设为两个队列长度
 	}
@@ -51,11 +56,14 @@ func (q *Queue) Enqueue(elem interface{}) {
 	// bitwise modulus
 	q.tail = (q.tail + 1) & (len(q.buf) - 1) // 队尾下标在缓存环中移动一位
 	q.count++                                // 队列长度+1
+
 }
 
 // Remove removes and returns the element from the front of the queue. If the
 // queue is empty, return nil.
 func (q *Queue) Dequeue() interface{} {
+	q.lock.Lock()
+	defer q.lock.Unlock()
 	if q.count <= 0 {
 		return nil
 	}
