@@ -1,4 +1,4 @@
-package db
+package DB
 
 //账户信息
 type Account struct {

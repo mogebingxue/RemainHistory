@@ -1,4 +1,4 @@
-package Helper
+package Util
 
 import (
 	"encoding/json"
@@ -9,20 +9,19 @@ import (
 
 //定义配置文件解析后的结构
 type NetInfo struct {
-	Name  string `json:Name`
-	IP  string `json:IP`
-	Port      int `json:Port`
-	MaxClients  	  int `json:MaxClients`
-	DBName    string `json:DBName`
-	DBURL string `json:DBURL`
+	Name       string `json:Name`
+	IP         string `json:IP`
+	Port       int    `json:Port`
+	MaxClients int    `json:MaxClients`
+	DBName     string `json:DBName`
+	DBURL      string `json:DBURL`
 }
-
 
 var fileLocker sync.Mutex //config file locker
 
 //获取网络配置信息
-func GetNetConfig() NetInfo {
-	conf, bl := loadConfig("./NetConfig.json") //get config struct
+func GetNetConfig(path string) NetInfo {
+	conf, bl := loadConfig(path) //get config struct
 	if !bl {
 		panic("InitConfig failed")
 	}
@@ -39,8 +38,8 @@ func loadConfig(filename string) (NetInfo, bool) {
 		fmt.Println("read json file error")
 		return conf, false
 	}
-	datajson := []byte(data)
-	err = json.Unmarshal(datajson, &conf)
+	dataset := data
+	err = json.Unmarshal(dataset, &conf)
 	if err != nil {
 		fmt.Println("unmarshal json file error")
 		return conf, false

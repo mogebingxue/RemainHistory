@@ -59,13 +59,17 @@ func (server *Server) GenerateConv() uint32 {
 	return uint32(conv)
 }
 
+//检查PING
 func (server *Server) CheckPing(peer Peer) {
+	//获取当前时间戳
 	timeNow := GetTimeStamp()
+	//如果时间间隔大于规定间隔，则PING一下，并把超时次数加一
 	if timeNow-peer.LastPingTime > int64(server.PingInterval) {
 		peer.Ping()
 		peer.LastPingTime = GetTimeStamp()
 		peer.TimeoutTime++
 	}
+	//如果超时次数大于4，则移除客户端
 	if peer.TimeoutTime > 4 {
 		fmt.Println("超时删除")
 		peer.DisconnectHandle.Call(peer.Conv)
@@ -117,9 +121,8 @@ func (server *Server) update() {
 				fmt.Println("已经连接到服务器", remote)
 			}
 		} else {
-			//如果是收到的消息
+			//如果是收到的消息,传给Kcp
 			if value, ok := server.Peers[head]; ok {
-
 				value.Kcp.Input(recvBuffer, true, true)
 			}
 		}
@@ -145,19 +148,21 @@ func (server *Server) updatePeer() {
 }
 
 //注册回调
-
+//添加一个收到消息的回调
 func (server *Server) AddReceiveHandle(name string, handleFunc func(conv uint32, bytes []byte, len int)) {
 	for _, peer := range server.peerpool {
 		peer.ReceiveHandle.Add(name, handleFunc)
 	}
 }
 
+//添加一个连接回调
 func (server *Server) AddConnectHandle(name string, handleFunc func(bytes []byte)) {
 	for _, peer := range server.peerpool {
 		peer.ConnectHandle.Add(name, handleFunc)
 	}
 }
 
+//添加一个断开连接回调
 func (server *Server) AddDisconnectHandle(name string, handleFunc func(conv uint32)) {
 	for _, peer := range server.peerpool {
 		peer.DisconnectHandle.Add(name, handleFunc)

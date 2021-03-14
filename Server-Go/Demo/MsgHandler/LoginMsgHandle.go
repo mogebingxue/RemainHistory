@@ -1,25 +1,25 @@
 package MsgHandler
 
 import (
+	"ReaminHistory/Demo/DB"
 	Player2 "ReaminHistory/Demo/Player/Player"
 	"ReaminHistory/Demo/Player/PlayerManager"
 	"ReaminHistory/Demo/Proto"
-	"ReaminHistory/Demo/db"
-	"ReaminHistory/YT"
+	"ReaminHistory/YT/Net"
 	"fmt"
 	"github.com/golang/protobuf/proto"
 )
 
 //注册协议处理
-func MsgRegister(c *YT.Connection, bytes []byte) {
+func MsgRegister(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgRegister{}
 	err := proto.Unmarshal(bytes, msg)
 	if err != nil {
 		fmt.Println("解析失败")
 		return
 	}
-	if db.Register(msg.Id, msg.Pw) {
-		db.CreatePlayer(msg.Id)
+	if DB.Register(msg.Id, msg.Pw) {
+		DB.CreatePlayer(msg.Id)
 		msg.Result = 0
 	} else {
 		msg.Result = 1
@@ -28,7 +28,7 @@ func MsgRegister(c *YT.Connection, bytes []byte) {
 }
 
 //登陆协议处理
-func MsgLogin(c *YT.Connection, bytes []byte) {
+func MsgLogin(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgLogin{}
 	err := proto.Unmarshal(bytes, msg)
 	if err != nil {
@@ -36,7 +36,7 @@ func MsgLogin(c *YT.Connection, bytes []byte) {
 		return
 	}
 	//密码校验
-	if !db.CheckPassword(msg.Id, msg.Pw) {
+	if !DB.CheckPassword(msg.Id, msg.Pw) {
 		msg.Result = 1
 		c.Send(msg)
 		return
@@ -55,7 +55,7 @@ func MsgLogin(c *YT.Connection, bytes []byte) {
 		c.Send(msg)
 		return
 	}
-	playerData := db.GetPlayerData(msg.Id)
+	playerData := DB.GetPlayerData(msg.Id)
 	if playerData == nil {
 		msg.Result = 1
 		c.Send(msg)

@@ -13,7 +13,7 @@ func NewByteArray() *ByteArray {
 
 //写数据
 func (byteArray *ByteArray) Write(bs []byte) int {
-	length := int16(bs[1])*256 + int16(bs[0])
+	length := int16(bs[1])<<8 | int16(bs[0])
 	bytes := bs[2 : length+2]
 	if byteArray.Buffer == nil {
 		byteArray.Buffer = make(chan []byte, 100)

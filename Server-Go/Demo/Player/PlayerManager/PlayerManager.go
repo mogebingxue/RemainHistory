@@ -1,8 +1,8 @@
 package PlayerManager
 
 import (
+	"ReaminHistory/Demo/DB"
 	Player2 "ReaminHistory/Demo/Player/Player"
-	"ReaminHistory/Demo/db"
 	"google.golang.org/protobuf/runtime/protoiface"
 )
 
@@ -11,7 +11,7 @@ var Players map[uint32]*Player2.Player
 func OnPlayerDisconnect(conv uint32) {
 	if player, ok := Players[conv]; ok {
 		//Player下线
-		db.UpdatePlayerData(player.Id, player.Data)
+		DB.UpdatePlayerData(player.Id, player.Data)
 		RemovePlayer(player.Id)
 		delete(Players, conv)
 	}

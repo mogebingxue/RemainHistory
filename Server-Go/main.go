@@ -1,17 +1,17 @@
 package main
 
 import (
-	"ReaminHistory/Demo/Helper"
+	"ReaminHistory/Demo/DB"
 	"ReaminHistory/Demo/MsgHandler"
 	"ReaminHistory/Demo/Player/PlayerManager"
-	"ReaminHistory/Demo/db"
-	"ReaminHistory/YT"
+	"ReaminHistory/YT/Net"
+	"ReaminHistory/YT/Util"
 )
 
 func main() {
-	netInfo := Helper.GetNetConfig()
-	db.Connect(netInfo.DBName, netInfo.DBURL)
-	server := YT.NewServer(netInfo.Name, netInfo.IP, netInfo.Port, netInfo.MaxClients)
+	netInfo := Util.GetNetConfig("./Demo/Config/NetConfig.json")
+	DB.Connect(netInfo.DBName, netInfo.DBURL)
+	server := Net.NewServer(netInfo.Name, netInfo.IP, netInfo.Port, netInfo.MaxClients)
 	server.AddRouter("MsgLogin", MsgHandler.MsgLogin)
 	server.AddRouter("MsgRegister", MsgHandler.MsgRegister)
 	server.AddRouter("MsgGetPlayerIntroduction", MsgHandler.MsgGetPlayerIntroduction)

@@ -1,9 +1,9 @@
-package YT
+package Net
 
 import (
 	"ReaminHistory/YT/Base"
-	"ReaminHistory/YT/Helper"
 	"ReaminHistory/YT/TKcp"
+	"ReaminHistory/YT/Util"
 	"fmt"
 	"google.golang.org/protobuf/runtime/protoiface"
 )
@@ -53,12 +53,11 @@ func (server *Server) Start() {
 	server.server.AddDisconnectHandle("OnDisconnect", func(conv uint32) {
 		server.OnDisconnect(conv)
 	})
-	go server.startMsgHandle()
+	go server.msgHandle()
 }
 
 //处理消息回调的线程
-func (server *Server) startMsgHandle() {
-
+func (server *Server) msgHandle() {
 	for {
 		if v := server.Requests.Dequeue(); v != nil {
 			if request, ok := v.(*Base.Request); ok {
@@ -70,7 +69,6 @@ func (server *Server) startMsgHandle() {
 					router(Clients[request.Conv], request.Msg)
 				}
 			}
-
 		}
 	}
 }
@@ -142,7 +140,7 @@ func (server *Server) onReceiveData(conv uint32) {
 	readBuf := Clients[conv].readBuf
 	bytes := readBuf.Read()
 	for bytes != nil {
-		request := Helper.Decode(bytes, conv)
+		request := Util.Decode(bytes, conv)
 		server.Requests.Enqueue(request)
 		bytes = readBuf.Read()
 	}
@@ -150,7 +148,7 @@ func (server *Server) onReceiveData(conv uint32) {
 
 //发送消息
 func (server *Server) Send(conv uint32, message protoiface.MessageV1) {
-	sendBytes := Helper.Encode(message)
+	sendBytes := Util.Encode(message)
 	server.server.Send(conv, sendBytes)
 }
 
@@ -161,14 +159,12 @@ func (server *Server) Broadcast(message protoiface.MessageV1) {
 	}
 }
 
-func (server *Server) AddDisconnectHandle(name string, handleFunc func(conv uint32)) {
-	server.server.AddDisconnectHandle(name, handleFunc)
+func (server *Server) AddReceiveHandle(name string, handleFunc func(conv uint32, bytes []byte, len int)) {
+	server.server.AddReceiveHandle(name, handleFunc)
 }
-
 func (server *Server) AddConnectHandle(name string, handleFunc func(bytes []byte)) {
 	server.server.AddConnectHandle(name, handleFunc)
 }
-
-func (server *Server) AddReceiveHandle(name string, handleFunc func(conv uint32, bytes []byte, len int)) {
-	server.server.AddReceiveHandle(name, handleFunc)
+func (server *Server) AddDisconnectHandle(name string, handleFunc func(conv uint32)) {
+	server.server.AddDisconnectHandle(name, handleFunc)
 }

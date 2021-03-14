@@ -159,7 +159,7 @@ func (peer *Peer) Pong() {
 //发送数据
 func (peer *Peer) Send(bytes []byte) {
 	peer.Kcp.Send(bytes)
-	fmt.Println("发送数据 "+" TO ", peer.Remote, " ", peer.Conv, " ", bytes)
+	fmt.Println("发送数据"+"TO", peer.Remote, peer.Conv, bytes)
 }
 
 //Peer 的更新操作，负责接收来自udp的数据

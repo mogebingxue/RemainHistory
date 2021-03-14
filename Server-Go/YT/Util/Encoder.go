@@ -1,4 +1,4 @@
-package Helper
+package Util
 
 import (
 	"ReaminHistory/YT/Base"
@@ -24,20 +24,24 @@ func Encode(msg protoiface.MessageV1) []byte {
 	return sendBytes
 }
 
-func encodeBody(msg protoiface.MessageV1) []byte {
-	buffer, _ := proto.Marshal(msg)
-	return buffer
-}
-
+//编码协议名
 func encodeName(msg protoiface.MessageV1) []byte {
 	name := reflect.TypeOf(msg).String()
 	sendBytes := make([]byte, 2)
+	//-7，减掉 &Proto. 的前缀
 	sendBytes[0] = byte((len(name) - 7) % 256)
 	sendBytes[1] = byte((len(name) - 7) / 256)
 	sendBytes = append(sendBytes, []byte(name)[7:]...)
 	return sendBytes
 }
 
+//编码协议体
+func encodeBody(msg protoiface.MessageV1) []byte {
+	buffer, _ := proto.Marshal(msg)
+	return buffer
+}
+
+//解码
 func Decode(bytes []byte, conv uint32) *Base.Request {
 	//解析协议名
 	protoName, nameCount := decodeName(bytes)
@@ -56,13 +60,14 @@ func Decode(bytes []byte, conv uint32) *Base.Request {
 	return request
 }
 
+//解码协议名
 func decodeName(bytes []byte) (name string, count int) {
 	//必须大于两字节
 	if len(bytes) < 2 {
 		return "", 0
 	}
 	//读取长度
-	length := int16(bytes[1])*256 + int16(bytes[0])
+	length := int16(bytes[1])<<8 | int16(bytes[0])
 	if length < 0 {
 		return "", 0
 	}
@@ -74,6 +79,7 @@ func decodeName(bytes []byte) (name string, count int) {
 	return name, int(length + 2)
 }
 
+//解码协议体
 func decodeBody(bytes []byte) []byte {
 	return bytes
 }

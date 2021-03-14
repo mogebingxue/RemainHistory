@@ -1,8 +1,8 @@
-package db
+package DB
 
 import (
-	"ReaminHistory/Demo/Helper"
 	"ReaminHistory/Demo/Player/PlayerData"
+	"ReaminHistory/YT/Util"
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
@@ -35,7 +35,7 @@ func Connect(dbname string, connStr string) {
 //测试并重连
 func CheckAndReconnect() {
 	if database == nil {
-		netInfo := Helper.GetNetConfig()
+		netInfo := Util.GetNetConfig("./Demo/Config/NetConfig.json")
 		Connect(netInfo.DBName, netInfo.DBURL)
 		fmt.Println("数据库重连")
 	}
