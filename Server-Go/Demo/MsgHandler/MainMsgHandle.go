@@ -38,6 +38,7 @@ func MsgSavePlayerIntroduction(c *Net.Connection, bytes []byte) {
 		DB.UpdatePlayerData(player.Id, player.Data)
 		player.Send(msg)
 	} else {
+		fmt.Println("获取失败")
 		return
 	}
 }
@@ -54,6 +55,7 @@ func MsgGetHeadPhoto(c *Net.Connection, bytes []byte) {
 		msg.HeadPhoto = player.Data.HeadPhoto
 		player.Send(msg)
 	} else {
+		fmt.Println("获取失败")
 		return
 	}
 }
