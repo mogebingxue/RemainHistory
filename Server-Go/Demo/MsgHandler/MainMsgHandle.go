@@ -21,6 +21,7 @@ func MsgGetPlayerIntroduction(c *Net.Connection, bytes []byte) {
 		msg.PalyerIntroduction = player.Data.PlayerIntroduction
 		player.Send(msg)
 	} else {
+		fmt.Println("获取失败")
 		return
 	}
 }
@@ -38,7 +39,7 @@ func MsgSavePlayerIntroduction(c *Net.Connection, bytes []byte) {
 		DB.UpdatePlayerData(player.Id, player.Data)
 		player.Send(msg)
 	} else {
-		fmt.Println("获取失败")
+
 		return
 	}
 }

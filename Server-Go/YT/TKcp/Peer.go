@@ -4,7 +4,6 @@ import (
 	Log2 "ReaminHistory/YT/Log"
 	"github.com/xtaci/kcp-go/v5"
 	"net"
-	"time"
 )
 
 type Peer struct {
@@ -36,20 +35,20 @@ type Peer struct {
 	TimeoutHandle TimeoutHandle
 }
 
-//构造函数
-func NewPeer(localSocket net.UDPConn, remote net.UDPAddr, conv uint32) *Peer {
-	peer := &Peer{LocalSocket: localSocket, Remote: remote, Conv: conv, Model: FAST, LastPingTime: GetTimeStamp()}
-	peer.initPeer()
-	return peer
-}
-
 //Model的枚举
 const (
 	FAST   = 0
 	NORMAL = 1
 )
 
-//初始化Kcp
+// NewPeer 构造函数
+func NewPeer(localSocket net.UDPConn, remote net.UDPAddr, conv uint32) *Peer {
+	peer := &Peer{LocalSocket: localSocket, Remote: remote, Conv: conv, Model: FAST, LastPingTime: GetTimeStamp()}
+	peer.initPeer()
+	return peer
+}
+
+// InitKcp 初始化Kcp
 func (peer *Peer) InitKcp() {
 	//当这个Peer曾被使用过时，先释放它的Kcp，在重设
 	if peer.Kcp != nil {
@@ -97,11 +96,13 @@ func (peer *Peer) onConnect(conv []byte) {
 	sendBytes = append(sendBytes, conv...)
 	_, err := peer.LocalSocket.WriteToUDP(sendBytes, &peer.Remote)
 	if err != nil {
-		Log2.Log.Info("udp发送失败")
+		Log2.Log.Warn("UDP发送报文失败",err)
 	}
+	//注册接收回调
 	peer.ReceiveHandle.Add("onReceive", func(conv uint32, bytes []byte, len int) {
 		peer.onReceive(conv, bytes, len)
 	})
+	//注册断开连接回调
 	peer.DisconnectHandle.Add("onDisconnect", func(conv uint32) {
 		peer.onDisconnect(conv)
 	})
@@ -134,6 +135,7 @@ func (peer *Peer) onReceive(conv uint32, bytes []byte, len int) {
 	}
 }
 
+// Ping 发送心跳包
 func (peer *Peer) Ping() {
 	sendBytes := make([]byte, 4)
 	//2代表服务端发送的Ping
@@ -145,6 +147,7 @@ func (peer *Peer) Ping() {
 	peer.Send(sendBytes)
 }
 
+// Pong 回送心跳包
 func (peer *Peer) Pong() {
 	sendBytes := make([]byte, 4)
 	//3代表客户端发送的Pong
@@ -156,13 +159,13 @@ func (peer *Peer) Pong() {
 	peer.Send(sendBytes)
 }
 
-//发送数据
+// Send 发送数据
 func (peer *Peer) Send(bytes []byte) {
 	peer.Kcp.Send(bytes)
-	Log2.Log.Info("发送数据"+"TO", peer.Remote, peer.Conv, bytes)
+	Log2.Log.Info("发送数据"+"TO", peer.Remote, peer.Conv," ",string(bytes))
 }
 
-//Peer 的更新操作，负责接收来自udp的数据
+// PeerUpdate Peer 的更新操作，负责接收来自udp的数据
 func (peer *Peer) PeerUpdate() {
 	peer.Kcp.Update()
 	receiveBytes := make([]byte, 1024)
@@ -172,20 +175,13 @@ func (peer *Peer) PeerUpdate() {
 	}
 }
 
-//获取当前时间戳
-func GetTimeStamp() int64 {
-	nowTimeUnix := time.Now().Unix()
-	loc, _ := time.LoadLocation("Asia/Beijing")                                   //设置时区
-	tt, _ := time.ParseInLocation("2006-01-02 15:04:05", "1970-01-01 0:0:0", loc) //2006-01-02 15:04:05是转换的格式如php的"Y-m-d H:i:s"
-	return nowTimeUnix - tt.Unix()
-}
 
 //output回调函数
 func (peer *Peer) handle(buf []byte, size int) {
 	if size > 0 {
 		_, err := peer.LocalSocket.WriteToUDP(buf, &peer.Remote)
 		if err != nil {
-			Log2.Log.Info("udp发送失败")
+			Log2.Log.Warn("UDP发送报文失败",err)
 		}
 	}
 }

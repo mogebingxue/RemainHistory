@@ -8,18 +8,22 @@ import (
 	"time"
 )
 
+// Server TKCP服务器端
 type Server struct {
+	//最大连接数量
 	MaxConnections int
+	//IP地址
 	Ip             string
 	Port           int
 	PingInterval   int
 	Peers          map[uint32]*Peer
 
 	clients  map[uint32]net.UDPAddr
+	//对象池
 	peerpool []*Peer
 	//服务端udp
 	socket    net.UDPConn
-	localIpep net.UDPAddr
+	localAddr net.UDPAddr
 }
 
 func NewServer() *Server {
@@ -34,7 +38,7 @@ func (server *Server) initServer() {
 	if err1 != nil {
 		Log2.Log.Panic("IP地址错误")
 	}
-	server.localIpep = *addr
+	server.localAddr = *addr
 	conn, err2 := net.ListenUDP("udp", addr)
 	if err2 != nil {
 		Log2.Log.Panic("监听UDP失败")
@@ -52,14 +56,14 @@ func (server *Server) initServer() {
 	go server.updatePeer()
 }
 
-//连接号生成器
+// GenerateConv 连接号生成器
 func (server *Server) GenerateConv() uint32 {
 	rand.Seed(time.Now().Unix())
 	conv := rand.Intn(server.MaxConnections) + 1000
 	return uint32(conv)
 }
 
-//检查PING
+// CheckPing 检查PING
 func (server *Server) CheckPing(peer Peer) {
 	//获取当前时间戳
 	timeNow := GetTimeStamp()
@@ -130,7 +134,7 @@ func (server *Server) update() {
 	}
 }
 
-//发送消息
+// Send 发送消息
 func (server *Server) Send(conv uint32, bytes []byte) {
 	server.Peers[conv].Send(bytes)
 }
@@ -149,21 +153,22 @@ func (server *Server) updatePeer() {
 }
 
 //注册回调
-//添加一个收到消息的回调
+
+// AddReceiveHandle 添加一个收到消息的回调
 func (server *Server) AddReceiveHandle(name string, handleFunc func(conv uint32, bytes []byte, len int)) {
 	for _, peer := range server.peerpool {
 		peer.ReceiveHandle.Add(name, handleFunc)
 	}
 }
 
-//添加一个连接回调
+// AddConnectHandle 添加一个连接回调
 func (server *Server) AddConnectHandle(name string, handleFunc func(bytes []byte)) {
 	for _, peer := range server.peerpool {
 		peer.ConnectHandle.Add(name, handleFunc)
 	}
 }
 
-//添加一个断开连接回调
+// AddDisconnectHandle 添加一个断开连接回调
 func (server *Server) AddDisconnectHandle(name string, handleFunc func(conv uint32)) {
 	for _, peer := range server.peerpool {
 		peer.DisconnectHandle.Add(name, handleFunc)
