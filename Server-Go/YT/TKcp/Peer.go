@@ -9,7 +9,7 @@ import (
 type Peer struct {
 
 	//本地的 socket
-	LocalSocket net.UDPConn
+	LocalSocket *net.UDPConn
 	//远端的EndPoint
 	Remote net.UDPAddr
 	//连接号
@@ -42,7 +42,7 @@ const (
 )
 
 // NewPeer 构造函数
-func NewPeer(localSocket net.UDPConn, remote net.UDPAddr, conv uint32) *Peer {
+func NewPeer(localSocket *net.UDPConn, remote net.UDPAddr, conv uint32) *Peer {
 	peer := &Peer{LocalSocket: localSocket, Remote: remote, Conv: conv, Model: FAST, LastPingTime: GetTimeStamp()}
 	peer.initPeer()
 	return peer
@@ -83,21 +83,6 @@ func (peer *Peer) initPeer() {
 
 //给客户端发送连接号
 func (peer *Peer) onConnect(conv []byte) {
-	if len(conv) != 4 {
-		return
-	}
-	sendBytes := make([]byte, 4)
-	//1代表是同意连接的回调
-	flag := 1
-	sendBytes[0] = uint8(flag)
-	sendBytes[1] = uint8(flag >> 8)
-	sendBytes[2] = uint8(flag >> 16)
-	sendBytes[3] = uint8(flag >> 24)
-	sendBytes = append(sendBytes, conv...)
-	_, err := peer.LocalSocket.WriteToUDP(sendBytes, &peer.Remote)
-	if err != nil {
-		Log2.Log.Warn("UDP发送报文失败",err)
-	}
 	//注册接收回调
 	peer.ReceiveHandle.Add("onReceive", func(conv uint32, bytes []byte, len int) {
 		peer.onReceive(conv, bytes, len)
@@ -114,11 +99,10 @@ func (peer *Peer) onTimeout() {
 }
 
 func (peer *Peer) onDisconnect(conv uint32) {
-	Log2.Log.Info("客户端 ", conv, "断开")
+	Log2.Log.Info("连接 ", conv, "断开")
 }
 
 func (peer *Peer) onAccept(conv []byte, len int) {
-	Log2.Log.Info("客户端收到接受了连接请求", conv)
 	peer.ReceiveHandle.Add("onReceive", func(conv uint32, bytes []byte, len int) {
 		peer.onReceive(conv, bytes, len)
 	})
@@ -129,7 +113,7 @@ func (peer *Peer) onReceive(conv uint32, bytes []byte, len int) {
 	peer.TimeoutTime = 0
 	if len == 4 {
 		msg := uint32(bytes[0]) | uint32(bytes[1])<<8 | uint32(bytes[2])<<16 | uint32(bytes[3])<<24
-		if msg == 2 {
+		if msg == 9 {
 			peer.Pong()
 		}
 	}
@@ -138,8 +122,8 @@ func (peer *Peer) onReceive(conv uint32, bytes []byte, len int) {
 // Ping 发送心跳包
 func (peer *Peer) Ping() {
 	sendBytes := make([]byte, 4)
-	//2代表服务端发送的Ping
-	flag := 2
+	//9代表服务端发送的Ping
+	flag := 9
 	sendBytes[0] = uint8(flag)
 	sendBytes[1] = uint8(flag >> 8)
 	sendBytes[2] = uint8(flag >> 16)
@@ -162,7 +146,7 @@ func (peer *Peer) Pong() {
 // Send 发送数据
 func (peer *Peer) Send(bytes []byte) {
 	peer.Kcp.Send(bytes)
-	Log2.Log.Info("发送数据"+"TO", peer.Remote, peer.Conv," ",string(bytes))
+	Log2.Log.Info("发送数据"+"TO", peer.Remote, peer.Conv, " ", string(bytes))
 }
 
 // PeerUpdate Peer 的更新操作，负责接收来自udp的数据
@@ -175,13 +159,12 @@ func (peer *Peer) PeerUpdate() {
 	}
 }
 
-
 //output回调函数
 func (peer *Peer) handle(buf []byte, size int) {
 	if size > 0 {
 		_, err := peer.LocalSocket.WriteToUDP(buf, &peer.Remote)
 		if err != nil {
-			Log2.Log.Warn("UDP发送报文失败",err)
+			Log2.Log.Warn("UDP发送报文失败", err)
 		}
 	}
 }

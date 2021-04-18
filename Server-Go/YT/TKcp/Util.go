@@ -29,7 +29,7 @@ func (action *ReceiveHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log2.Log.Info("回调函数",name,"不存在")
+		Log2.Log.Info("回调函数", name, "不存在")
 	}
 }
 
@@ -43,7 +43,7 @@ func (action *ReceiveHandle) Call(conv uint32, bytes []byte, len int) {
 	}
 }
 
-// ConnectHandle 连接请求的回调，即服务器收到客户端发送的第一次握手的报文之后的回调
+// ConnectHandle 服务器接收连接请求的回调
 type ConnectHandle struct {
 	handle map[string]func(bytes []byte)
 }
@@ -59,7 +59,7 @@ func (action *ConnectHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log2.Log.Info("回调函数",name,"不存在")
+		Log2.Log.Info("回调函数", name, "不存在")
 	}
 }
 
@@ -73,7 +73,7 @@ func (action *ConnectHandle) Call(bytes []byte) {
 	}
 }
 
-// AcceptHandle 接收连接请求回调，即客户端收到服务端发送的第二次握手之后的回调
+// AcceptHandle 客户端接收连接请求回调
 type AcceptHandle struct {
 	handle map[string]func(bytes []byte, len int)
 }
@@ -89,7 +89,7 @@ func (action *AcceptHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log2.Log.Info("回调函数",name,"不存在")
+		Log2.Log.Info("回调函数", name, "不存在")
 	}
 }
 
@@ -103,7 +103,7 @@ func (action *AcceptHandle) Call(bytes []byte, len int) {
 	}
 }
 
-// DisconnectHandle 断开连接请求回调，即收到挥手之后的回调
+// DisconnectHandle 断开连接请求回调
 type DisconnectHandle struct {
 	handle map[string]func(conv uint32)
 }
@@ -119,7 +119,7 @@ func (action *DisconnectHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log2.Log.Info("回调函数",name,"不存在")
+		Log2.Log.Info("回调函数", name, "不存在")
 	}
 }
 
@@ -149,7 +149,7 @@ func (action *TimeoutHandle) Remove(name string) {
 	if _, ok := action.handle[name]; ok {
 		delete(action.handle, name)
 	} else {
-		Log2.Log.Info("回调函数",name,"不存在")
+		Log2.Log.Info("回调函数", name, "不存在")
 	}
 }
 
