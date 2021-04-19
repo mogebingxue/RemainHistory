@@ -113,7 +113,7 @@ func (peer *Peer) onReceive(conv uint32, bytes []byte, len int) {
 	peer.TimeoutTime = 0
 	if len == 4 {
 		msg := uint32(bytes[0]) | uint32(bytes[1])<<8 | uint32(bytes[2])<<16 | uint32(bytes[3])<<24
-		if msg == 9 {
+		if msg == 2 {
 			peer.Pong()
 		}
 	}
@@ -123,7 +123,7 @@ func (peer *Peer) onReceive(conv uint32, bytes []byte, len int) {
 func (peer *Peer) Ping() {
 	sendBytes := make([]byte, 4)
 	//9代表服务端发送的Ping
-	flag := 9
+	flag := 2
 	sendBytes[0] = uint8(flag)
 	sendBytes[1] = uint8(flag >> 8)
 	sendBytes[2] = uint8(flag >> 16)

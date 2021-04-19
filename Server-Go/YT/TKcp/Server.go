@@ -158,10 +158,10 @@ func (server *Server) update() {
 		recvBuffer := make([]byte, 1024)
 		count, _, err := server.socket.ReadFromUDP(recvBuffer)
 		if count <= 0 {
-			return
+			continue
 		}
 		if err != nil {
-			return
+			continue
 		}
 		convBytes := recvBuffer[0:4]
 		head := uint32(convBytes[0]) | uint32(convBytes[1])<<8 | uint32(convBytes[2])<<16 | uint32(convBytes[3])<<24
@@ -170,6 +170,7 @@ func (server *Server) update() {
 			value.Kcp.Input(recvBuffer, true, true)
 		}
 	}
+
 }
 
 // Send 发送消息

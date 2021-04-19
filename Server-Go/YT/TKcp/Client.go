@@ -49,36 +49,35 @@ func (client *Client) Connect(server string) {
 
 	defer conn.Close() // 关闭连接
 
-	for {
-		buf := [1024]byte{}
-		n, err := conn.Read(buf[:])
+	buf := [1024]byte{}
+	n, err := conn.Read(buf[:])
+	if err != nil {
+		Log2.Log.Info("TCP接收消息失败", err)
+		return
+	}
+	convBytes := buf[:n]
+	head := uint32(convBytes[0]) | uint32(convBytes[1])<<8 | uint32(convBytes[2])<<16 | uint32(convBytes[3])<<24
+	if head == 0 {
+		Log2.Log.Info("连接已满，稍后重试!")
+		return
+	} else {
+		remoteAddr, err := net.ResolveUDPAddr("udp", server)
 		if err != nil {
-			Log2.Log.Info("TCP接收消息失败", err)
-			return
+			panic("IP地址错误")
 		}
-		convBytes := buf[:n]
-		head := uint32(convBytes[0]) | uint32(convBytes[1])<<8 | uint32(convBytes[2])<<16 | uint32(convBytes[3])<<24
-		if head == 0 {
-			Log2.Log.Info("连接已满，稍后重试!")
-			return
-		} else {
-			addr, err := net.ResolveUDPAddr("udp", server)
-			if err != nil {
-				panic("IP地址错误")
-			}
 
-			client.serverAddr = *addr
-			client.connectTime = GetTimeStamp()
-			client.Peer.LocalSocket = client.conn
-			client.Peer.Remote = *addr
-			client.Peer.Conv = head
-			client.Peer.InitKcp()
-			client.Peer.AcceptHandle.Call(convBytes, 4)
-			go client.update()
-			go client.updatePeer()
-			//退出此go程
-			return
-		}
+		client.serverAddr = *remoteAddr
+		client.connectTime = GetTimeStamp()
+		client.Peer.LocalSocket = client.conn
+		client.Peer.Remote = *remoteAddr
+		client.Peer.Conv = head
+		client.Peer.InitKcp()
+		client.Peer.AcceptHandle.Call(convBytes, 4)
+		go client.update()
+		go client.updatePeer()
+		//退出此go程
+		return
+
 	}
 }
 
@@ -102,11 +101,9 @@ func (client *Client) update() {
 		if err != nil {
 			return
 		}
-		convBytes := recvBuffer[:4]
-		head := uint32(convBytes[0]) | uint32(convBytes[1])<<8 | uint32(convBytes[2])<<16 | uint32(convBytes[3])<<24
-		if head != 1 {
-			client.Peer.Kcp.Input(recvBuffer, true, true)
-		}
+
+		client.Peer.Kcp.Input(recvBuffer, true, true)
+
 	}
 }
 
