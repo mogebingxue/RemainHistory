@@ -123,13 +123,7 @@ namespace TKcp
         /// <param name="conv"></param>
         /// <param name="length"></param>
         private void OnConnect(byte[] conv) {
-            byte[] sendBytes = new byte[8];
-            //1代表是同意连接的回调
-            uint flag = 1;
-            byte[] head = BitConverter.GetBytes(flag);
-            head.CopyTo(sendBytes, 0);
-            conv.CopyTo(sendBytes, 4);
-            LocalSocket.SendTo(sendBytes, Remote);
+           
 
             ReceiveHandle += OnReceive;
             DisconnectHandle += OnDisconnect;
@@ -197,7 +191,7 @@ namespace TKcp
             Kcp.Update(DateTime.UtcNow);
             var (temp, avalidSize) = Kcp.TryRecv();
             if (avalidSize > 0) {
-                byte[] receiveBytes = new byte[1024];
+                byte[] receiveBytes = new byte[1400];
                 temp.Memory.Span.Slice(0, avalidSize).CopyTo(receiveBytes);
                 if (ReceiveHandle != null) {
                     ReceiveHandle(Conv, receiveBytes, avalidSize);

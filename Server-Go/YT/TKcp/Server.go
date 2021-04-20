@@ -134,11 +134,13 @@ func (server *Server) kcpConnect(conn net.Conn) {
 		server.peerpool[conv-1000].InitKcp()
 		server.Peers[conv] = server.peerpool[conv-1000]
 		server.clients[conv] = *remote
+
 		sendBytes := make([]byte, 4)
 		sendBytes[0] = uint8(conv)
 		sendBytes[1] = uint8(conv >> 8)
 		sendBytes[2] = uint8(conv >> 16)
 		sendBytes[3] = uint8(conv >> 24)
+		server.Peers[conv].ConnectHandle.Call(sendBytes)
 		_, err2 := conn.Write(sendBytes)
 		if err2 != nil {
 			Log2.Log.Warn("TCP发送报文失败", err)
@@ -157,6 +159,7 @@ func (server *Server) update() {
 	for {
 		recvBuffer := make([]byte, 1024)
 		count, _, err := server.socket.ReadFromUDP(recvBuffer)
+
 		if count <= 0 {
 			continue
 		}

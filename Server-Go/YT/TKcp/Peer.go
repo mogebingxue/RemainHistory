@@ -155,7 +155,7 @@ func (peer *Peer) PeerUpdate() {
 	receiveBytes := make([]byte, 1024)
 	availedSize := peer.Kcp.Recv(receiveBytes)
 	if availedSize > 0 {
-		peer.ReceiveHandle.Call(peer.Conv, receiveBytes, availedSize)
+		peer.ReceiveHandle.Call(peer.Conv, receiveBytes[:availedSize], availedSize)
 	}
 }
 

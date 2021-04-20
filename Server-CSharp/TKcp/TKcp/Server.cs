@@ -17,8 +17,8 @@ namespace TKcp
         /// <summary>服务端IP地址</summary>
         public string Ip = "127.0.0.1";
         /// <summary>服务端端口号</summary>
-        public int Port = 8888;
-        public int PingInterval = 5;
+        public int Port = 8887;
+        public int PingInterval = 1000;
 
         public Dictionary<uint, Peer> Peers = new Dictionary<uint, Peer>();
 
@@ -33,7 +33,7 @@ namespace TKcp
         Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
         IPEndPoint localIpep;
-        
+
 
         public Server() {
             InitServer();
@@ -45,24 +45,69 @@ namespace TKcp
             //初始化缓存池
             peerpool = new Peer[MaxConnection];
 
-            for(int i = 0;i<peerpool.Length;i++) {
+            for (int i = 0; i < peerpool.Length; i++) {
                 peerpool[i] = new Peer(socket, (uint)(i + 1000), null);
             }
-            
-            
+
+            Thread connectUpdateThread = new Thread(connectUpdate);
+            connectUpdateThread.Start();
             Thread updataThread = new Thread(Update);
             updataThread.Start();
             Thread updataPeerThread = new Thread(UpdatePeer);
             updataPeerThread.Start();
 
         }
+
+        private void connectUpdate() {
+            Socket tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            tcpSocket.Bind(localIpep);
+            tcpSocket.Listen(0);
+            while (true) {
+                Socket conn = tcpSocket.Accept();
+                Thread kcpConnectThread = new Thread(kcpConnect);
+                kcpConnectThread.Start(conn);
+            }
+        }
+
+        private void kcpConnect(object obj) {
+            Socket conn = (Socket)obj;
+            if (clients.Count > MaxConnection) {
+                Console.WriteLine("已达到最大连接数");
+                uint flag = 1;
+                byte[] head = BitConverter.GetBytes(flag);
+                conn.Send(head);
+                return;
+            }
+            EndPoint remote = conn.RemoteEndPoint;
+            if (!clients.ContainsValue(remote)) {
+                //生成一个conv
+                uint conv = GenerateConv();
+                //从缓存池里一个peer，并初始化他
+                peerpool[conv - 1000].Remote = remote;
+                peerpool[conv - 1000].InitKcp();
+                Peers.Add(conv, peerpool[conv - 1000]);
+                clients.Add(conv, remote);
+                peerpool[conv - 1000].ConnectHandle(System.BitConverter.GetBytes(conv));
+
+                byte[] sendBytes = BitConverter.GetBytes(conv);
+                conn.Send(sendBytes);
+
+                Console.WriteLine("服务端接受了一个连接请求 " + remote + " " + conv);
+            }
+            //客户端已经连接，则不再连接
+            else {
+                Console.WriteLine("已经连接到服务器" + remote);
+            }
+            conn.Close();
+        }
+
         /// <summary>
         /// 连接号生成器
         /// </summary>
         /// <returns></returns>
         uint GenerateConv() {
             Random random = new Random();
-            uint conv = (uint)random.Next(1000, MaxConnection+1000);
+            uint conv = (uint)random.Next(1000, MaxConnection + 1000);
             while (Peers.ContainsKey(conv)) {
                 conv = (uint)random.Next(1000, MaxConnection + 1000);
             }
@@ -84,7 +129,7 @@ namespace TKcp
             long timeNow = GetTimeStamp();
             //Ping 一下
             if (timeNow - peer.LastPingTime > PingInterval) {
-                Console.WriteLine("ping 了一下"+"  "+ peer.TimeoutTime);
+                Console.WriteLine("ping 了一下" + "  " + peer.TimeoutTime);
                 peer.Ping();
                 peer.LastPingTime = GetTimeStamp();
                 peer.TimeoutTime++;
@@ -108,42 +153,16 @@ namespace TKcp
                     byte[] recvBuffer = new byte[socket.ReceiveBufferSize];
                     EndPoint remote = new IPEndPoint(IPAddress.Any, 0);
                     socket.ReceiveFrom(recvBuffer, ref remote);
+                    
                     //解析前四个byte的数据
                     byte[] convBytes = new byte[4];
                     Array.Copy(recvBuffer, 0, convBytes, 0, 4);
                     uint head = System.BitConverter.ToUInt32(convBytes);
-                    //如果是连接请求
-                    if (head == 0) {
 
-                        if (clients.Count > MaxConnection) {
-                            Console.WriteLine("已达到最大连接数");
-                            continue;
-                        }
-
-                        
-                        if (!clients.ContainsValue(remote)) {
-                            //生成一个conv
-                            uint conv = GenerateConv();
-                            //从缓存池里一个peer，并初始化他
-                            peerpool[conv-1000].Remote = remote;
-                            peerpool[conv - 1000].InitKcp();
-                            Peers.Add(conv, peerpool[conv-1000]);
-                            clients.Add(conv, remote);
-                            peerpool[conv - 1000].ConnectHandle(System.BitConverter.GetBytes(conv));
-
-                            Console.WriteLine("接受了一个连接请求 " + remote + " "+conv);
-                        }
-                        //客户端已经连接，则不再连接
-                        else {
-                            Console.WriteLine("已经连接到服务器" + remote );
-                        }
-
-                    }
                     //如果是收到的消息
-                    else {
-                        if (Peers.ContainsKey(head)) {
-                            Peers[head].Kcp.Input(recvBuffer);
-                        }
+
+                    if (Peers.ContainsKey(head)) {
+                        Peers[head].Kcp.Input(recvBuffer);
                     }
                 }
             }
@@ -159,7 +178,7 @@ namespace TKcp
         /// 更新Peer
         /// </summary>
         void UpdatePeer() {
-           
+
             while (true) {
                 if (Peers.Count <= 0) {
                     continue;

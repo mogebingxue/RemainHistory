@@ -129,13 +129,14 @@ public static class NetManager
         client.AddAcceptHandle(OnConnect);
         client.AddReceiveHandle(OnReceive);
         client.AddTimeoutHandle(OnTimeout);
-        client.Connect(iPEndPoint);
-
         //初始化成员
         InitState();
         //参数设置
         //Connect
         isConnecting = true;
+        client.Connect(iPEndPoint);
+
+       
     }
 
     
@@ -165,7 +166,6 @@ public static class NetManager
         Debug.Log("Client connected to server");
         FireEvent(NetEvent.ConnectSucc, "");
         isConnecting = false;
-
     }
     /// <summary>
     /// 连接超时
@@ -179,7 +179,7 @@ public static class NetManager
     /// 关闭连接
     /// </summary>
     public static void Close() {
-
+        
         //状态判断
         if (isConnecting) {
             return;
@@ -209,18 +209,20 @@ public static class NetManager
         }
 
         byte[] sendBytes = MsgHelper.Encode(msg);
+        
         //写入队列
         ByteArray ba = new ByteArray(sendBytes);
         lock (writeQueue) {
             writeQueue.Enqueue(ba);
         }
+     
     }
 
     /// <summary>
     /// 发送发送队列的数据
     /// </summary>
     public static void SendUpdata() {
-
+        if (writeQueue == null) return;
         if (writeQueue.Count == 0) {
             return;
         }
@@ -233,7 +235,9 @@ public static class NetManager
         //继续发送
         if (ba != null) {
             byte[] data = ba.bytes;
+            
             client.Send(data);
+            
             lock (writeQueue) {
                 writeQueue.Dequeue();
             }
@@ -257,6 +261,7 @@ public static class NetManager
         try {
             //获取接收数据长度
             bytes.CopyTo(readBuff.bytes, readBuff.writeIdx);
+            //Array.Copy(bytes, 0, readBuff.bytes, readBuff.writeIdx, length);
             readBuff.writeIdx += length;
             //处理二进制消息
             OnReceiveData();
