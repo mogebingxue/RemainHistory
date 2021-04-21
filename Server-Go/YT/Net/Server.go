@@ -3,7 +3,7 @@ package Net
 import (
 	"ReaminHistory/YT/Base"
 	"ReaminHistory/YT/Log"
-	"ReaminHistory/YT/TKcp"
+	"ReaminHistory/YT/Net/TKCP"
 	"ReaminHistory/YT/Util"
 	"google.golang.org/protobuf/runtime/protoiface"
 )
@@ -22,7 +22,7 @@ type Server struct {
 	//最大连接数
 	maxClients int
 	//服务器
-	server *TKcp.Server
+	server *TKCP.Server
 }
 
 func NewServer(name string, ip string, port int, maxClients int) *Server {
@@ -39,7 +39,7 @@ func NewServer(name string, ip string, port int, maxClients int) *Server {
 // Start 启动服务器
 func (server *Server) Start() {
 	Log.Log.Info("[START]Server Name: ", server.Name, ", IP: ", server.ip, ", Port: ", server.port)
-	server.server = TKcp.NewServer()
+	server.server = TKCP.NewServer()
 	server.server.Ip = server.ip
 	server.server.Port = server.port
 	server.server.MaxConnections = server.maxClients
@@ -53,6 +53,7 @@ func (server *Server) Start() {
 	server.server.AddDisconnectHandle("OnDisconnect", func(conv uint32) {
 		server.OnDisconnect(conv)
 	})
+	server.server.Start()
 	go server.msgHandle()
 }
 
@@ -147,13 +148,13 @@ func (server *Server) onReceiveData(conv uint32) {
 	}
 }
 
-//发送消息
+// Send 发送消息
 func (server *Server) Send(conv uint32, message protoiface.MessageV1) {
 	sendBytes := Util.Encode(message)
 	server.server.Send(conv, sendBytes)
 }
 
-//广播消息
+// Broadcast 广播消息
 func (server *Server) Broadcast(message protoiface.MessageV1) {
 	for _, connection := range Clients {
 		connection.Send(message)

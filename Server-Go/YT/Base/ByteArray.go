@@ -1,5 +1,6 @@
 package Base
 
+// ByteArray 消息缓冲
 type ByteArray struct {
 	//缓冲区
 	Buffer chan []byte
@@ -32,7 +33,7 @@ func (byteArray *ByteArray) Read() []byte {
 	}
 }
 
-//长度
+// Count 长度
 func (byteArray *ByteArray) Count() int {
 	return len(byteArray.Buffer)
 }

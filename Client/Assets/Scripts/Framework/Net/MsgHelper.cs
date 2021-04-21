@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using TKcp;
+using UnityEngine;
 
 class MsgHelper
 {
@@ -59,7 +60,7 @@ class MsgHelper
         int nameCount = 0;
         string protoName = MsgHelper.DecodeName(readBuff.bytes, readBuff.readIdx, out nameCount);
         if (protoName == "") {
-            Console.WriteLine("OnReceiveData MsgBase.DecodeName fail");
+            Debug.Log("OnReceiveData MsgBase.DecodeName fail");
             //Close(user);
             return null;
         }
@@ -67,7 +68,7 @@ class MsgHelper
         //解析协议体
         int bodyCount = bodyLength - nameCount;
         if (bodyCount < 0) {
-            Console.WriteLine("OnReceiveData fail, bodyCount <0 ");
+            Debug.Log("OnReceiveData fail, bodyCount <0 ");
             //Close(user);
             return null;
         }
@@ -78,6 +79,7 @@ class MsgHelper
         request.Conv = conv;
         request.Name = protoName;
         request.Msg = msg;
+        Debug.Log(request.Name);
         return request;
     }
 

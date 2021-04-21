@@ -13,7 +13,7 @@ type Queue struct {
 	lock              sync.Mutex
 }
 
-// New constructs and returns a new Queue.
+// NewQueue New constructs and returns a new Queue.
 func NewQueue() *Queue {
 	return &Queue{
 		buf: make([]interface{}, minQueueLen), // 返回最小长度缓存的空队列
@@ -44,7 +44,7 @@ func (q *Queue) resize() {
 	q.buf = newBuf   // 新队列
 }
 
-// Add puts an element on the end of the queue.
+// Enqueue Add puts an element on the end of the queue.
 func (q *Queue) Enqueue(elem interface{}) {
 	q.lock.Lock()
 	defer q.lock.Unlock()
@@ -59,7 +59,7 @@ func (q *Queue) Enqueue(elem interface{}) {
 
 }
 
-// Remove removes and returns the element from the front of the queue. If the
+// Dequeue Remove removes and returns the element from the front of the queue. If the
 // queue is empty, return nil.
 func (q *Queue) Dequeue() interface{} {
 	q.lock.Lock()

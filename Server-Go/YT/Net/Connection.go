@@ -13,6 +13,7 @@ type Connection struct {
 	Server  *Server
 }
 
+// NewConnection 新建一个Connection
 func NewConnection(conv uint32) *Connection {
 	connection := new(Connection)
 	connection.Conv = conv
@@ -20,6 +21,7 @@ func NewConnection(conv uint32) *Connection {
 	return connection
 }
 
+// Send 给这个连接发送消息
 func (connection *Connection) Send(message protoiface.MessageV1) {
 	connection.Server.Send(connection.Conv, message)
 }

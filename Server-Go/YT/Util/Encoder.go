@@ -8,7 +8,9 @@ import (
 	"reflect"
 )
 
-//编码
+//编码解码器
+
+// Encode 编码
 func Encode(msg protoiface.MessageV1) []byte {
 	nameBytes := encodeName(msg)
 	bodyBytes := encodeBody(msg)

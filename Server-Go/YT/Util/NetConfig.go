@@ -7,7 +7,9 @@ import (
 	"sync"
 )
 
-//定义配置文件解析后的结构
+//解析配置信息
+
+// NetInfo 定义配置文件解析后的结构
 type NetInfo struct {
 	Name       string `json:Name`
 	IP         string `json:IP`
@@ -19,7 +21,7 @@ type NetInfo struct {
 
 var fileLocker sync.Mutex //config file locker
 
-//获取网络配置信息
+// GetNetConfig 获取网络配置信息
 func GetNetConfig(path string) NetInfo {
 	conf, bl := loadConfig(path) //get config struct
 	if !bl {
