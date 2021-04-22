@@ -2,6 +2,8 @@ package Base
 
 import "sync"
 
+//并发安全的队列
+
 // minQueueLen is smallest capacity that queue may have.
 // Must be power of 2 for bitwise modulus: x % n == x & (n - 1).
 const minQueueLen = 16 // 队列缓存区最小长度

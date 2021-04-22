@@ -1,4 +1,4 @@
-package INet
+package IProto
 
 type Peer interface {
 	// Send 发送数据

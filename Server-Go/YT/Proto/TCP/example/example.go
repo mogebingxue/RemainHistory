@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ReaminHistory/YT/Net/TCP"
+	"ReaminHistory/YT/Proto/TCP"
 	"bufio"
 	"fmt"
 	"os"

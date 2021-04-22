@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ReaminHistory/YT/Net/TKCP"
+	"ReaminHistory/YT/Proto/TKCP"
 	"bufio"
 	"fmt"
 	"os"

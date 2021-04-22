@@ -3,7 +3,7 @@ package Net
 import (
 	"ReaminHistory/YT/Base"
 	"ReaminHistory/YT/Log"
-	"ReaminHistory/YT/Net/TKCP"
+	"ReaminHistory/YT/Proto/TKCP"
 	"ReaminHistory/YT/Util"
 	"google.golang.org/protobuf/runtime/protoiface"
 )

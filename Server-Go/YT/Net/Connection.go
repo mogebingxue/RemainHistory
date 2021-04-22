@@ -9,7 +9,7 @@ type Connection struct {
 	//客户端Peer
 	Conv uint32
 	//缓存区
-	readBuf *Base.ByteArray
+	readBuf *Base.MsgBuffer
 	Server  *Server
 }
 
@@ -17,7 +17,7 @@ type Connection struct {
 func NewConnection(conv uint32) *Connection {
 	connection := new(Connection)
 	connection.Conv = conv
-	connection.readBuf = new(Base.ByteArray)
+	connection.readBuf = new(Base.MsgBuffer)
 	return connection
 }
 
