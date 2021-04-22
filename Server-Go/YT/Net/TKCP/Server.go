@@ -17,11 +17,11 @@ type Server struct {
 	Port         int
 	PingInterval int
 	//当前连接的Peer
-	Peers map[uint32]*Peer
+	Peers map[uint32]*peer
 	//当前连接的UDPAddr
 	clients map[uint32]net.UDPAddr
 	//对象池
-	peerpool []*Peer
+	peerpool []*peer
 	//服务端udp
 	socket    *net.UDPConn
 	localAddr net.UDPAddr
@@ -30,11 +30,11 @@ type Server struct {
 func NewServer() *Server {
 	server := &Server{MaxConnections: 999, Ip: "127.0.0.1", Port: 8888, PingInterval: 500}
 	//初始化缓存池
-	server.peerpool = make([]*Peer, server.MaxConnections)
+	server.peerpool = make([]*peer, server.MaxConnections)
 	for key, _ := range server.peerpool {
-		server.peerpool[key] = NewPeer(server.socket, net.UDPAddr{}, uint32(key+1000))
+		server.peerpool[key] = newPeer(server.socket, net.UDPAddr{}, uint32(key+1000))
 	}
-	server.Peers = make(map[uint32]*Peer)
+	server.Peers = make(map[uint32]*peer)
 	server.clients = make(map[uint32]net.UDPAddr)
 	return server
 }
@@ -59,20 +59,20 @@ func (server *Server) Start() {
 }
 
 // GenerateConv 连接号生成器
-func (server *Server) GenerateConv() uint32 {
+func (server *Server) generateConv() uint32 {
 	rand.Seed(time.Now().Unix())
 	conv := rand.Intn(server.MaxConnections) + 1000
 	return uint32(conv)
 }
 
 // CheckPing 检查PING
-func (server *Server) CheckPing(peer Peer) {
+func (server *Server) CheckPing(peer peer) {
 	//获取当前时间戳
-	timeNow := GetTimeStamp()
+	timeNow := getTimeStamp()
 	//如果时间间隔大于规定间隔，则PING一下，并把超时次数加一
 	if timeNow-peer.LastPingTime > int64(server.PingInterval) {
 		peer.Ping()
-		peer.LastPingTime = GetTimeStamp()
+		peer.LastPingTime = getTimeStamp()
 		peer.TimeoutTime++
 	}
 	//如果超时次数大于4，则移除客户端
@@ -131,7 +131,7 @@ func (server *Server) kcpConnect(conn net.Conn) {
 	}
 	if !isIn {
 		//生成一个conv
-		conv := server.GenerateConv()
+		conv := server.generateConv()
 		server.peerpool[conv-1000].Remote = *remote
 		server.peerpool[conv-1000].InitKcp()
 		server.Peers[conv] = server.peerpool[conv-1000]

@@ -10,7 +10,7 @@ type Client struct {
 	//心跳间隔
 	Interval int
 	//客户端Peer
-	Peer *Peer
+	peer *peer
 	//客户端UDP
 	conn *net.UDPConn
 	//客户端本地地址
@@ -23,7 +23,7 @@ type Client struct {
 
 func NewClient() *Client {
 	client := &Client{Interval: 1000}
-	client.Peer = NewPeer(&net.UDPConn{}, net.UDPAddr{}, 0)
+	client.peer = newPeer(&net.UDPConn{}, net.UDPAddr{}, 0)
 	return client
 }
 
@@ -67,12 +67,12 @@ func (client *Client) Connect(server string) {
 		}
 
 		client.serverAddr = *remoteAddr
-		client.connectTime = GetTimeStamp()
-		client.Peer.LocalSocket = client.conn
-		client.Peer.Remote = *remoteAddr
-		client.Peer.Conv = head
-		client.Peer.InitKcp()
-		client.Peer.AcceptHandle.Call(convBytes, 4)
+		client.connectTime = getTimeStamp()
+		client.peer.LocalSocket = client.conn
+		client.peer.Remote = *remoteAddr
+		client.peer.Conv = head
+		client.peer.InitKcp()
+		client.peer.AcceptHandle.Call(convBytes, 4)
 		go client.update()
 		go client.updatePeer()
 		//退出此go程
@@ -83,11 +83,11 @@ func (client *Client) Connect(server string) {
 
 // Send 客户端发送数据
 func (client *Client) Send(sendBytes []byte) {
-	if client.Peer.Conv == 0 {
+	if client.peer.Conv == 0 {
 		Log2.Log.Info("未与服务器建立连接")
 		return
 	}
-	client.Peer.Send(sendBytes)
+	client.peer.Send(sendBytes)
 }
 
 //更新接收信息
@@ -102,7 +102,7 @@ func (client *Client) update() {
 			return
 		}
 
-		client.Peer.Kcp.Input(recvBuffer, true, true)
+		client.peer.Kcp.Input(recvBuffer, true, true)
 
 	}
 }
@@ -110,10 +110,10 @@ func (client *Client) update() {
 //更新Peer
 func (client *Client) updatePeer() {
 	for {
-		if client.Peer.Conv == 0 {
+		if client.peer.Conv == 0 {
 			continue
 		}
-		client.Peer.PeerUpdate()
+		client.peer.PeerUpdate()
 	}
 }
 
@@ -121,15 +121,15 @@ func (client *Client) updatePeer() {
 
 // AddReceiveHandle 注册接收消息回调
 func (client *Client) AddReceiveHandle(name string, handleFunc func(conv uint32, bytes []byte, len int)) {
-	client.Peer.ReceiveHandle.Add(name, handleFunc)
+	client.peer.ReceiveHandle.Add(name, handleFunc)
 }
 
 // AddAcceptHandle 注册回调
 func (client *Client) AddAcceptHandle(name string, handleFunc func(bytes []byte, len int)) {
-	client.Peer.AcceptHandle.Add(name, handleFunc)
+	client.peer.AcceptHandle.Add(name, handleFunc)
 }
 
 // AddTimeoutHandle 注册超时回调
 func (client *Client) AddTimeoutHandle(name string, handleFunc func()) {
-	client.Peer.TimeoutHandle.Add(name, handleFunc)
+	client.peer.TimeoutHandle.Add(name, handleFunc)
 }

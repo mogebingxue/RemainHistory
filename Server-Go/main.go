@@ -28,4 +28,5 @@ func main() {
 	server.Start()
 	server.AddDisconnectHandle("OnPlayerDisconnect", PlayerManager.OnPlayerDisconnect)
 	select {}
+
 }

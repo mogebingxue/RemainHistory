@@ -5,7 +5,7 @@ import (
 	"net"
 )
 
-type Peer struct {
+type peer struct {
 
 	//远端的地址
 	Remote net.TCPAddr
@@ -19,26 +19,26 @@ type Peer struct {
 	TimeoutTime int
 
 	//应用层接收消息之后的回调
-	ReceiveHandle ReceiveHandle
+	ReceiveHandle receiveHandle
 	//连接请求的回调，在这里要实现回传同意连接和连接号给客户端
-	ConnectHandle ConnectHandle
+	ConnectHandle connectHandle
 	//接收连接请求回调，客户端收到服务端的接收连接请求，之后的回调
-	AcceptHandle AcceptHandle
+	AcceptHandle acceptHandle
 	//断开连接请求回调，服务端断开一个连接，之后的回调
-	DisconnectHandle DisconnectHandle
+	DisconnectHandle disconnectHandle
 	//客户端连接超时的回调
-	TimeoutHandle TimeoutHandle
+	TimeoutHandle timeoutHandle
 }
 
-// NewPeer 构造函数
-func NewPeer(remote net.TCPAddr, conv uint32) *Peer {
-	peer := &Peer{Remote: remote, Conv: conv, LastPingTime: GetTimeStamp()}
+// newPeer 构造函数
+func newPeer(remote net.TCPAddr, conv uint32) *peer {
+	peer := &peer{Remote: remote, Conv: conv, LastPingTime: getTimeStamp()}
 	peer.initPeer()
 	return peer
 }
 
 //初始化Peer
-func (peer *Peer) initPeer() {
+func (peer *peer) initPeer() {
 	peer.ConnectHandle.Add("onConnect", func(bytes []byte) {
 		peer.onConnect(bytes)
 	})
@@ -51,7 +51,7 @@ func (peer *Peer) initPeer() {
 }
 
 //连接后
-func (peer *Peer) onConnect(conv []byte) {
+func (peer *peer) onConnect(conv []byte) {
 	//注册接收回调
 	peer.ReceiveHandle.Add("onReceive", func(conv uint32, bytes []byte, len int) {
 		peer.onReceive(conv, bytes, len)
@@ -63,11 +63,11 @@ func (peer *Peer) onConnect(conv []byte) {
 	go peer.PeerUpdate()
 }
 
-func (peer *Peer) onTimeout() {
+func (peer *peer) onTimeout() {
 	Log2.Log.Info("连接超时，请检查你的网络")
 }
 
-func (peer *Peer) onDisconnect(conv uint32) {
+func (peer *peer) onDisconnect(conv uint32) {
 	err := peer.conn.Close()
 	if err != nil {
 		return
@@ -75,15 +75,15 @@ func (peer *Peer) onDisconnect(conv uint32) {
 	Log2.Log.Info("连接 ", conv, "断开")
 }
 
-func (peer *Peer) onAccept(conv []byte, len int) {
+func (peer *peer) onAccept(conv []byte, len int) {
 	peer.ReceiveHandle.Add("onReceive", func(conv uint32, bytes []byte, len int) {
 		peer.onReceive(conv, bytes, len)
 	})
 	go peer.PeerUpdate()
 }
 
-func (peer *Peer) onReceive(conv uint32, bytes []byte, len int) {
-	peer.LastPingTime = GetTimeStamp()
+func (peer *peer) onReceive(conv uint32, bytes []byte, len int) {
+	peer.LastPingTime = getTimeStamp()
 	peer.TimeoutTime = 0
 	if len == 4 {
 		msg := uint32(bytes[0]) | uint32(bytes[1])<<8 | uint32(bytes[2])<<16 | uint32(bytes[3])<<24
@@ -94,7 +94,7 @@ func (peer *Peer) onReceive(conv uint32, bytes []byte, len int) {
 }
 
 // Ping 发送心跳包
-func (peer *Peer) Ping() {
+func (peer *peer) Ping() {
 	sendBytes := make([]byte, 4)
 	//9代表服务端发送的Ping
 	flag := 2
@@ -106,7 +106,7 @@ func (peer *Peer) Ping() {
 }
 
 // Pong 回送心跳包
-func (peer *Peer) Pong() {
+func (peer *peer) Pong() {
 	sendBytes := make([]byte, 4)
 	//3代表客户端发送的Pong
 	flag := 3
@@ -118,7 +118,7 @@ func (peer *Peer) Pong() {
 }
 
 // Send 发送数据
-func (peer *Peer) Send(bytes []byte) {
+func (peer *peer) Send(bytes []byte) {
 	_, err := peer.conn.Write(bytes)
 	if err != nil {
 		return
@@ -126,8 +126,8 @@ func (peer *Peer) Send(bytes []byte) {
 	Log2.Log.Info("发送数据"+"TO", peer.Remote, peer.Conv, " ", string(bytes))
 }
 
-// PeerUpdate Peer 的更新操作，负责接收来自tcp的数据
-func (peer *Peer) PeerUpdate() {
+// PeerUpdate peer 的更新操作，负责接收来自tcp的数据
+func (peer *peer) PeerUpdate() {
 	for {
 		receiveBytes := make([]byte, 1024)
 		n, err := peer.conn.Read(receiveBytes)

@@ -6,7 +6,7 @@ import (
 	"net"
 )
 
-type Peer struct {
+type peer struct {
 
 	//本地的 socket
 	LocalSocket *net.UDPConn
@@ -24,32 +24,32 @@ type Peer struct {
 	TimeoutTime int
 
 	//应用层接收消息之后的回调
-	ReceiveHandle ReceiveHandle
+	ReceiveHandle receiveHandle
 	//连接请求的回调，在这里要实现回传同意连接和连接号给客户端
-	ConnectHandle ConnectHandle
+	ConnectHandle connectHandle
 	//接收连接请求回调，客户端收到服务端的接收连接请求，之后的回调
-	AcceptHandle AcceptHandle
+	AcceptHandle acceptHandle
 	//断开连接请求回调，服务端断开一个连接，之后的回调
-	DisconnectHandle DisconnectHandle
+	DisconnectHandle disconnectHandle
 	//客户端连接超时的回调
-	TimeoutHandle TimeoutHandle
+	TimeoutHandle timeoutHandle
 }
 
 //Model的枚举
 const (
-	FAST   = 0
-	NORMAL = 1
+	fast   = 0
+	normal = 1
 )
 
 // NewPeer 构造函数
-func NewPeer(localSocket *net.UDPConn, remote net.UDPAddr, conv uint32) *Peer {
-	peer := &Peer{LocalSocket: localSocket, Remote: remote, Conv: conv, Model: FAST, LastPingTime: GetTimeStamp()}
+func newPeer(localSocket *net.UDPConn, remote net.UDPAddr, conv uint32) *peer {
+	peer := &peer{LocalSocket: localSocket, Remote: remote, Conv: conv, Model: fast, LastPingTime: getTimeStamp()}
 	peer.initPeer()
 	return peer
 }
 
 // InitKcp 初始化Kcp
-func (peer *Peer) InitKcp() {
+func (peer *peer) InitKcp() {
 	//当这个Peer曾被使用过时，先释放它的Kcp，在重设
 	if peer.Kcp != nil {
 		peer.Kcp.ReleaseTX()
@@ -59,7 +59,7 @@ func (peer *Peer) InitKcp() {
 	peer.Kcp = kcp.NewKCP(peer.Conv, func(buf []byte, size int) {
 		peer.handle(buf, size)
 	})
-	if peer.Model == FAST {
+	if peer.Model == fast {
 		peer.Kcp.NoDelay(1, 10, 2, 1)
 	} else {
 		peer.Kcp.NoDelay(0, 40, 0, 0)
@@ -69,7 +69,7 @@ func (peer *Peer) InitKcp() {
 }
 
 //初始化Peer
-func (peer *Peer) initPeer() {
+func (peer *peer) initPeer() {
 	peer.ConnectHandle.Add("onConnect", func(bytes []byte) {
 		peer.onConnect(bytes)
 	})
@@ -82,7 +82,7 @@ func (peer *Peer) initPeer() {
 }
 
 //连接后
-func (peer *Peer) onConnect(conv []byte) {
+func (peer *peer) onConnect(conv []byte) {
 	//注册接收回调
 	peer.ReceiveHandle.Add("onReceive", func(conv uint32, bytes []byte, len int) {
 		peer.onReceive(conv, bytes, len)
@@ -94,22 +94,22 @@ func (peer *Peer) onConnect(conv []byte) {
 
 }
 
-func (peer *Peer) onTimeout() {
+func (peer *peer) onTimeout() {
 	Log2.Log.Info("连接超时，请检查你的网络")
 }
 
-func (peer *Peer) onDisconnect(conv uint32) {
+func (peer *peer) onDisconnect(conv uint32) {
 	Log2.Log.Info("连接 ", conv, "断开")
 }
 
-func (peer *Peer) onAccept(conv []byte, len int) {
+func (peer *peer) onAccept(conv []byte, len int) {
 	peer.ReceiveHandle.Add("onReceive", func(conv uint32, bytes []byte, len int) {
 		peer.onReceive(conv, bytes, len)
 	})
 }
 
-func (peer *Peer) onReceive(conv uint32, bytes []byte, len int) {
-	peer.LastPingTime = GetTimeStamp()
+func (peer *peer) onReceive(conv uint32, bytes []byte, len int) {
+	peer.LastPingTime = getTimeStamp()
 	peer.TimeoutTime = 0
 	if len == 4 {
 		msg := uint32(bytes[0]) | uint32(bytes[1])<<8 | uint32(bytes[2])<<16 | uint32(bytes[3])<<24
@@ -120,7 +120,7 @@ func (peer *Peer) onReceive(conv uint32, bytes []byte, len int) {
 }
 
 // Ping 发送心跳包
-func (peer *Peer) Ping() {
+func (peer *peer) Ping() {
 	sendBytes := make([]byte, 4)
 	//9代表服务端发送的Ping
 	flag := 2
@@ -132,7 +132,7 @@ func (peer *Peer) Ping() {
 }
 
 // Pong 回送心跳包
-func (peer *Peer) Pong() {
+func (peer *peer) Pong() {
 	sendBytes := make([]byte, 4)
 	//3代表客户端发送的Pong
 	flag := 3
@@ -144,13 +144,13 @@ func (peer *Peer) Pong() {
 }
 
 // Send 发送数据
-func (peer *Peer) Send(bytes []byte) {
+func (peer *peer) Send(bytes []byte) {
 	peer.Kcp.Send(bytes)
 	Log2.Log.Info("发送数据"+"TO", peer.Remote, peer.Conv, " ", string(bytes))
 }
 
-// PeerUpdate Peer 的更新操作，负责接收来自udp的数据
-func (peer *Peer) PeerUpdate() {
+// PeerUpdate peer 的更新操作，负责接收来自udp的数据
+func (peer *peer) PeerUpdate() {
 	peer.Kcp.Update()
 	receiveBytes := make([]byte, 1024)
 	availedSize := peer.Kcp.Recv(receiveBytes)
@@ -160,7 +160,7 @@ func (peer *Peer) PeerUpdate() {
 }
 
 //output回调函数
-func (peer *Peer) handle(buf []byte, size int) {
+func (peer *peer) handle(buf []byte, size int) {
 	if size > 0 {
 		_, err := peer.LocalSocket.WriteToUDP(buf, &peer.Remote)
 		if err != nil {
