@@ -5,9 +5,9 @@ import (
 	Player2 "ReaminHistory/Demo/Player/Player"
 	"ReaminHistory/Demo/Player/PlayerManager"
 	"ReaminHistory/Demo/Proto"
-	"ReaminHistory/YT/Net"
 	"fmt"
 	"github.com/golang/protobuf/proto"
+	"github.com/mogebingxue/YTFramework/Net"
 )
 
 //注册协议处理

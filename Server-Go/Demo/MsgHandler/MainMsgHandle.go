@@ -4,9 +4,9 @@ import (
 	"ReaminHistory/Demo/DB"
 	"ReaminHistory/Demo/Player/PlayerManager"
 	"ReaminHistory/Demo/Proto"
-	"ReaminHistory/YT/Net"
 	"fmt"
 	"github.com/golang/protobuf/proto"
+	"github.com/mogebingxue/YTFramework/Net"
 )
 
 //获取个人简介内容

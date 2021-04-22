@@ -4,8 +4,8 @@ import (
 	"ReaminHistory/Demo/DB"
 	"ReaminHistory/Demo/MsgHandler"
 	"ReaminHistory/Demo/Player/PlayerManager"
-	"ReaminHistory/YT/Net"
-	"ReaminHistory/YT/Util"
+	"github.com/mogebingxue/YTFramework/Net"
+	"github.com/mogebingxue/YTFramework/Util"
 )
 
 func main() {

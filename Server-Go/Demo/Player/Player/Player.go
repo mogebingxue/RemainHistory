@@ -2,7 +2,7 @@ package Player
 
 import (
 	"ReaminHistory/Demo/Player/PlayerData"
-	"ReaminHistory/YT/Net"
+	"github.com/mogebingxue/YTFramework/Net"
 	"google.golang.org/protobuf/runtime/protoiface"
 )
 
