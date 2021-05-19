@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 1711384163
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: prefab/ui
+      Dependencies:
+        Dependency_0: sound
+        Dependency_1: texture
+        Dependency_2: font
+    Info_1:
+      Name: sound
+      Dependencies: {}
+    Info_2:
+      Name: texture
+      Dependencies: {}
+    Info_3:
+      Name: font
+      Dependencies: {}
+    Info_4:
+      Name: video
+      Dependencies: {}
+    Info_5:
+      Name: prefab/other
+      Dependencies: {}

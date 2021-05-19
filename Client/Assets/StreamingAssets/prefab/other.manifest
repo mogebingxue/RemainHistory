@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 3773504843
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d85cc49334810c579971caffcb3e9be7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9732e20042111aaa702294f9277cceba
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9c9b255f9492ed0419ba5ebada855e51, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefab/Other/GameMain.prefab
+Dependencies: []
