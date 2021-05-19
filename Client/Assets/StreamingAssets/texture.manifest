@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3374252363
+CRC: 155224184
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -14,36 +14,36 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/HotFix/Texture/bg.jpg
-- Assets/HotFix/Texture/HeadPhoto5.png
-- Assets/HotFix/Texture/HeadPhoto10.png
-- Assets/HotFix/Texture/HeadPhoto2.png
-- Assets/HotFix/Texture/avatar17.png
-- Assets/HotFix/Texture/HeadPhoto3.png
-- Assets/HotFix/Texture/Icon_setting.png
-- Assets/HotFix/Texture/closeBtn3.png
-- Assets/HotFix/Texture/HeadPhoto1.png
-- Assets/HotFix/Texture/icn_hint_arrow1.png
-- Assets/HotFix/Texture/avatar_master.png
-- Assets/HotFix/Texture/avatar16.png
-- Assets/HotFix/Texture/btn2.png
-- Assets/HotFix/Texture/HeadPhoto8.png
-- Assets/HotFix/Texture/avatar_muguiying.png
-- Assets/HotFix/Texture/avatar8.png
-- Assets/HotFix/Texture/HeadPhoto4.png
-- Assets/HotFix/Texture/avatar_xiaohe.png
-- Assets/HotFix/Texture/Icon_logofight.png
-- Assets/HotFix/Texture/box8.png
-- Assets/HotFix/Texture/Icon_yaosai.png
-- Assets/HotFix/Texture/HeadPhoto6.png
-- Assets/HotFix/Texture/avatar13.png
-- Assets/HotFix/Texture/HeadPhoto7.png
-- Assets/HotFix/Texture/box5.png
-- Assets/HotFix/Texture/BG.png
-- Assets/HotFix/Texture/btn3.png
-- Assets/HotFix/Texture/HeadPhoto0.png
-- Assets/HotFix/Texture/avatar_sdguanyu.png
-- Assets/HotFix/Texture/box4.png
-- Assets/HotFix/Texture/HeadPhoto9.png
-- Assets/HotFix/Texture/Icon_publicNotice.png
+- Assets/Resources/Texture/bg.jpg
+- Assets/Resources/Texture/HeadPhoto5.png
+- Assets/Resources/Texture/HeadPhoto10.png
+- Assets/Resources/Texture/HeadPhoto2.png
+- Assets/Resources/Texture/avatar17.png
+- Assets/Resources/Texture/HeadPhoto3.png
+- Assets/Resources/Texture/Icon_setting.png
+- Assets/Resources/Texture/closeBtn3.png
+- Assets/Resources/Texture/HeadPhoto1.png
+- Assets/Resources/Texture/icn_hint_arrow1.png
+- Assets/Resources/Texture/avatar_master.png
+- Assets/Resources/Texture/avatar16.png
+- Assets/Resources/Texture/btn2.png
+- Assets/Resources/Texture/HeadPhoto8.png
+- Assets/Resources/Texture/avatar_muguiying.png
+- Assets/Resources/Texture/avatar8.png
+- Assets/Resources/Texture/HeadPhoto4.png
+- Assets/Resources/Texture/avatar_xiaohe.png
+- Assets/Resources/Texture/Icon_logofight.png
+- Assets/Resources/Texture/box8.png
+- Assets/Resources/Texture/Icon_yaosai.png
+- Assets/Resources/Texture/HeadPhoto6.png
+- Assets/Resources/Texture/avatar13.png
+- Assets/Resources/Texture/HeadPhoto7.png
+- Assets/Resources/Texture/box5.png
+- Assets/Resources/Texture/BG.png
+- Assets/Resources/Texture/btn3.png
+- Assets/Resources/Texture/HeadPhoto0.png
+- Assets/Resources/Texture/avatar_sdguanyu.png
+- Assets/Resources/Texture/box4.png
+- Assets/Resources/Texture/HeadPhoto9.png
+- Assets/Resources/Texture/Icon_publicNotice.png
 Dependencies: []

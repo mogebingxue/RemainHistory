@@ -9,7 +9,7 @@ import (
 	"github.com/mogebingxue/YTFramework/Net"
 )
 
-//获取个人简介内容
+// MsgGetPlayerIntroduction 获取个人简介内容
 func MsgGetPlayerIntroduction(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgGetPlayerIntroduction{}
 	err := proto.Unmarshal(bytes, msg)
@@ -18,15 +18,15 @@ func MsgGetPlayerIntroduction(c *Net.Connection, bytes []byte) {
 		return
 	}
 	if player, ok := PlayerManager.Players[c.Conv]; ok {
-		msg.PalyerIntroduction = player.Data.PlayerIntroduction
+		msg.PlayerIntroduction = player.Data.PlayerIntroduction
 		player.Send(msg)
 	} else {
-		fmt.Println("获取失败")
+		fmt.Println("获取简介失败")
 		return
 	}
 }
 
-//保存个人简介内容
+// MsgSavePlayerIntroduction 保存个人简介内容
 func MsgSavePlayerIntroduction(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgSavePlayerIntroduction{}
 	err := proto.Unmarshal(bytes, msg)
@@ -35,16 +35,15 @@ func MsgSavePlayerIntroduction(c *Net.Connection, bytes []byte) {
 		return
 	}
 	if player, ok := PlayerManager.Players[c.Conv]; ok {
-		player.Data.PlayerIntroduction = msg.PalyerIntroduction
+		player.Data.PlayerIntroduction = msg.PlayerIntroduction
 		DB.UpdatePlayerData(player.Id, player.Data)
 		player.Send(msg)
 	} else {
-
 		return
 	}
 }
 
-//获取头像
+// MsgGetHeadPhoto 获取头像
 func MsgGetHeadPhoto(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgGetHeadPhoto{}
 	err := proto.Unmarshal(bytes, msg)
@@ -56,12 +55,12 @@ func MsgGetHeadPhoto(c *Net.Connection, bytes []byte) {
 		msg.HeadPhoto = player.Data.HeadPhoto
 		player.Send(msg)
 	} else {
-		fmt.Println("获取失败")
+		fmt.Println("获取头像失败")
 		return
 	}
 }
 
-//保存头像
+// MsgSaveHeadPhoto 保存头像
 func MsgSaveHeadPhoto(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgSaveHeadPhoto{}
 	err := proto.Unmarshal(bytes, msg)
@@ -78,7 +77,7 @@ func MsgSaveHeadPhoto(c *Net.Connection, bytes []byte) {
 	}
 }
 
-//发送消息到世界
+// MsgSendMessageToWord 发送消息到世界
 func MsgSendMessageToWord(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgSendMessageToWord{}
 	err := proto.Unmarshal(bytes, msg)
@@ -94,7 +93,7 @@ func MsgSendMessageToWord(c *Net.Connection, bytes []byte) {
 	}
 }
 
-//发送消息到好友
+// MsgSendMessageToFriend 发送消息到好友
 func MsgSendMessageToFriend(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgSendMessageToFriend{}
 	err := proto.Unmarshal(bytes, msg)
@@ -102,10 +101,21 @@ func MsgSendMessageToFriend(c *Net.Connection, bytes []byte) {
 		fmt.Println("解析失败")
 		return
 	}
-	//TODO
+	if player, ok := PlayerManager.Players[c.Conv]; ok {
+
+		if PlayerManager.GetPlayer(msg.FriendId) != nil {
+			msg.Result = 0
+			PlayerManager.GetPlayer(msg.FriendId).Send(msg)
+		} else {
+			msg.Result = 1
+		}
+		player.Send(msg)
+	} else {
+		return
+	}
 }
 
-//获取好友列表
+// MsgGetFriendList 获取好友列表
 func MsgGetFriendList(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgGetFriendList{}
 	err := proto.Unmarshal(bytes, msg)
@@ -122,7 +132,7 @@ func MsgGetFriendList(c *Net.Connection, bytes []byte) {
 	}
 }
 
-//添加好友
+// MsgAddFriend 添加好友
 func MsgAddFriend(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgAddFriend{}
 	err := proto.Unmarshal(bytes, msg)
@@ -154,7 +164,7 @@ func MsgAddFriend(c *Net.Connection, bytes []byte) {
 	}
 }
 
-//删除好友
+// MsgDeleteFriend 删除好友
 func MsgDeleteFriend(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgDeleteFriend{}
 	err := proto.Unmarshal(bytes, msg)
@@ -178,7 +188,7 @@ func MsgDeleteFriend(c *Net.Connection, bytes []byte) {
 	}
 }
 
-//同意添加好友
+// MsgAcceptAddFriend 同意添加好友
 func MsgAcceptAddFriend(c *Net.Connection, bytes []byte) {
 	msg := &Proto.MsgAcceptAddFriend{}
 	err := proto.Unmarshal(bytes, msg)

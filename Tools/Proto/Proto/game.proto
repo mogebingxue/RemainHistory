@@ -11,7 +11,7 @@ message MsgGetPlayerIntroduction
 //保存个人简介内容
 message MsgSavePlayerIntroduction
 {
-	  string palyerIntroduction = 1;
+	  string playerIntroduction = 1;
 	  int32 result = 2;
 }
 

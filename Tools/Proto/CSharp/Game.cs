@@ -26,7 +26,7 @@ namespace Game {
           string.Concat(
             "CgpnYW1lLnByb3RvEgRnYW1lIjYKGE1zZ0dldFBsYXllckludHJvZHVjdGlv",
             "bhIaChJwbGF5ZXJJbnRyb2R1Y3Rpb24YASABKAkiRwoZTXNnU2F2ZVBsYXll",
-            "ckludHJvZHVjdGlvbhIaChJwYWx5ZXJJbnRyb2R1Y3Rpb24YASABKAkSDgoG",
+            "ckludHJvZHVjdGlvbhIaChJwbGF5ZXJJbnRyb2R1Y3Rpb24YASABKAkSDgoG",
             "cmVzdWx0GAIgASgFIiQKD01zZ0dldEhlYWRQaG90bxIRCgloZWFkUGhvdG8Y",
             "ASABKAUiNQoQTXNnU2F2ZUhlYWRQaG90bxIRCgloZWFkUGhvdG8YASABKAUS",
             "DgoGcmVzdWx0GAIgASgFIkMKFE1zZ1NlbmRNZXNzYWdlVG9Xb3JkEg8KB21l",
@@ -43,7 +43,7 @@ namespace Game {
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Game.MsgGetPlayerIntroduction), global::Game.MsgGetPlayerIntroduction.Parser, new[]{ "PlayerIntroduction" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Game.MsgSavePlayerIntroduction), global::Game.MsgSavePlayerIntroduction.Parser, new[]{ "PalyerIntroduction", "Result" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Game.MsgSavePlayerIntroduction), global::Game.MsgSavePlayerIntroduction.Parser, new[]{ "PlayerIntroduction", "Result" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Game.MsgGetHeadPhoto), global::Game.MsgGetHeadPhoto.Parser, new[]{ "HeadPhoto" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Game.MsgSaveHeadPhoto), global::Game.MsgSaveHeadPhoto.Parser, new[]{ "HeadPhoto", "Result" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Game.MsgSendMessageToWord), global::Game.MsgSendMessageToWord.Parser, new[]{ "Message", "Id", "Result" }, null, null, null, null),
@@ -265,7 +265,7 @@ namespace Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public MsgSavePlayerIntroduction(MsgSavePlayerIntroduction other) : this() {
-      palyerIntroduction_ = other.palyerIntroduction_;
+      playerIntroduction_ = other.playerIntroduction_;
       result_ = other.result_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -275,14 +275,14 @@ namespace Game {
       return new MsgSavePlayerIntroduction(this);
     }
 
-    /// <summary>Field number for the "palyerIntroduction" field.</summary>
-    public const int PalyerIntroductionFieldNumber = 1;
-    private string palyerIntroduction_ = "";
+    /// <summary>Field number for the "playerIntroduction" field.</summary>
+    public const int PlayerIntroductionFieldNumber = 1;
+    private string playerIntroduction_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string PalyerIntroduction {
-      get { return palyerIntroduction_; }
+    public string PlayerIntroduction {
+      get { return playerIntroduction_; }
       set {
-        palyerIntroduction_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        playerIntroduction_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -310,7 +310,7 @@ namespace Game {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (PalyerIntroduction != other.PalyerIntroduction) return false;
+      if (PlayerIntroduction != other.PlayerIntroduction) return false;
       if (Result != other.Result) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -318,7 +318,7 @@ namespace Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (PalyerIntroduction.Length != 0) hash ^= PalyerIntroduction.GetHashCode();
+      if (PlayerIntroduction.Length != 0) hash ^= PlayerIntroduction.GetHashCode();
       if (Result != 0) hash ^= Result.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -336,9 +336,9 @@ namespace Game {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (PalyerIntroduction.Length != 0) {
+      if (PlayerIntroduction.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(PalyerIntroduction);
+        output.WriteString(PlayerIntroduction);
       }
       if (Result != 0) {
         output.WriteRawTag(16);
@@ -353,9 +353,9 @@ namespace Game {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (PalyerIntroduction.Length != 0) {
+      if (PlayerIntroduction.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(PalyerIntroduction);
+        output.WriteString(PlayerIntroduction);
       }
       if (Result != 0) {
         output.WriteRawTag(16);
@@ -370,8 +370,8 @@ namespace Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (PalyerIntroduction.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(PalyerIntroduction);
+      if (PlayerIntroduction.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerIntroduction);
       }
       if (Result != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Result);
@@ -387,8 +387,8 @@ namespace Game {
       if (other == null) {
         return;
       }
-      if (other.PalyerIntroduction.Length != 0) {
-        PalyerIntroduction = other.PalyerIntroduction;
+      if (other.PlayerIntroduction.Length != 0) {
+        PlayerIntroduction = other.PlayerIntroduction;
       }
       if (other.Result != 0) {
         Result = other.Result;
@@ -408,7 +408,7 @@ namespace Game {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            PalyerIntroduction = input.ReadString();
+            PlayerIntroduction = input.ReadString();
             break;
           }
           case 16: {
@@ -430,7 +430,7 @@ namespace Game {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            PalyerIntroduction = input.ReadString();
+            PlayerIntroduction = input.ReadString();
             break;
           }
           case 16: {

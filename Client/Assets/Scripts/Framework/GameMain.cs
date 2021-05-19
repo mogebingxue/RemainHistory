@@ -2,6 +2,7 @@
 using UIFramework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class GameMain : MonoSingleton<GameMain>
 {
@@ -25,6 +26,9 @@ public class GameMain : MonoSingleton<GameMain>
         NetManager.AddMsgListener("MsgAddFriend", OnMsgAddFriend);
         NetManager.AddMsgListener("MsgAcceptAddFriend", OnMsgAcceptAddFriend);
         NetManager.AddMsgListener("MsgDeleteFriend", OnMsgDeleteFriend);
+
+        PanelManager.Init();
+
         //打开登陆面板
         SceneManager.LoadSceneAsync("LoginMenu");
 

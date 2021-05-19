@@ -111,7 +111,7 @@ func CreatePlayer(uid string) bool {
 	player.UId = uid
 	player.HeadPhoto = 0
 	player.PlayerIntroduction = "这个人很懒，什么也没有写。"
-	_, err := database.Collection("account").InsertOne(context.TODO(), player)
+	_, err := database.Collection("player").InsertOne(context.TODO(), player)
 	if err != nil {
 		fmt.Println("[数据库] CreatePlayer fail")
 		return false
@@ -201,8 +201,8 @@ func GetFriendList(uid string) string {
 		return ""
 	}
 	friends := make([]Friend, query.RemainingBatchLength())
-	err1 := query.All(context.TODO(), &friends)
-	if err1 != nil {
+	err = query.All(context.TODO(), &friends)
+	if err != nil {
 		fmt.Println("[数据库] GetFriendList fail")
 		return ""
 	}
@@ -256,8 +256,9 @@ func IsFriendExist(uid string, friendId string) bool {
 	friend.UId = uid
 	friend.FriendId = friendId
 	query := database.Collection("friend").FindOne(context.TODO(), friend)
-	res, err := query.DecodeBytes()
-	if err == nil && res.String() != "" {
+	friend = new(Friend)
+	err := query.Decode(friend)
+	if err == nil && friend.UId != "" {
 		return true
 	} else {
 		return false

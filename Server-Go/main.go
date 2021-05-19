@@ -24,7 +24,6 @@ func main() {
 	server.AddRouter("MsgAddFriend", MsgHandler.MsgAddFriend)
 	server.AddRouter("MsgDeleteFriend", MsgHandler.MsgDeleteFriend)
 	server.AddRouter("MsgAcceptAddFriend", MsgHandler.MsgAcceptAddFriend)
-	server.AddRouter("MsgAddFriend", MsgHandler.MsgAddFriend)
 	server.Start()
 	server.AddDisconnectHandle("OnPlayerDisconnect", PlayerManager.OnPlayerDisconnect)
 	select {}

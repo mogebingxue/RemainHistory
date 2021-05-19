@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1184466609
+CRC: 2028946534
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -16,4 +16,10 @@ AssetBundleManifest:
       Dependencies: {}
     Info_3:
       Name: font
+      Dependencies: {}
+    Info_4:
+      Name: video
+      Dependencies: {}
+    Info_5:
+      Name: prefab/other
       Dependencies: {}

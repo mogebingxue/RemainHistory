@@ -33,6 +33,7 @@ namespace UIFramework
             Transform tip = canvas.Find("Tip");
             layers.Add(Layer.Panel, panel);
             layers.Add(Layer.Tip, tip);
+            DontDestroyOnLoad(root);
         }
 
         /// <summary>

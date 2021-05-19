@@ -1,4 +1,6 @@
 ﻿using UIFramework;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class TipPanel : BasePanel
@@ -32,8 +34,24 @@ public class TipPanel : BasePanel
 
     }
 
+    //更新数据
+    public override void UpdataPara(params object[] para) {
+        base.UpdataPara(para);
+        //提示语
+        if (para.Length == 1) {
+            _text.text = (string)para[0];
+        }
+    }
+
     //当按下确定按钮
     public void OnOkClick() {
         Hide();
+        if(_text.text== "连接失败，请稍后重试") {
+#if UNITY_EDITOR    //在编辑器模式下
+            EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+        }
     }
 }

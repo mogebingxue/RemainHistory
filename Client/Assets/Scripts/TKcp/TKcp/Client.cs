@@ -20,7 +20,7 @@ namespace TKcp
         /// 客户端udp
         /// </summary>
         Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        IPEndPoint localIpep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8890);
+        IPEndPoint localIpep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8891);
         long connectTime;
         IPEndPoint serverIpep;
 
@@ -50,8 +50,10 @@ namespace TKcp
         public void Connect(IPEndPoint server) {
             Socket tcpSocket=new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             tcpSocket.Bind(localIpep);
-            tcpSocket.Connect(server);
 
+            tcpSocket.Connect(server);
+        
+            
             byte[] buf = new byte[1024];
             int n = tcpSocket.Receive(buf);
             byte[] convBytes = new byte[n];

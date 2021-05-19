@@ -6,13 +6,13 @@ option go_package = "Demo/Proto";
 
 message MsgGetPlayerIntroduction
 {
-	  string palyerIntroduction = 1;
+	  string playerIntroduction = 1;
 }
 
 
 message MsgSavePlayerIntroduction
 {
-	  string palyerIntroduction = 1;
+	  string playerIntroduction = 1;
 	  int32 result = 2;
 }
 

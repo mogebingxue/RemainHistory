@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using TKcp;
+using UIFramework;
 using UnityEngine;
 public static class NetManager
 {
@@ -134,7 +135,14 @@ public static class NetManager
         //参数设置
         //Connect
         isConnecting = true;
-        client.Connect(iPEndPoint);
+        try {
+            client.Connect(iPEndPoint);
+        }
+        catch {
+            PanelManager.Open<TipPanel>("连接失败，请稍后重试");
+            //Connect(ip, port);
+        }
+        
 
        
     }

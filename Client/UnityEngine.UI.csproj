@@ -349,10 +349,7 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="CString">
-      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/CString.dll</HintPath>
-    </Reference>
-    <Reference Include="Debugger">
-      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/Debugger.dll</HintPath>
+      <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/CString.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>C:/Project/RemainHistory/Client/Assets/Plugins/3rd/Google.Protobuf.dll</HintPath>

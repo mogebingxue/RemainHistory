@@ -1,4 +1,5 @@
 ﻿using Game;
+using System;
 using System.Collections.Generic;
 using UIFramework;
 using UnityEngine;
@@ -98,7 +99,7 @@ public class FriendPanel : BasePanel
         MsgGetFriendList msgGetFriendList = MsgGetFriendList.Parser.ParseFrom(request.Msg);
         string[] fl = msgGetFriendList.FriendList.Split(',');
         foreach (string friendId in fl) {
-            if (!_friendList.Contains(friendId)) {
+            if ((!_friendList.Contains(friendId))&&friendId!="") {
                 _friendList.Add(friendId);
             }
         }
@@ -120,11 +121,23 @@ public class FriendPanel : BasePanel
             GameObject friensEnum = (GameObject)Instantiate(friensEnumPrefab);
             friensEnum.transform.SetParent(_friendListPanel.transform, false);
             friensEnum.transform.Find("ID").GetComponent<Text>().text = friendId;
-            Button deleteFriendBtn = friensEnum.transform.Find("Button").GetComponent<Button>();
+            //获取并注册删除好友按钮事件
+            Button deleteFriendBtn = friensEnum.transform.Find("DeleteButton").GetComponent<Button>();
             deleteFriendBtn.onClick.AddListener(() => { OnDeleteFriendClick(index); });
+            //判断好友是否在线，然后呼出好友聊天的按钮是否禁用
+            //TODO
+
+            //获取并注册呼出好友按钮事件
+            Button openFriendButton = friensEnum.transform.Find("OpenFriendButton").GetComponent<Button>();
+            openFriendButton.onClick.AddListener(() => { onOpenFriendButtonClicj(index); });
             j++;
         }
 
+    }
+
+    //呼出好友按钮事件
+    private void onOpenFriendButtonClicj(int index) {
+        PanelManager.Open<ChatWindow>(_friendList[index]);
     }
 
     //删除好友按钮事件

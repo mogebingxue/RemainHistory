@@ -25,8 +25,6 @@ public class MainPanel : BasePanel
     private Button _altarBtn;
     //好友按钮
     private Button _friendBtn;
-    //切换聊天模式按钮
-    private Button _switchBtn;
     //发送聊天消息按钮
     private Button _sendBtn;
     //设置按钮
@@ -35,8 +33,6 @@ public class MainPanel : BasePanel
     private Button _modifyBtn;
     //修改简介的输入框
     private InputField _modifyInput;
-    //0 世界 1 好友
-    private int _sendStatus;
     //世界聊天框
     private GameObject _worldContent;
     //初始化
@@ -69,7 +65,6 @@ public class MainPanel : BasePanel
         _altarBtn = skin.transform.Find("AltarBtn").GetComponent<Button>();
         _friendBtn = skin.transform.Find("FriendBtn").GetComponent<Button>();
         _sendBtn = skin.transform.Find("ChatWindow/SendBtn").GetComponent<Button>();
-        _switchBtn = skin.transform.Find("ChatWindow/SwitchBtn").GetComponent<Button>();
         _input = skin.transform.Find("ChatWindow/InputField").GetComponent<InputField>();
         _modifyBtn = skin.transform.Find("PlayerInfo/ModifyBtn").GetComponent<Button>();
         _modifyInput = _playerIntroduction.transform.Find("InputField").GetComponent<InputField>();
@@ -82,20 +77,16 @@ public class MainPanel : BasePanel
         _altarBtn.onClick.AddListener(OnAltarClick);
         _friendBtn.onClick.AddListener(OnFriendClick);
         _sendBtn.onClick.AddListener(OnSendClick);
-        _switchBtn.onClick.AddListener(OnSwitchClick);
         _modifyBtn.onClick.AddListener(OnModifyClick);
         _setBtn.onClick.AddListener(OnSetClick);
         skin.transform.Find("PlayerInfo/HeadPhoto").GetComponent<Button>().onClick.AddListener(OnHeadPhotoClick);
         //设置用户名
         _playerName.text = GameMain.id;
-        //设置频道
-        _sendStatus = 0;
 
         //网络协议监听
         NetManager.AddMsgListener("MsgGetPlayerIntroduction", OnMsgGetPlayerIntroduction);
         NetManager.AddMsgListener("MsgSavePlayerIntroduction", OnMsgSavePlayerIntroduction);
         NetManager.AddMsgListener("MsgSendMessageToWord", OnMsgSendMessageToWord);
-        NetManager.AddMsgListener("MsgSendMessageToFriend", OnMsgSendMessageToFriend);
         NetManager.AddMsgListener("MsgGetHeadPhoto", OnMsgGetHeadPhoto);
         NetManager.AddMsgListener("MsgSaveHeadPhoto", OnMsgSaveHeadPhoto);
         //获取个人数据库中玩家信息
@@ -155,10 +146,7 @@ public class MainPanel : BasePanel
         Debug.Log(msgSendMessageToWord.Id + msgSendMessageToWord.Message);
 
     }
-    //发送好友消息回调
-    private void OnMsgSendMessageToFriend(Request request) {
-        throw new NotImplementedException();
-    }
+   
 
     //点击头像事件
     private void OnHeadPhotoClick() {
@@ -195,40 +183,18 @@ public class MainPanel : BasePanel
         }
 
     }
-    //切换频道按钮按下
-    private void OnSwitchClick() {
-        if (_sendStatus == 0) {
-            _sendStatus = 1;
-            _switchBtn.transform.Find("Text").GetComponent<Text>().text = "好友";
-            return;
-        }
-        if (_sendStatus == 1) {
-            _sendStatus = 0;
-            _switchBtn.transform.Find("Text").GetComponent<Text>().text = "世界";
-            return;
-        }
-    }
 
 
 
     //发送消息按钮按下
     private void OnSendClick() {
-        if (_sendStatus == 0) {
-            //世界频道
-            MsgSendMessageToWord msgSendMessageToWord = new MsgSendMessageToWord();
-            msgSendMessageToWord.Message = _input.transform.Find("Text").GetComponent<Text>().text;
-            _input.transform.Find("Text").GetComponent<Text>().text = "";
-            _input.GetComponent<InputField>().text = "";
-            msgSendMessageToWord.Id = GameMain.id;
-            NetManager.Send(msgSendMessageToWord);
-
-            return;
-        }
-        if (_sendStatus == 1) {
-            //好友频道
-        }
-
-
+        //世界频道
+        MsgSendMessageToWord msgSendMessageToWord = new MsgSendMessageToWord();
+        msgSendMessageToWord.Message = _input.transform.Find("Text").GetComponent<Text>().text;
+        _input.transform.Find("Text").GetComponent<Text>().text = "";
+        _input.GetComponent<InputField>().text = "";
+        msgSendMessageToWord.Id = GameMain.id;
+        NetManager.Send(msgSendMessageToWord);
     }
 
     //好友按钮
@@ -263,6 +229,5 @@ public class MainPanel : BasePanel
         NetManager.RemoveMsgListener("MsgGetPlayerIntroduction", OnMsgGetPlayerIntroduction);
         NetManager.RemoveMsgListener("MsgSavePlayerIntroduction", OnMsgSavePlayerIntroduction);
         NetManager.RemoveMsgListener("MsgSendMessageToWord", OnMsgSendMessageToWord);
-        NetManager.RemoveMsgListener("MsgSendMessageToFriend", OnMsgSendMessageToFriend);
     }
 }

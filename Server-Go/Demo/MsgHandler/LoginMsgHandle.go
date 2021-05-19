@@ -24,6 +24,7 @@ func MsgRegister(c *Net.Connection, bytes []byte) {
 	} else {
 		msg.Result = 1
 	}
+	fmt.Println()
 	c.Send(msg)
 }
 
@@ -52,8 +53,6 @@ func MsgLogin(c *Net.Connection, bytes []byte) {
 		msgKick := &Proto.MsgKick{}
 		msgKick.Result = 0
 		PlayerManager.GetPlayer(msg.Id).Send(msgKick)
-		c.Send(msg)
-		return
 	}
 	playerData := DB.GetPlayerData(msg.Id)
 	if playerData == nil {

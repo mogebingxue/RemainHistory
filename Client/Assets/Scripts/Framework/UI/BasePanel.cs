@@ -11,10 +11,6 @@ namespace UIFramework
         public GameObject skin;
         /// <summary> 层级 </summary>
         public PanelManager.Layer layer = PanelManager.Layer.Panel;
-        /// <summary>
-        /// 是否热更新
-        /// </summary>
-        public bool isHotFix = true;
 
 
         /// <summary>
@@ -23,13 +19,9 @@ namespace UIFramework
         public void Init() {
             //皮肤
             GameObject skinPrefab;
-            if (isHotFix == true) {
-                skinPrefab = ABManager.Instance.LoadRes<GameObject>("prefab/ui", skinPath);
-            }
-            else {
-                skinPrefab = Resources.Load<GameObject>("Prefab/UI/HotFixPanel");
-            }
 
+            skinPrefab = ABManager.Instance.LoadRes<GameObject>("prefab/ui", skinPath);
+            Debug.Log(skinPrefab);
             skin = Instantiate(skinPrefab);
         }
 
